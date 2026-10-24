@@ -1,0 +1,325 @@
+{
+  "generated_at": "2026-10-24T06:39:55+00:00",
+  "model": ".models\\jev\\ft\\scope-v12-last2-oodw2-seed0",
+  "dataset": "eval\\scope_v1\\dataset_v1_2",
+  "temperature": [
+    1.1303367614746094,
+    1.0,
+    1.0
+  ],
+  "thresholds": {
+    "in_scope": 0.67,
+    "out_of_scope": 1.0,
+    "selected_only_on_calibration": true,
+    "max_false_refusal": 0.02,
+    "max_false_pass": 0.05
+  },
+  "calibration": {
+    "laya_metrics": {
+      "items": 178,
+      "loss": 0.5991,
+      "accuracy": 0.7135,
+      "mean_confidence": 0.6767,
+      "ece": 0.0714,
+      "brier": 0.3987,
+      "brier_top1": 0.1993,
+      "by_type": {
+        "choice": {
+          "items": 178,
+          "loss": 0.5991,
+          "accuracy": 0.7135,
+          "mean_confidence": 0.6767,
+          "ece": 0.0714,
+          "brier": 0.3987,
+          "brier_top1": 0.1993
+        }
+      }
+    },
+    "gate_selection": {
+      "tau_in_scope": 0.67,
+      "tau_out_of_scope": 1.0,
+      "coverage": 0.2191,
+      "local_high_confidence_false_refusal_rate": 0.0,
+      "local_high_confidence_false_pass_rate": 0.0435,
+      "accepted_accuracy": 0.8974
+    },
+    "gate_metrics": {
+      "items": 39,
+      "evaluated": 39,
+      "errors": 0,
+      "confusion": {
+        "tp": 35,
+        "fn": 0,
+        "tn": 0,
+        "fp": 4
+      },
+      "accuracy": 0.8974,
+      "in_scope_recall": 1.0,
+      "in_scope_false_refusal_rate": 0.0,
+      "out_of_scope_recall": 0.0,
+      "ood_false_pass_rate": 1.0,
+      "accepted_items": 39
+    }
+  },
+  "internal_test": {
+    "laya_metrics": {
+      "items": 125,
+      "loss": 0.5325,
+      "accuracy": 0.744,
+      "mean_confidence": 0.661,
+      "ece": 0.1105,
+      "brier": 0.3529,
+      "brier_top1": 0.1764,
+      "by_type": {
+        "choice": {
+          "items": 125,
+          "loss": 0.5325,
+          "accuracy": 0.744,
+          "mean_confidence": 0.661,
+          "ece": 0.1105,
+          "brier": 0.3529,
+          "brier_top1": 0.1764
+        }
+      }
+    },
+    "gate_metrics": {
+      "items": 125,
+      "evaluated": 124,
+      "errors": 1,
+      "confusion": {
+        "tp": 65,
+        "fn": 3,
+        "tn": 52,
+        "fp": 4
+      },
+      "accuracy": 0.9435,
+      "in_scope_recall": 0.9559,
+      "in_scope_false_refusal_rate": 0.0441,
+      "out_of_scope_recall": 0.9286,
+      "ood_false_pass_rate": 0.0714,
+      "laya_coverage": 0.216,
+      "fallback_rate": 0.784,
+      "laya_accepted_accuracy": 0.8519,
+      "by_group": {
+        "OOD": {
+          "items": 50,
+          "evaluated": 50,
+          "errors": 0,
+          "confusion": {
+            "tp": 0,
+            "fn": 0,
+            "tn": 36,
+            "fp": 14
+          },
+          "accuracy": 0.72,
+          "in_scope_recall": 0.0,
+          "in_scope_false_refusal_rate": 0.0,
+          "out_of_scope_recall": 0.72,
+          "ood_false_pass_rate": 0.28
+        },
+        "boundary": {
+          "items": 15,
+          "evaluated": 15,
+          "errors": 0,
+          "confusion": {
+            "tp": 4,
+            "fn": 5,
+            "tn": 4,
+            "fp": 2
+          },
+          "accuracy": 0.5333,
+          "in_scope_recall": 0.4444,
+          "in_scope_false_refusal_rate": 0.5556,
+          "out_of_scope_recall": 0.6667,
+          "ood_false_pass_rate": 0.3333
+        },
+        "compare": {
+          "items": 20,
+          "evaluated": 20,
+          "errors": 0,
+          "confusion": {
+            "tp": 16,
+            "fn": 4,
+            "tn": 0,
+            "fp": 0
+          },
+          "accuracy": 0.8,
+          "in_scope_recall": 0.8,
+          "in_scope_false_refusal_rate": 0.2,
+          "out_of_scope_recall": 0.0,
+          "ood_false_pass_rate": 0.0
+        },
+        "followup": {
+          "items": 2,
+          "evaluated": 2,
+          "errors": 0,
+          "confusion": {
+            "tp": 1,
+            "fn": 1,
+            "tn": 0,
+            "fp": 0
+          },
+          "accuracy": 0.5,
+          "in_scope_recall": 0.5,
+          "in_scope_false_refusal_rate": 0.5,
+          "out_of_scope_recall": 0.0,
+          "ood_false_pass_rate": 0.0
+        },
+        "local": {
+          "items": 19,
+          "evaluated": 19,
+          "errors": 0,
+          "confusion": {
+            "tp": 17,
+            "fn": 2,
+            "tn": 0,
+            "fp": 0
+          },
+          "accuracy": 0.8947,
+          "in_scope_recall": 0.8947,
+          "in_scope_false_refusal_rate": 0.1053,
+          "out_of_scope_recall": 0.0,
+          "ood_false_pass_rate": 0.0
+        },
+        "relation": {
+          "items": 15,
+          "evaluated": 15,
+          "errors": 0,
+          "confusion": {
+            "tp": 13,
+            "fn": 2,
+            "tn": 0,
+            "fp": 0
+          },
+          "accuracy": 0.8667,
+          "in_scope_recall": 0.8667,
+          "in_scope_false_refusal_rate": 0.1333,
+          "out_of_scope_recall": 0.0,
+          "ood_false_pass_rate": 0.0
+        },
+        "trend": {
+          "items": 4,
+          "evaluated": 4,
+          "errors": 0,
+          "confusion": {
+            "tp": 2,
+            "fn": 2,
+            "tn": 0,
+            "fp": 0
+          },
+          "accuracy": 0.5,
+          "in_scope_recall": 0.5,
+          "in_scope_false_refusal_rate": 0.5,
+          "out_of_scope_recall": 0.0,
+          "ood_false_pass_rate": 0.0
+        }
+      },
+      "by_language": {
+        "en": {
+          "items": 43,
+          "evaluated": 43,
+          "errors": 0,
+          "confusion": {
+            "tp": 21,
+            "fn": 9,
+            "tn": 9,
+            "fp": 4
+          },
+          "accuracy": 0.6977,
+          "in_scope_recall": 0.7,
+          "in_scope_false_refusal_rate": 0.3,
+          "out_of_scope_recall": 0.6923,
+          "ood_false_pass_rate": 0.3077
+        },
+        "zh": {
+          "items": 61,
+          "evaluated": 61,
+          "errors": 0,
+          "confusion": {
+            "tp": 29,
+            "fn": 4,
+            "tn": 20,
+            "fp": 8
+          },
+          "accuracy": 0.8033,
+          "in_scope_recall": 0.8788,
+          "in_scope_false_refusal_rate": 0.1212,
+          "out_of_scope_recall": 0.7143,
+          "ood_false_pass_rate": 0.2857
+        },
+        "zh_en": {
+          "items": 21,
+          "evaluated": 21,
+          "errors": 0,
+          "confusion": {
+            "tp": 3,
+            "fn": 3,
+            "tn": 11,
+            "fp": 4
+          },
+          "accuracy": 0.6667,
+          "in_scope_recall": 0.5,
+          "in_scope_false_refusal_rate": 0.5,
+          "out_of_scope_recall": 0.7333,
+          "ood_false_pass_rate": 0.2667
+        }
+      },
+      "by_category": {
+        "boundary": {
+          "items": 15,
+          "evaluated": 15,
+          "errors": 0,
+          "confusion": {
+            "tp": 4,
+            "fn": 5,
+            "tn": 4,
+            "fp": 2
+          },
+          "accuracy": 0.5333,
+          "in_scope_recall": 0.4444,
+          "in_scope_false_refusal_rate": 0.5556,
+          "out_of_scope_recall": 0.6667,
+          "ood_false_pass_rate": 0.3333
+        },
+        "in_scope": {
+          "items": 60,
+          "evaluated": 60,
+          "errors": 0,
+          "confusion": {
+            "tp": 49,
+            "fn": 11,
+            "tn": 0,
+            "fp": 0
+          },
+          "accuracy": 0.8167,
+          "in_scope_recall": 0.8167,
+          "in_scope_false_refusal_rate": 0.1833,
+          "out_of_scope_recall": 0.0,
+          "ood_false_pass_rate": 0.0
+        },
+        "ood": {
+          "items": 50,
+          "evaluated": 50,
+          "errors": 0,
+          "confusion": {
+            "tp": 0,
+            "fn": 0,
+            "tn": 36,
+            "fp": 14
+          },
+          "accuracy": 0.72,
+          "in_scope_recall": 0.0,
+          "in_scope_false_refusal_rate": 0.0,
+          "out_of_scope_recall": 0.72,
+          "ood_false_pass_rate": 0.28
+        }
+      }
+    },
+    "target_checks": {
+      "in_scope_false_refusal_le_0_02": false,
+      "ood_false_pass_le_0_05": false,
+      "laya_coverage_ge_0_60": false
+    },
+    "targets_met": false
+  }
+}

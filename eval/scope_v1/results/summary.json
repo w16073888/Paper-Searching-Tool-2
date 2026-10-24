@@ -1,0 +1,95 @@
+{
+  "generated_at": "2026-10-23T14:31:22+00:00",
+  "dataset_items": 16,
+  "reports": {
+    "llm_default": {
+      "items": 16,
+      "evaluated": 16,
+      "errors": 0,
+      "confusion": {
+        "tp": 12,
+        "fn": 0,
+        "tn": 4,
+        "fp": 0
+      },
+      "accuracy": 1.0,
+      "in_scope_recall": 1.0,
+      "in_scope_false_refusal_rate": 0.0,
+      "out_of_scope_recall": 1.0,
+      "ood_false_pass_rate": 0.0,
+      "latency_s": {
+        "mean": 6.8434,
+        "p50": 6.3388,
+        "p95": 10.0901,
+        "max": 10.6924
+      },
+      "by_kind": {
+        "compare": {
+          "items": 3,
+          "correct": 3,
+          "errors": 0
+        },
+        "local": {
+          "items": 5,
+          "correct": 5,
+          "errors": 0
+        },
+        "refuse": {
+          "items": 4,
+          "correct": 4,
+          "errors": 0
+        },
+        "relation": {
+          "items": 4,
+          "correct": 4,
+          "errors": 0
+        }
+      }
+    },
+    "laya_zero_shot": {
+      "items": 16,
+      "evaluated": 16,
+      "errors": 0,
+      "confusion": {
+        "tp": 7,
+        "fn": 5,
+        "tn": 4,
+        "fp": 0
+      },
+      "accuracy": 0.6875,
+      "in_scope_recall": 0.5833,
+      "in_scope_false_refusal_rate": 0.4167,
+      "out_of_scope_recall": 1.0,
+      "ood_false_pass_rate": 0.0,
+      "latency_s": {
+        "mean": 0.3237,
+        "p50": 0.3263,
+        "p95": 0.3554,
+        "max": 0.3676
+      },
+      "by_kind": {
+        "compare": {
+          "items": 3,
+          "correct": 2,
+          "errors": 0
+        },
+        "local": {
+          "items": 5,
+          "correct": 3,
+          "errors": 0
+        },
+        "refuse": {
+          "items": 4,
+          "correct": 4,
+          "errors": 0
+        },
+        "relation": {
+          "items": 4,
+          "correct": 2,
+          "errors": 0
+        }
+      }
+    }
+  },
+  "compute_probe": "eval\\scope_v1\\results\\compute_probe.json"
+}

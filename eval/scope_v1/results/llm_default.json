@@ -1,0 +1,395 @@
+{
+  "generated_at": "2026-10-23T14:30:17+00:00",
+  "git_commit": "2cb2a27619703a378dd6e9712aad807a6a362ac7",
+  "backend": "llm_default",
+  "dataset": "eval\\scope_v1\\test.jsonl",
+  "dataset_items": 16,
+  "labels": [
+    "in_scope",
+    "out_of_scope"
+  ],
+  "frozen_revision": "1720e3e3357cfe1e281542e223f8273b0890ca34",
+  "scope_timeout_s": 30.0,
+  "summary": {
+    "items": 16,
+    "evaluated": 16,
+    "errors": 0,
+    "confusion": {
+      "tp": 12,
+      "fn": 0,
+      "tn": 4,
+      "fp": 0
+    },
+    "accuracy": 1.0,
+    "in_scope_recall": 1.0,
+    "in_scope_false_refusal_rate": 0.0,
+    "out_of_scope_recall": 1.0,
+    "ood_false_pass_rate": 0.0,
+    "latency_s": {
+      "mean": 6.8434,
+      "p50": 6.3388,
+      "p95": 10.0901,
+      "max": 10.6924
+    },
+    "by_kind": {
+      "compare": {
+        "items": 3,
+        "correct": 3,
+        "errors": 0
+      },
+      "local": {
+        "items": 5,
+        "correct": 5,
+        "errors": 0
+      },
+      "refuse": {
+        "items": 4,
+        "correct": 4,
+        "errors": 0
+      },
+      "relation": {
+        "items": 4,
+        "correct": 4,
+        "errors": 0
+      }
+    }
+  },
+  "rows": [
+    {
+      "id": "a_l01",
+      "question": "RLOO 的核心创新点是什么？",
+      "expected": "in_scope",
+      "kind": "local",
+      "language": "zh_en",
+      "domain": "",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "reason": "RLOO（Reinforcement Learning from Online Outputs）属于 LLM 对齐与偏好优化、强化学习领域的方法论文，主题与强化学习、RLHF 直接相关，在本地论文库研究范围内。",
+      "usage": {
+        "requests": 1,
+        "tool_calls": 0,
+        "input_tokens": 510,
+        "output_tokens": 178,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "latency_s": 7.7581
+    },
+    {
+      "id": "a_l04",
+      "question": "Dreamer 系列的模型结构要点是什么？",
+      "expected": "in_scope",
+      "kind": "local",
+      "language": "zh_en",
+      "domain": "",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "reason": "Dreamer 系列（Dreamer/DreamerV2/V3）是基于模型的强化学习/世界模型方法，属于强化学习核心研究范围。",
+      "usage": {
+        "requests": 1,
+        "tool_calls": 0,
+        "input_tokens": 510,
+        "output_tokens": 130,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "latency_s": 6.8691
+    },
+    {
+      "id": "a_l09",
+      "question": "reward hacking 和 reward overoptimization 有哪些缓解手段？",
+      "expected": "in_scope",
+      "kind": "local",
+      "language": "zh_en",
+      "domain": "",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "reason": "Reward hacking 和 reward overoptimization 属于强化学习与 LLM 对齐/偏好优化的核心研究主题，明确落在本地论文库的研究范围内。",
+      "usage": {
+        "requests": 1,
+        "tool_calls": 0,
+        "input_tokens": 514,
+        "output_tokens": 149,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "latency_s": 9.8893
+    },
+    {
+      "id": "a_l13",
+      "question": "稳健强化学习的主要方法有哪些？",
+      "expected": "in_scope",
+      "kind": "local",
+      "language": "zh_en",
+      "domain": "",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "reason": "问题询问稳健强化学习的主要方法，直接涉及强化学习算法与方法贡献，处于本地论文库研究范围内。",
+      "usage": {
+        "requests": 1,
+        "tool_calls": 0,
+        "input_tokens": 508,
+        "output_tokens": 109,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "latency_s": 5.1958
+    },
+    {
+      "id": "a_l14",
+      "question": "visuomotor policy 的输入表示一般怎么设计？",
+      "expected": "in_scope",
+      "kind": "local",
+      "language": "zh_en",
+      "domain": "",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "reason": "问题涉及 visuomotor policy（视觉-运动策略）的输入表示设计，属于机器人学习与决策（智能体、机器人学习）范畴，是本地论文库的范围内主题。",
+      "usage": {
+        "requests": 1,
+        "tool_calls": 0,
+        "input_tokens": 513,
+        "output_tokens": 181,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "latency_s": 5.9828
+    },
+    {
+      "id": "a_c01",
+      "question": "GRPO 相比 PPO 改了什么？",
+      "expected": "in_scope",
+      "kind": "compare",
+      "language": "zh_en",
+      "domain": "",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "reason": "问题涉及 GRPO 与 PPO 的算法对比，属于强化学习与 LLM 偏好优化/对齐范畴，是本地 AI/ML 论文库的核心研究范围。",
+      "usage": {
+        "requests": 1,
+        "tool_calls": 0,
+        "input_tokens": 511,
+        "output_tokens": 123,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "latency_s": 4.6553
+    },
+    {
+      "id": "a_c02",
+      "question": "token 级 DPO 与句子级 DPO 的差别在哪里？",
+      "expected": "in_scope",
+      "kind": "compare",
+      "language": "zh_en",
+      "domain": "",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "reason": "问题涉及 DPO（直接偏好优化）在 token 级与句子级实现方式的区别，属于 LLM 对齐与偏好优化范畴，正是本地论文库的研究范围。",
+      "usage": {
+        "requests": 1,
+        "tool_calls": 0,
+        "input_tokens": 517,
+        "output_tokens": 171,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "latency_s": 7.7076
+    },
+    {
+      "id": "a_c03",
+      "question": "TD3 和 SAC 在连续控制上的核心差异是什么？",
+      "expected": "in_scope",
+      "kind": "compare",
+      "language": "zh_en",
+      "domain": "强化学习/连续控制",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "reason": "问题询问 TD3 与 SAC 这类经典深度强化学习算法在连续控制上的核心差异，属于强化学习与决策方法的核心贡献范畴，判定为范围内。",
+      "usage": {
+        "requests": 1,
+        "tool_calls": 0,
+        "input_tokens": 437,
+        "output_tokens": 89,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "latency_s": 4.8281
+    },
+    {
+      "id": "a_r01",
+      "question": "PPO 和 GRPO 的共同来源是什么？",
+      "expected": "in_scope",
+      "kind": "relation",
+      "language": "zh_en",
+      "domain": "",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "reason": "该问题涉及 PPO（近端策略优化）与 GRPO（组相对策略优化）两种强化学习算法及其共同来源，属于 RL 与 LLM 对齐/偏好优化范畴，属于本地 AI/ML 论文库研究范围。仅作结构化判断，不回答具体内容。",
+      "usage": {
+        "requests": 1,
+        "tool_calls": 0,
+        "input_tokens": 434,
+        "output_tokens": 112,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "latency_s": 6.3232
+    },
+    {
+      "id": "a_r02",
+      "question": "RLHF 和 DPO 的共同来源或理论根基是什么？",
+      "expected": "in_scope",
+      "kind": "relation",
+      "language": "zh_en",
+      "domain": "",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "reason": "问题涉及 RLHF 与 DPO 的理论根基，属于 LLM 对齐与偏好优化、强化学习范畴，是本地论文库的研究范围。",
+      "usage": {
+        "requests": 1,
+        "tool_calls": 0,
+        "input_tokens": 515,
+        "output_tokens": 143,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "latency_s": 6.3544
+    },
+    {
+      "id": "a_r04",
+      "question": "逆强化学习与偏好学习在理论和方法上的共同来源是什么？",
+      "expected": "in_scope",
+      "kind": "relation",
+      "language": "zh",
+      "domain": "强化学习 / 偏好优化",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "reason": "问题涉及逆强化学习（IRL）与偏好学习（preference learning）的理论与方法共同来源，属于强化学习与偏好优化的核心方法研究范畴。",
+      "usage": {
+        "requests": 1,
+        "tool_calls": 0,
+        "input_tokens": 437,
+        "output_tokens": 97,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "latency_s": 5.3343
+    },
+    {
+      "id": "a_r10",
+      "question": "离线强化学习与在线强化学习的共同来源是什么？",
+      "expected": "in_scope",
+      "kind": "relation",
+      "language": "zh",
+      "domain": "",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "reason": "用户询问离线强化学习与在线强化学习的共同来源，属于强化学习（RL）理论与方法的问题，明确在研究范围内。",
+      "usage": {
+        "requests": 1,
+        "tool_calls": 0,
+        "input_tokens": 512,
+        "output_tokens": 113,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "latency_s": 5.3117
+    },
+    {
+      "id": "a_o01",
+      "question": "量子计算的退相干抑制有什么热点？",
+      "expected": "out_of_scope",
+      "kind": "refuse",
+      "language": "zh",
+      "domain": "",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "reason": "问题询问量子计算退相干抑制的热点，属于量子物理/量子计算核心领域，并非机器学习或强化学习方法本身。用户未提及任何 ML/RL 方法、模型或算法贡献，因此不在本地 AI/ML 论文库研究范围内。",
+      "usage": {
+        "requests": 1,
+        "tool_calls": 0,
+        "input_tokens": 509,
+        "output_tokens": 221,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "latency_s": 8.763
+    },
+    {
+      "id": "a_o02",
+      "question": "生物信息学中基因序列比对有什么热点？",
+      "expected": "out_of_scope",
+      "kind": "refuse",
+      "language": "zh",
+      "domain": "",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "reason": "该问题询问的是生物信息学中基因序列比对领域的应用热点本身，属于应用领域内容而非明确询问其中的 ML/RL 方法、模型或算法贡献，因此判为范围外。生物信息学属于明确列出的范围外核心领域。",
+      "usage": {
+        "requests": 1,
+        "tool_calls": 0,
+        "input_tokens": 433,
+        "output_tokens": 162,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "latency_s": 4.895
+    },
+    {
+      "id": "a_o03",
+      "question": "医学影像 CT 分割的最新方法是什么？",
+      "expected": "out_of_scope",
+      "kind": "refuse",
+      "language": "zh_en",
+      "domain": "",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "reason": "用户询问的是医学影像 CT 分割这一临床/医学应用领域本身的最新方法，属于医学/临床影像的范畴，且未明确询问其中的 ML/RL 方法、模型或算法贡献，因此不在本地 AI/ML 论文库的研究范围内。",
+      "usage": {
+        "requests": 1,
+        "tool_calls": 0,
+        "input_tokens": 510,
+        "output_tokens": 291,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "latency_s": 8.9349
+    },
+    {
+      "id": "a_o04",
+      "question": "航天器轨道摄动控制有什么最新研究？",
+      "expected": "out_of_scope",
+      "kind": "refuse",
+      "language": "zh",
+      "domain": "",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "reason": "用户询问的是航天器轨道摄动控制本身的最新研究，属于航天/轨道力学应用领域的热点与进展，并未明确询问其中的机器学习、强化学习或算法贡献，因此判定为范围外。\n\n范围外：仅询问应用领域本身的热点、方法或进展，未涉及 ML/RL 方法、模型或算法贡献。\n范围内：航天器轨道控制若明确询问其中的强化学习/优化算法、控制策略模型等 ML/RL 方法贡献时。\n用户问题仅关注航天轨道摄动控制的领域研究进展，缺乏 ML/RL 方法指向，故判为范围外。\n应引导用户关注本地论文库所覆盖的强化学习、LLM 对齐、智能体、机器人学习、决策与机器学习方向。",
+      "usage": {
+        "requests": 1,
+        "tool_calls": 0,
+        "input_tokens": 433,
+        "output_tokens": 234,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "latency_s": 10.6924
+    }
+  ]
+}

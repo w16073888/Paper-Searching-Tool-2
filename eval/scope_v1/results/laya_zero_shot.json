@@ -1,0 +1,493 @@
+{
+  "generated_at": "2026-10-23T12:43:30+00:00",
+  "git_commit": "2cb2a27619703a378dd6e9712aad807a6a362ac7",
+  "backend": "laya_zero_shot",
+  "dataset": "eval\\scope_v1\\test.jsonl",
+  "dataset_items": 16,
+  "labels": [
+    "in_scope",
+    "out_of_scope"
+  ],
+  "frozen_revision": "1720e3e3357cfe1e281542e223f8273b0890ca34",
+  "model_dir": "D:\\大学编程学习\\移动云杯\\.models\\jev",
+  "model_config": {
+    "model_type": "laya",
+    "architectures": [
+      "LayaTypedDecisions"
+    ],
+    "_comment": "Root config for Hub download tracking. See README for how to load Laya."
+  },
+  "load_s": 25.9217,
+  "warmup_s": 0.6329,
+  "timed_inference_calls": 48,
+  "summary": {
+    "items": 16,
+    "evaluated": 16,
+    "errors": 0,
+    "confusion": {
+      "tp": 7,
+      "fn": 5,
+      "tn": 4,
+      "fp": 0
+    },
+    "accuracy": 0.6875,
+    "in_scope_recall": 0.5833,
+    "in_scope_false_refusal_rate": 0.4167,
+    "out_of_scope_recall": 1.0,
+    "ood_false_pass_rate": 0.0,
+    "latency_s": {
+      "mean": 0.3237,
+      "p50": 0.3263,
+      "p95": 0.3554,
+      "max": 0.3676
+    },
+    "by_kind": {
+      "compare": {
+        "items": 3,
+        "correct": 2,
+        "errors": 0
+      },
+      "local": {
+        "items": 5,
+        "correct": 3,
+        "errors": 0
+      },
+      "refuse": {
+        "items": 4,
+        "correct": 4,
+        "errors": 0
+      },
+      "relation": {
+        "items": 4,
+        "correct": 2,
+        "errors": 0
+      }
+    }
+  },
+  "warm_summary": {
+    "latency_s": {
+      "mean": 0.3168,
+      "p50": 0.3175,
+      "p95": 0.3445,
+      "max": 0.3676
+    }
+  },
+  "rows": [
+    {
+      "id": "a_l01",
+      "question": "RLOO 的核心创新点是什么？",
+      "expected": "in_scope",
+      "kind": "local",
+      "language": "zh_en",
+      "domain": "reinforcement_learning",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3449,
+      "probabilities": {
+        "in_scope": 0.7996,
+        "out_of_scope": 0.2004
+      },
+      "confidence": 0.2772,
+      "answer_confidence": 0.7996,
+      "usage": {
+        "input_tokens": 79,
+        "output_tokens": 0,
+        "state_tokens": 13,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "a_l04",
+      "question": "Dreamer 系列的模型结构要点是什么？",
+      "expected": "in_scope",
+      "kind": "local",
+      "language": "zh_en",
+      "domain": "model_based_rl",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3045,
+      "probabilities": {
+        "in_scope": 0.3792,
+        "out_of_scope": 0.6208
+      },
+      "confidence": 0.0425,
+      "answer_confidence": 0.6208,
+      "usage": {
+        "input_tokens": 80,
+        "output_tokens": 0,
+        "state_tokens": 14,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "a_l09",
+      "question": "reward hacking 和 reward overoptimization 有哪些缓解手段？",
+      "expected": "in_scope",
+      "kind": "local",
+      "language": "zh_en",
+      "domain": "rlhf",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.2994,
+      "probabilities": {
+        "in_scope": 0.7873,
+        "out_of_scope": 0.2127
+      },
+      "confidence": 0.2534,
+      "answer_confidence": 0.7873,
+      "usage": {
+        "input_tokens": 82,
+        "output_tokens": 0,
+        "state_tokens": 16,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "a_l13",
+      "question": "稳健强化学习的主要方法有哪些？",
+      "expected": "in_scope",
+      "kind": "local",
+      "language": "zh_en",
+      "domain": "robust_rl",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.2748,
+      "probabilities": {
+        "in_scope": 0.6844,
+        "out_of_scope": 0.3156
+      },
+      "confidence": 0.1005,
+      "answer_confidence": 0.6844,
+      "usage": {
+        "input_tokens": 79,
+        "output_tokens": 0,
+        "state_tokens": 13,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "a_l14",
+      "question": "visuomotor policy 的输入表示一般怎么设计？",
+      "expected": "in_scope",
+      "kind": "local",
+      "language": "zh_en",
+      "domain": "robot_learning",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3256,
+      "probabilities": {
+        "in_scope": 0.0599,
+        "out_of_scope": 0.9401
+      },
+      "confidence": 0.6728,
+      "answer_confidence": 0.9401,
+      "usage": {
+        "input_tokens": 82,
+        "output_tokens": 0,
+        "state_tokens": 16,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "a_c01",
+      "question": "GRPO 相比 PPO 改了什么？",
+      "expected": "in_scope",
+      "kind": "compare",
+      "language": "zh_en",
+      "domain": "reinforcement_learning",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3269,
+      "probabilities": {
+        "in_scope": 0.5101,
+        "out_of_scope": 0.4899
+      },
+      "confidence": 0.0003,
+      "answer_confidence": 0.5101,
+      "usage": {
+        "input_tokens": 80,
+        "output_tokens": 0,
+        "state_tokens": 14,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "a_c02",
+      "question": "token 级 DPO 与句子级 DPO 的差别在哪里？",
+      "expected": "in_scope",
+      "kind": "compare",
+      "language": "zh_en",
+      "domain": "preference_optimization",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3359,
+      "probabilities": {
+        "in_scope": 0.677,
+        "out_of_scope": 0.323
+      },
+      "confidence": 0.0924,
+      "answer_confidence": 0.677,
+      "usage": {
+        "input_tokens": 84,
+        "output_tokens": 0,
+        "state_tokens": 18,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "a_c03",
+      "question": "TD3 和 SAC 在连续控制上的核心差异是什么？",
+      "expected": "in_scope",
+      "kind": "compare",
+      "language": "zh_en",
+      "domain": "reinforcement_learning",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3209,
+      "probabilities": {
+        "in_scope": 0.4031,
+        "out_of_scope": 0.5969
+      },
+      "confidence": 0.0272,
+      "answer_confidence": 0.5969,
+      "usage": {
+        "input_tokens": 83,
+        "output_tokens": 0,
+        "state_tokens": 17,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "a_r01",
+      "question": "PPO 和 GRPO 的共同来源是什么？",
+      "expected": "in_scope",
+      "kind": "relation",
+      "language": "zh_en",
+      "domain": "reinforcement_learning",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3292,
+      "probabilities": {
+        "in_scope": 0.6666,
+        "out_of_scope": 0.3334
+      },
+      "confidence": 0.0817,
+      "answer_confidence": 0.6666,
+      "usage": {
+        "input_tokens": 81,
+        "output_tokens": 0,
+        "state_tokens": 15,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "a_r02",
+      "question": "RLHF 和 DPO 的共同来源或理论根基是什么？",
+      "expected": "in_scope",
+      "kind": "relation",
+      "language": "zh_en",
+      "domain": "alignment",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3514,
+      "probabilities": {
+        "in_scope": 0.8576,
+        "out_of_scope": 0.1424
+      },
+      "confidence": 0.4095,
+      "answer_confidence": 0.8576,
+      "usage": {
+        "input_tokens": 85,
+        "output_tokens": 0,
+        "state_tokens": 19,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "a_r04",
+      "question": "逆强化学习与偏好学习在理论和方法上的共同来源是什么？",
+      "expected": "in_scope",
+      "kind": "relation",
+      "language": "zh",
+      "domain": "inverse_rl",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3676,
+      "probabilities": {
+        "in_scope": 0.4345,
+        "out_of_scope": 0.5655
+      },
+      "confidence": 0.0124,
+      "answer_confidence": 0.5655,
+      "usage": {
+        "input_tokens": 87,
+        "output_tokens": 0,
+        "state_tokens": 21,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "a_r10",
+      "question": "离线强化学习与在线强化学习的共同来源是什么？",
+      "expected": "in_scope",
+      "kind": "relation",
+      "language": "zh",
+      "domain": "reinforcement_learning",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3216,
+      "probabilities": {
+        "in_scope": 0.4358,
+        "out_of_scope": 0.5642
+      },
+      "confidence": 0.0119,
+      "answer_confidence": 0.5642,
+      "usage": {
+        "input_tokens": 84,
+        "output_tokens": 0,
+        "state_tokens": 18,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "a_o01",
+      "question": "量子计算的退相干抑制有什么热点？",
+      "expected": "out_of_scope",
+      "kind": "refuse",
+      "language": "zh",
+      "domain": "quantum_computing",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3165,
+      "probabilities": {
+        "in_scope": 0.366,
+        "out_of_scope": 0.634
+      },
+      "confidence": 0.0524,
+      "answer_confidence": 0.634,
+      "usage": {
+        "input_tokens": 81,
+        "output_tokens": 0,
+        "state_tokens": 15,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "a_o02",
+      "question": "生物信息学中基因序列比对有什么热点？",
+      "expected": "out_of_scope",
+      "kind": "refuse",
+      "language": "zh",
+      "domain": "bioinformatics",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3288,
+      "probabilities": {
+        "in_scope": 0.3157,
+        "out_of_scope": 0.6843
+      },
+      "confidence": 0.1004,
+      "answer_confidence": 0.6843,
+      "usage": {
+        "input_tokens": 82,
+        "output_tokens": 0,
+        "state_tokens": 16,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "a_o03",
+      "question": "医学影像 CT 分割的最新方法是什么？",
+      "expected": "out_of_scope",
+      "kind": "refuse",
+      "language": "zh_en",
+      "domain": "medical_imaging",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3333,
+      "probabilities": {
+        "in_scope": 0.219,
+        "out_of_scope": 0.781
+      },
+      "confidence": 0.2417,
+      "answer_confidence": 0.781,
+      "usage": {
+        "input_tokens": 81,
+        "output_tokens": 0,
+        "state_tokens": 15,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "a_o04",
+      "question": "航天器轨道摄动控制有什么最新研究？",
+      "expected": "out_of_scope",
+      "kind": "refuse",
+      "language": "zh",
+      "domain": "aerospace",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.2987,
+      "probabilities": {
+        "in_scope": 0.3101,
+        "out_of_scope": 0.6899
+      },
+      "confidence": 0.1067,
+      "answer_confidence": 0.6899,
+      "usage": {
+        "input_tokens": 81,
+        "output_tokens": 0,
+        "state_tokens": 15,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "dataset_version": "scope-dataset-v1.1",
+  "generated_at": "2026-10-23T15:32:46+00:00",
+  "seed": 20261023,
+  "generator": {
+    "provider": "mobile_cloud_maas",
+    "model": "deepseek-v4-flash-0731",
+    "api_key_env": "Mobile_trash_API_KEY",
+    "prompt_version": "scope-dataset-v1",
+    "prompt_sha256": {
+      "in_scope": "1cf9df9e6b8268108596891faa20fe76adc5c22e28654546b55c21c215d725c4",
+      "ood": "ef61287a4aae3b57daead81c103a1060207b149cebfa32906bd5c14451e5717b",
+      "boundary": "4df7e5c2bb627fffd5237e3815235972ee609c86f3c2a34b6cc064ba65ba40d3"
+    },
+    "generation_args": {
+      "paper_count": 200,
+      "paper_batch_size": 10,
+      "ood_count": 32,
+      "ood_batch_size": 4,
+      "ood_per_domain": 10,
+      "boundary_count": 16,
+      "boundary_batch_size": 2,
+      "boundary_per_domain": 5,
+      "concurrency": 4
+    }
+  },
+  "counts": {
+    "total": 800,
+    "split": {
+      "train": 555,
+      "internal_test": 125,
+      "calibration": 120
+    },
+    "label": {
+      "in_scope": 448,
+      "out_of_scope": 352
+    },
+    "category": {
+      "boundary": 80,
+      "in_scope": 400,
+      "ood": 320
+    },
+    "language": {
+      "zh": 408,
+      "en": 262,
+      "zh_en": 130
+    },
+    "kind": {
+      "boundary_positive": 48,
+      "boundary_negative": 32,
+      "compare": 124,
+      "local": 91,
+      "relation": 140,
+      "trend": 33,
+      "followup": 12,
+      "ood": 279,
+      "hard_negative": 41
+    },
+    "groups": {
+      "total": 248,
+      "by_split": {
+        "train": 173,
+        "calibration": 37,
+        "internal_test": 38
+      }
+    }
+  },
+  "external_test": {
+    "path": "eval\\scope_v1\\test.jsonl",
+    "sha256": "d881f0bb4b4e0f4305aaebbebb072925410a1bcebc18e1d0d85312d5b44e4cdf",
+    "training_allowed": false
+  },
+  "quality_policy": {
+    "label_source": "llm_generated_silver",
+    "gold": false,
+    "group_split": true,
+    "exact_duplicate_filter": true,
+    "external_test_overlap_filter": true,
+    "human_review": "146-row audit completed; remaining labels remain LLM silver",
+    "threshold_selection_allowed": false
+  },
+  "files": {
+    "all.jsonl": {
+      "sha256": "aee4a41649b4a6396f35767689f7b227a526c7b39156908016b41ab75219b6c8",
+      "bytes": 688655
+    },
+    "train.jsonl": {
+      "sha256": "66efee1f70f12091ff501ee2e74ed0c543b8bd73500edf6556215624cd8954ac",
+      "bytes": 477046
+    },
+    "calibration.jsonl": {
+      "sha256": "62f23b5ad1befaa690c81025e9b75faf64f5a0fd9f60dcef7f1be9acff83b1d7",
+      "bytes": 102775
+    },
+    "internal_test.jsonl": {
+      "sha256": "eef30109bbb09f1dc3b04df3cf80c9867729eac24f851acebd789bd6b1e77a26",
+      "bytes": 108834
+    },
+    "laya_train.jsonl": {
+      "sha256": "455a0c59b20cd177d4041bd9205b0532353f681e3d6c48172368b3769f64201f",
+      "bytes": 356697
+    },
+    "laya_calibration.jsonl": {
+      "sha256": "dfcc642b39083abe19f13adb3999ce29b44fe5bfea5007008a6a89bd86ae5090",
+      "bytes": 77023
+    },
+    "laya_internal_test.jsonl": {
+      "sha256": "a7bd25515f895993050bdaf19aee243c703ec2358af07f7335a6aa20041ac329",
+      "bytes": 81910
+    },
+    "review.csv": {
+      "sha256": "361b2f3cbb12fcd65457f6188c928d5d2d5c695d9f45aa54f7738dd7bc44eda4",
+      "bytes": 75234
+    },
+    "quality_report.json": {
+      "sha256": "f06e439c56e29d9292483a554c610b558ae4dbb77cb0ba7b98b052ec2b6ec869",
+      "bytes": 1250
+    }
+  },
+  "parent": {
+    "dataset_version": "scope-dataset-v1",
+    "manifest_sha256": "6893baeb67095febdb8e554bd8e284bea0edb5375cfb6d29b1ed6b303479d3af",
+    "preserved_separately": true
+  },
+  "review": {
+    "rows": 146,
+    "decisions": {
+      "accept": 146
+    },
+    "laya_disagreements": 55,
+    "reviewed_at": "2026-10-23T15:31:41+00:00",
+    "reviewer": "Codex manual semantic review with Laya disagreement precheck"
+  }
+}

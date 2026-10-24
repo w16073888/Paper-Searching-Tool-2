@@ -1,0 +1,304 @@
+{
+  "generated_at": "2026-10-23T16:59:45+00:00",
+  "dataset_items": 125,
+  "reports": {
+    "laya_zero_shot": {
+      "items": 125,
+      "evaluated": 125,
+      "errors": 0,
+      "completion_rate": 1.0,
+      "confusion": {
+        "tp": 49,
+        "fn": 20,
+        "tn": 37,
+        "fp": 19
+      },
+      "accuracy": 0.688,
+      "in_scope_recall": 0.7101,
+      "in_scope_false_refusal_rate": 0.2899,
+      "out_of_scope_recall": 0.6607,
+      "ood_false_pass_rate": 0.3393,
+      "latency_s": {
+        "mean": 0.3827,
+        "p50": 0.3812,
+        "p95": 0.4408,
+        "max": 0.4987
+      },
+      "by_kind": {
+        "boundary_negative": {
+          "items": 6,
+          "correct": 4,
+          "errors": 0
+        },
+        "boundary_positive": {
+          "items": 9,
+          "correct": 5,
+          "errors": 0
+        },
+        "compare": {
+          "items": 20,
+          "correct": 14,
+          "errors": 0
+        },
+        "followup": {
+          "items": 2,
+          "correct": 1,
+          "errors": 0
+        },
+        "hard_negative": {
+          "items": 4,
+          "correct": 3,
+          "errors": 0
+        },
+        "local": {
+          "items": 19,
+          "correct": 16,
+          "errors": 0
+        },
+        "ood": {
+          "items": 46,
+          "correct": 30,
+          "errors": 0
+        },
+        "relation": {
+          "items": 15,
+          "correct": 11,
+          "errors": 0
+        },
+        "trend": {
+          "items": 4,
+          "correct": 2,
+          "errors": 0
+        }
+      },
+      "by_group": {
+        "OOD": {
+          "items": 50,
+          "evaluated": 50,
+          "errors": 0,
+          "completion_rate": 1.0,
+          "confusion": {
+            "tp": 0,
+            "fn": 0,
+            "tn": 33,
+            "fp": 17
+          },
+          "accuracy": 0.66,
+          "in_scope_recall": 0.0,
+          "in_scope_false_refusal_rate": 0.0,
+          "out_of_scope_recall": 0.66,
+          "ood_false_pass_rate": 0.34
+        },
+        "boundary": {
+          "items": 15,
+          "evaluated": 15,
+          "errors": 0,
+          "completion_rate": 1.0,
+          "confusion": {
+            "tp": 5,
+            "fn": 4,
+            "tn": 4,
+            "fp": 2
+          },
+          "accuracy": 0.6,
+          "in_scope_recall": 0.5556,
+          "in_scope_false_refusal_rate": 0.4444,
+          "out_of_scope_recall": 0.6667,
+          "ood_false_pass_rate": 0.3333
+        },
+        "compare": {
+          "items": 20,
+          "evaluated": 20,
+          "errors": 0,
+          "completion_rate": 1.0,
+          "confusion": {
+            "tp": 14,
+            "fn": 6,
+            "tn": 0,
+            "fp": 0
+          },
+          "accuracy": 0.7,
+          "in_scope_recall": 0.7,
+          "in_scope_false_refusal_rate": 0.3,
+          "out_of_scope_recall": 0.0,
+          "ood_false_pass_rate": 0.0
+        },
+        "followup": {
+          "items": 2,
+          "evaluated": 2,
+          "errors": 0,
+          "completion_rate": 1.0,
+          "confusion": {
+            "tp": 1,
+            "fn": 1,
+            "tn": 0,
+            "fp": 0
+          },
+          "accuracy": 0.5,
+          "in_scope_recall": 0.5,
+          "in_scope_false_refusal_rate": 0.5,
+          "out_of_scope_recall": 0.0,
+          "ood_false_pass_rate": 0.0
+        },
+        "local": {
+          "items": 19,
+          "evaluated": 19,
+          "errors": 0,
+          "completion_rate": 1.0,
+          "confusion": {
+            "tp": 16,
+            "fn": 3,
+            "tn": 0,
+            "fp": 0
+          },
+          "accuracy": 0.8421,
+          "in_scope_recall": 0.8421,
+          "in_scope_false_refusal_rate": 0.1579,
+          "out_of_scope_recall": 0.0,
+          "ood_false_pass_rate": 0.0
+        },
+        "relation": {
+          "items": 15,
+          "evaluated": 15,
+          "errors": 0,
+          "completion_rate": 1.0,
+          "confusion": {
+            "tp": 11,
+            "fn": 4,
+            "tn": 0,
+            "fp": 0
+          },
+          "accuracy": 0.7333,
+          "in_scope_recall": 0.7333,
+          "in_scope_false_refusal_rate": 0.2667,
+          "out_of_scope_recall": 0.0,
+          "ood_false_pass_rate": 0.0
+        },
+        "trend": {
+          "items": 4,
+          "evaluated": 4,
+          "errors": 0,
+          "completion_rate": 1.0,
+          "confusion": {
+            "tp": 2,
+            "fn": 2,
+            "tn": 0,
+            "fp": 0
+          },
+          "accuracy": 0.5,
+          "in_scope_recall": 0.5,
+          "in_scope_false_refusal_rate": 0.5,
+          "out_of_scope_recall": 0.0,
+          "ood_false_pass_rate": 0.0
+        }
+      },
+      "by_language": {
+        "en": {
+          "items": 43,
+          "evaluated": 43,
+          "errors": 0,
+          "completion_rate": 1.0,
+          "confusion": {
+            "tp": 17,
+            "fn": 13,
+            "tn": 10,
+            "fp": 3
+          },
+          "accuracy": 0.6279,
+          "in_scope_recall": 0.5667,
+          "in_scope_false_refusal_rate": 0.4333,
+          "out_of_scope_recall": 0.7692,
+          "ood_false_pass_rate": 0.2308
+        },
+        "zh": {
+          "items": 61,
+          "evaluated": 61,
+          "errors": 0,
+          "completion_rate": 1.0,
+          "confusion": {
+            "tp": 29,
+            "fn": 4,
+            "tn": 17,
+            "fp": 11
+          },
+          "accuracy": 0.7541,
+          "in_scope_recall": 0.8788,
+          "in_scope_false_refusal_rate": 0.1212,
+          "out_of_scope_recall": 0.6071,
+          "ood_false_pass_rate": 0.3929
+        },
+        "zh_en": {
+          "items": 21,
+          "evaluated": 21,
+          "errors": 0,
+          "completion_rate": 1.0,
+          "confusion": {
+            "tp": 3,
+            "fn": 3,
+            "tn": 10,
+            "fp": 5
+          },
+          "accuracy": 0.619,
+          "in_scope_recall": 0.5,
+          "in_scope_false_refusal_rate": 0.5,
+          "out_of_scope_recall": 0.6667,
+          "ood_false_pass_rate": 0.3333
+        }
+      },
+      "by_category": {
+        "boundary": {
+          "items": 15,
+          "evaluated": 15,
+          "errors": 0,
+          "completion_rate": 1.0,
+          "confusion": {
+            "tp": 5,
+            "fn": 4,
+            "tn": 4,
+            "fp": 2
+          },
+          "accuracy": 0.6,
+          "in_scope_recall": 0.5556,
+          "in_scope_false_refusal_rate": 0.4444,
+          "out_of_scope_recall": 0.6667,
+          "ood_false_pass_rate": 0.3333
+        },
+        "in_scope": {
+          "items": 60,
+          "evaluated": 60,
+          "errors": 0,
+          "completion_rate": 1.0,
+          "confusion": {
+            "tp": 44,
+            "fn": 16,
+            "tn": 0,
+            "fp": 0
+          },
+          "accuracy": 0.7333,
+          "in_scope_recall": 0.7333,
+          "in_scope_false_refusal_rate": 0.2667,
+          "out_of_scope_recall": 0.0,
+          "ood_false_pass_rate": 0.0
+        },
+        "ood": {
+          "items": 50,
+          "evaluated": 50,
+          "errors": 0,
+          "completion_rate": 1.0,
+          "confusion": {
+            "tp": 0,
+            "fn": 0,
+            "tn": 33,
+            "fp": 17
+          },
+          "accuracy": 0.66,
+          "in_scope_recall": 0.0,
+          "in_scope_false_refusal_rate": 0.0,
+          "out_of_scope_recall": 0.66,
+          "ood_false_pass_rate": 0.34
+        }
+      }
+    }
+  },
+  "compute_probe": "eval\\scope_v1\\results_trained_v1_1\\compute_probe.json"
+}

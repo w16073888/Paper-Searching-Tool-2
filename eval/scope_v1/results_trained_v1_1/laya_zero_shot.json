@@ -1,0 +1,4034 @@
+{
+  "generated_at": "2026-10-23T16:59:44+00:00",
+  "git_commit": "bd02f43232da137c3f4b83ec8244759a51afb4f5",
+  "backend": "laya_zero_shot",
+  "dataset": "eval\\scope_v1\\dataset_v1_1\\internal_test.jsonl",
+  "dataset_sha256": "eef30109bbb09f1dc3b04df3cf80c9867729eac24f851acebd789bd6b1e77a26",
+  "dataset_items": 125,
+  "labels": [
+    "in_scope",
+    "out_of_scope"
+  ],
+  "frozen_revision": "1720e3e3357cfe1e281542e223f8273b0890ca34",
+  "model_dir": ".models\\jev\\ft\\scope-v1-head-only-seed0",
+  "prompt_version": "scope-choice-v1",
+  "prompt_sha256": "08406fdbdc0df377f72767c34371dc520887dd9438a261456642b536038559f3",
+  "model_config": {
+    "encoder": "jhu-clsp/mmBERT-base",
+    "head_layers": 2,
+    "max_len": 256,
+    "head_max_len": 256,
+    "max_prefixes": 6,
+    "act_costs": {
+      "escalate": 0.5
+    },
+    "cost_wrong_act": 3.0,
+    "amp_dtype": "bf16",
+    "model_name": "rl-agent",
+    "temperature": [
+      0.71857750415802,
+      1.0,
+      1.0
+    ],
+    "training": {
+      "scope_head_only": {
+        "epochs": 4,
+        "micro_batch": 4,
+        "grad_accum": 4,
+        "encoder_lr": 2.5e-05,
+        "head_lr": 0.0001,
+        "min_lr": 1e-06,
+        "weight_decay": 0.01,
+        "grad_clip": 1.0,
+        "loss": "soft-ce",
+        "rl_samples": 4,
+        "sigma_start": 0.4,
+        "sigma_end": 0.1,
+        "w_sph": 0.75,
+        "w_rps": 1.0,
+        "shuffle_options": [
+          "choice"
+        ],
+        "option_layout": null,
+        "freeze_encoder": true,
+        "calib_max": 400,
+        "calib_frac": 0.1,
+        "calib_seed": 20260922,
+        "seed": 0,
+        "max_len": 256,
+        "head_max_len": 256,
+        "amp": null,
+        "gradient_checkpointing": null,
+        "log_every": 20,
+        "label_smoothing": 0.0,
+        "text_column": "text",
+        "label_column": "label",
+        "question_id": "label",
+        "instructions": null,
+        "eval_data": null,
+        "target_error": 0.1,
+        "min_abstain_n": 10
+      },
+      "scope_pilot_report": {
+        "status": "ok",
+        "started_at": "2026-10-23T16:30:38+00:00",
+        "finished_at": "2026-10-23T16:52:39+00:00",
+        "elapsed_s": 1321.22,
+        "device": "cpu",
+        "torch_threads": 8,
+        "train": {
+          "path": "eval\\scope_v1\\dataset_v1_1\\laya_train.jsonl",
+          "sha256": "455a0c59b20cd177d4041bd9205b0532353f681e3d6c48172368b3769f64201f",
+          "items": 555,
+          "epoch_loss": [
+            0.6403131491417507,
+            0.6355832682239065,
+            0.6239293514610195,
+            0.6242393280962388
+          ]
+        },
+        "calibration": {
+          "path": "eval\\scope_v1\\dataset_v1_1\\laya_calibration.jsonl",
+          "sha256": "dfcc642b39083abe19f13adb3999ce29b44fe5bfea5007008a6a89bd86ae5090",
+          "items": 120
+        },
+        "base": {
+          "metrics": {
+            "items": 120,
+            "loss": 0.6083,
+            "accuracy": 0.6833,
+            "mean_confidence": 0.6977,
+            "ece": 0.0359,
+            "brier": 0.4146,
+            "brier_top1": 0.2073,
+            "by_type": {
+              "choice": {
+                "items": 120,
+                "loss": 0.6083,
+                "accuracy": 0.6833,
+                "mean_confidence": 0.6977,
+                "ece": 0.0359,
+                "brier": 0.4146,
+                "brier_top1": 0.2073
+              }
+            }
+          },
+          "classification": {
+            "items": 120,
+            "confusion": {
+              "tp": 45,
+              "fn": 21,
+              "tn": 37,
+              "fp": 17
+            },
+            "accuracy": 0.6833,
+            "in_scope_recall": 0.6818,
+            "in_scope_false_refusal_rate": 0.3182,
+            "out_of_scope_recall": 0.6852,
+            "ood_false_pass_rate": 0.3148
+          }
+        },
+        "trained": {
+          "metrics": {
+            "items": 120,
+            "loss": 0.5899,
+            "accuracy": 0.675,
+            "mean_confidence": 0.69,
+            "ece": 0.0621,
+            "brier": 0.4011,
+            "brier_top1": 0.2005,
+            "by_type": {
+              "choice": {
+                "items": 120,
+                "loss": 0.5899,
+                "accuracy": 0.675,
+                "mean_confidence": 0.69,
+                "ece": 0.0621,
+                "brier": 0.4011,
+                "brier_top1": 0.2005
+              }
+            }
+          },
+          "classification": {
+            "items": 120,
+            "confusion": {
+              "tp": 47,
+              "fn": 19,
+              "tn": 34,
+              "fp": 20
+            },
+            "accuracy": 0.675,
+            "in_scope_recall": 0.7121,
+            "in_scope_false_refusal_rate": 0.2879,
+            "out_of_scope_recall": 0.6296,
+            "ood_false_pass_rate": 0.3704
+          },
+          "temperature": [
+            0.71857750415802,
+            1.0,
+            1.0
+          ],
+          "temperature_by_options": {},
+          "n_by_bucket": {
+            "choice:2": 120
+          },
+          "abstention_thresholds": {
+            "choice:2": 1.0
+          },
+          "collapse_warning": null
+        },
+        "training_config": {
+          "epochs": 4,
+          "micro_batch": 4,
+          "grad_accum": 4,
+          "encoder_lr": 2.5e-05,
+          "head_lr": 0.0001,
+          "min_lr": 1e-06,
+          "weight_decay": 0.01,
+          "grad_clip": 1.0,
+          "loss": "soft-ce",
+          "rl_samples": 4,
+          "sigma_start": 0.4,
+          "sigma_end": 0.1,
+          "w_sph": 0.75,
+          "w_rps": 1.0,
+          "shuffle_options": [
+            "choice"
+          ],
+          "option_layout": null,
+          "freeze_encoder": true,
+          "calib_max": 400,
+          "calib_frac": 0.1,
+          "calib_seed": 20260922,
+          "seed": 0,
+          "max_len": 256,
+          "head_max_len": 256,
+          "amp": null,
+          "gradient_checkpointing": null,
+          "log_every": 20,
+          "label_smoothing": 0.0,
+          "text_column": "text",
+          "label_column": "label",
+          "question_id": "label",
+          "instructions": null,
+          "eval_data": null,
+          "target_error": 0.1,
+          "min_abstain_n": 10
+        },
+        "internal_test_used": false,
+        "checkpoint": ".models\\jev\\ft\\scope-v1-head-only-seed0"
+      }
+    },
+    "fine_tuned": true
+  },
+  "load_s": 18.4782,
+  "warmup_s": 0.4366,
+  "timed_inference_calls": 125,
+  "summary": {
+    "items": 125,
+    "evaluated": 125,
+    "errors": 0,
+    "completion_rate": 1.0,
+    "confusion": {
+      "tp": 49,
+      "fn": 20,
+      "tn": 37,
+      "fp": 19
+    },
+    "accuracy": 0.688,
+    "in_scope_recall": 0.7101,
+    "in_scope_false_refusal_rate": 0.2899,
+    "out_of_scope_recall": 0.6607,
+    "ood_false_pass_rate": 0.3393,
+    "latency_s": {
+      "mean": 0.3827,
+      "p50": 0.3812,
+      "p95": 0.4408,
+      "max": 0.4987
+    },
+    "by_kind": {
+      "boundary_negative": {
+        "items": 6,
+        "correct": 4,
+        "errors": 0
+      },
+      "boundary_positive": {
+        "items": 9,
+        "correct": 5,
+        "errors": 0
+      },
+      "compare": {
+        "items": 20,
+        "correct": 14,
+        "errors": 0
+      },
+      "followup": {
+        "items": 2,
+        "correct": 1,
+        "errors": 0
+      },
+      "hard_negative": {
+        "items": 4,
+        "correct": 3,
+        "errors": 0
+      },
+      "local": {
+        "items": 19,
+        "correct": 16,
+        "errors": 0
+      },
+      "ood": {
+        "items": 46,
+        "correct": 30,
+        "errors": 0
+      },
+      "relation": {
+        "items": 15,
+        "correct": 11,
+        "errors": 0
+      },
+      "trend": {
+        "items": 4,
+        "correct": 2,
+        "errors": 0
+      }
+    },
+    "by_group": {
+      "OOD": {
+        "items": 50,
+        "evaluated": 50,
+        "errors": 0,
+        "completion_rate": 1.0,
+        "confusion": {
+          "tp": 0,
+          "fn": 0,
+          "tn": 33,
+          "fp": 17
+        },
+        "accuracy": 0.66,
+        "in_scope_recall": 0.0,
+        "in_scope_false_refusal_rate": 0.0,
+        "out_of_scope_recall": 0.66,
+        "ood_false_pass_rate": 0.34
+      },
+      "boundary": {
+        "items": 15,
+        "evaluated": 15,
+        "errors": 0,
+        "completion_rate": 1.0,
+        "confusion": {
+          "tp": 5,
+          "fn": 4,
+          "tn": 4,
+          "fp": 2
+        },
+        "accuracy": 0.6,
+        "in_scope_recall": 0.5556,
+        "in_scope_false_refusal_rate": 0.4444,
+        "out_of_scope_recall": 0.6667,
+        "ood_false_pass_rate": 0.3333
+      },
+      "compare": {
+        "items": 20,
+        "evaluated": 20,
+        "errors": 0,
+        "completion_rate": 1.0,
+        "confusion": {
+          "tp": 14,
+          "fn": 6,
+          "tn": 0,
+          "fp": 0
+        },
+        "accuracy": 0.7,
+        "in_scope_recall": 0.7,
+        "in_scope_false_refusal_rate": 0.3,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0
+      },
+      "followup": {
+        "items": 2,
+        "evaluated": 2,
+        "errors": 0,
+        "completion_rate": 1.0,
+        "confusion": {
+          "tp": 1,
+          "fn": 1,
+          "tn": 0,
+          "fp": 0
+        },
+        "accuracy": 0.5,
+        "in_scope_recall": 0.5,
+        "in_scope_false_refusal_rate": 0.5,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0
+      },
+      "local": {
+        "items": 19,
+        "evaluated": 19,
+        "errors": 0,
+        "completion_rate": 1.0,
+        "confusion": {
+          "tp": 16,
+          "fn": 3,
+          "tn": 0,
+          "fp": 0
+        },
+        "accuracy": 0.8421,
+        "in_scope_recall": 0.8421,
+        "in_scope_false_refusal_rate": 0.1579,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0
+      },
+      "relation": {
+        "items": 15,
+        "evaluated": 15,
+        "errors": 0,
+        "completion_rate": 1.0,
+        "confusion": {
+          "tp": 11,
+          "fn": 4,
+          "tn": 0,
+          "fp": 0
+        },
+        "accuracy": 0.7333,
+        "in_scope_recall": 0.7333,
+        "in_scope_false_refusal_rate": 0.2667,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0
+      },
+      "trend": {
+        "items": 4,
+        "evaluated": 4,
+        "errors": 0,
+        "completion_rate": 1.0,
+        "confusion": {
+          "tp": 2,
+          "fn": 2,
+          "tn": 0,
+          "fp": 0
+        },
+        "accuracy": 0.5,
+        "in_scope_recall": 0.5,
+        "in_scope_false_refusal_rate": 0.5,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0
+      }
+    },
+    "by_language": {
+      "en": {
+        "items": 43,
+        "evaluated": 43,
+        "errors": 0,
+        "completion_rate": 1.0,
+        "confusion": {
+          "tp": 17,
+          "fn": 13,
+          "tn": 10,
+          "fp": 3
+        },
+        "accuracy": 0.6279,
+        "in_scope_recall": 0.5667,
+        "in_scope_false_refusal_rate": 0.4333,
+        "out_of_scope_recall": 0.7692,
+        "ood_false_pass_rate": 0.2308
+      },
+      "zh": {
+        "items": 61,
+        "evaluated": 61,
+        "errors": 0,
+        "completion_rate": 1.0,
+        "confusion": {
+          "tp": 29,
+          "fn": 4,
+          "tn": 17,
+          "fp": 11
+        },
+        "accuracy": 0.7541,
+        "in_scope_recall": 0.8788,
+        "in_scope_false_refusal_rate": 0.1212,
+        "out_of_scope_recall": 0.6071,
+        "ood_false_pass_rate": 0.3929
+      },
+      "zh_en": {
+        "items": 21,
+        "evaluated": 21,
+        "errors": 0,
+        "completion_rate": 1.0,
+        "confusion": {
+          "tp": 3,
+          "fn": 3,
+          "tn": 10,
+          "fp": 5
+        },
+        "accuracy": 0.619,
+        "in_scope_recall": 0.5,
+        "in_scope_false_refusal_rate": 0.5,
+        "out_of_scope_recall": 0.6667,
+        "ood_false_pass_rate": 0.3333
+      }
+    },
+    "by_category": {
+      "boundary": {
+        "items": 15,
+        "evaluated": 15,
+        "errors": 0,
+        "completion_rate": 1.0,
+        "confusion": {
+          "tp": 5,
+          "fn": 4,
+          "tn": 4,
+          "fp": 2
+        },
+        "accuracy": 0.6,
+        "in_scope_recall": 0.5556,
+        "in_scope_false_refusal_rate": 0.4444,
+        "out_of_scope_recall": 0.6667,
+        "ood_false_pass_rate": 0.3333
+      },
+      "in_scope": {
+        "items": 60,
+        "evaluated": 60,
+        "errors": 0,
+        "completion_rate": 1.0,
+        "confusion": {
+          "tp": 44,
+          "fn": 16,
+          "tn": 0,
+          "fp": 0
+        },
+        "accuracy": 0.7333,
+        "in_scope_recall": 0.7333,
+        "in_scope_false_refusal_rate": 0.2667,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0
+      },
+      "ood": {
+        "items": 50,
+        "evaluated": 50,
+        "errors": 0,
+        "completion_rate": 1.0,
+        "confusion": {
+          "tp": 0,
+          "fn": 0,
+          "tn": 33,
+          "fp": 17
+        },
+        "accuracy": 0.66,
+        "in_scope_recall": 0.0,
+        "in_scope_false_refusal_rate": 0.0,
+        "out_of_scope_recall": 0.66,
+        "ood_false_pass_rate": 0.34
+      }
+    }
+  },
+  "warm_summary": {
+    "latency_s": {
+      "mean": 0.3827,
+      "p50": 0.3812,
+      "p95": 0.4408,
+      "max": 0.4987
+    }
+  },
+  "rows": [
+    {
+      "id": "bnd_32eb5c480e_01",
+      "question": "PINN 训练时出现梯度爆炸，如何对 PDE loss 做归一化，以及选择什么激活函数比较合适？",
+      "expected": "in_scope",
+      "kind": "boundary_positive",
+      "category": "boundary",
+      "group": "boundary",
+      "language": "zh_en",
+      "domain": "physics_informed_ml",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.4417,
+      "probabilities": {
+        "in_scope": 0.4232,
+        "out_of_scope": 0.5768
+      },
+      "confidence": 0.0171,
+      "answer_confidence": 0.5768,
+      "usage": {
+        "input_tokens": 98,
+        "output_tokens": 0,
+        "state_tokens": 32,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "bnd_32eb5c480e_02",
+      "question": "What is the physical meaning of the second law of thermodynamics and how is entropy derived from statistical mechanics?",
+      "expected": "out_of_scope",
+      "kind": "boundary_negative",
+      "category": "boundary",
+      "group": "boundary",
+      "language": "en",
+      "domain": "physics_informed_ml",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.401,
+      "probabilities": {
+        "in_scope": 0.2923,
+        "out_of_scope": 0.7077
+      },
+      "confidence": 0.1284,
+      "answer_confidence": 0.7077,
+      "usage": {
+        "input_tokens": 91,
+        "output_tokens": 0,
+        "state_tokens": 25,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "bnd_32eb5c480e_03",
+      "question": "How to choose collocation points and adaptive sampling strategies for training a physics-informed neural network?",
+      "expected": "in_scope",
+      "kind": "boundary_positive",
+      "category": "boundary",
+      "group": "boundary",
+      "language": "en",
+      "domain": "physics_informed_ml",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3507,
+      "probabilities": {
+        "in_scope": 0.6268,
+        "out_of_scope": 0.3732
+      },
+      "confidence": 0.0469,
+      "answer_confidence": 0.6268,
+      "usage": {
+        "input_tokens": 90,
+        "output_tokens": 0,
+        "state_tokens": 24,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "bnd_32eb5c480e_04",
+      "question": "用物理信息神经网络（PINN）求解纳维-斯托克斯方程时，如何权衡观测数据项与 PDE 残差项在损失中的权重？",
+      "expected": "in_scope",
+      "kind": "boundary_positive",
+      "category": "boundary",
+      "group": "boundary",
+      "language": "zh",
+      "domain": "physics_informed_ml",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3927,
+      "probabilities": {
+        "in_scope": 0.5098,
+        "out_of_scope": 0.4902
+      },
+      "confidence": 0.0003,
+      "answer_confidence": 0.5098,
+      "usage": {
+        "input_tokens": 110,
+        "output_tokens": 0,
+        "state_tokens": 44,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "bnd_32eb5c480e_05",
+      "question": "用有限元方法模拟管道内流体流动时，应如何选择网格尺寸和湍流模型？",
+      "expected": "out_of_scope",
+      "kind": "boundary_negative",
+      "category": "boundary",
+      "group": "boundary",
+      "language": "zh",
+      "domain": "physics_informed_ml",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3586,
+      "probabilities": {
+        "in_scope": 0.484,
+        "out_of_scope": 0.516
+      },
+      "confidence": 0.0007,
+      "answer_confidence": 0.516,
+      "usage": {
+        "input_tokens": 94,
+        "output_tokens": 0,
+        "state_tokens": 28,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "bnd_5437773ae3_01",
+      "question": "用 multi-armed bandit 做个性化题目推荐时，如何在探索（exploration）与利用（exploitation）之间取舍？",
+      "expected": "in_scope",
+      "kind": "boundary_positive",
+      "category": "boundary",
+      "group": "boundary",
+      "language": "zh_en",
+      "domain": "ml_for_education",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3742,
+      "probabilities": {
+        "in_scope": 0.3448,
+        "out_of_scope": 0.6552
+      },
+      "confidence": 0.0707,
+      "answer_confidence": 0.6552,
+      "usage": {
+        "input_tokens": 97,
+        "output_tokens": 0,
+        "state_tokens": 31,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "bnd_5437773ae3_02",
+      "question": "小组合作学习中，按什么标准分组才能最大程度提升课堂讨论的参与度？",
+      "expected": "out_of_scope",
+      "kind": "boundary_negative",
+      "category": "boundary",
+      "group": "boundary",
+      "language": "zh",
+      "domain": "ml_for_education",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3341,
+      "probabilities": {
+        "in_scope": 0.8395,
+        "out_of_scope": 0.1605
+      },
+      "confidence": 0.3644,
+      "answer_confidence": 0.8395,
+      "usage": {
+        "input_tokens": 90,
+        "output_tokens": 0,
+        "state_tokens": 24,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "bnd_5437773ae3_03",
+      "question": "How to use reinforcement learning to schedule spaced repetition for optimal long-term retention?",
+      "expected": "in_scope",
+      "kind": "boundary_positive",
+      "category": "boundary",
+      "group": "boundary",
+      "language": "en",
+      "domain": "ml_for_education",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3628,
+      "probabilities": {
+        "in_scope": 0.7322,
+        "out_of_scope": 0.2678
+      },
+      "confidence": 0.1618,
+      "answer_confidence": 0.7322,
+      "usage": {
+        "input_tokens": 87,
+        "output_tokens": 0,
+        "state_tokens": 21,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "bnd_5437773ae3_04",
+      "question": "如何用深度知识追踪（Deep Knowledge Tracing）这类序列模型预测学生作答下一题的正确率？",
+      "expected": "in_scope",
+      "kind": "boundary_positive",
+      "category": "boundary",
+      "group": "boundary",
+      "language": "zh",
+      "domain": "ml_for_education",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3788,
+      "probabilities": {
+        "in_scope": 0.3053,
+        "out_of_scope": 0.6947
+      },
+      "confidence": 0.1124,
+      "answer_confidence": 0.6947,
+      "usage": {
+        "input_tokens": 94,
+        "output_tokens": 0,
+        "state_tokens": 28,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "bnd_5437773ae3_05",
+      "question": "在翻转课堂（flipped classroom）模式下，如何设计 8 分钟以内的课前预习视频才能促进概念掌握？",
+      "expected": "out_of_scope",
+      "kind": "boundary_negative",
+      "category": "boundary",
+      "group": "boundary",
+      "language": "zh_en",
+      "domain": "ml_for_education",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3988,
+      "probabilities": {
+        "in_scope": 0.6677,
+        "out_of_scope": 0.3323
+      },
+      "confidence": 0.0828,
+      "answer_confidence": 0.6677,
+      "usage": {
+        "input_tokens": 100,
+        "output_tokens": 0,
+        "state_tokens": 34,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "bnd_b058da96c5_01",
+      "question": "英语里 bank 这个词到底有哪几种意思，各自是什么词性？",
+      "expected": "out_of_scope",
+      "kind": "boundary_negative",
+      "category": "boundary",
+      "group": "boundary",
+      "language": "zh",
+      "domain": "abbreviation_and_polysemy",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3765,
+      "probabilities": {
+        "in_scope": 0.1288,
+        "out_of_scope": 0.8712
+      },
+      "confidence": 0.4458,
+      "answer_confidence": 0.8712,
+      "usage": {
+        "input_tokens": 87,
+        "output_tokens": 0,
+        "state_tokens": 21,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "bnd_b058da96c5_02",
+      "question": "训练一个基于 Transformer 的序列标注模型来做医学缩略词自动扩展，标注方案应该怎么设计？",
+      "expected": "in_scope",
+      "kind": "boundary_positive",
+      "category": "boundary",
+      "group": "boundary",
+      "language": "zh",
+      "domain": "abbreviation_and_polysemy",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3743,
+      "probabilities": {
+        "in_scope": 0.5354,
+        "out_of_scope": 0.4646
+      },
+      "confidence": 0.0036,
+      "answer_confidence": 0.5354,
+      "usage": {
+        "input_tokens": 96,
+        "output_tokens": 0,
+        "state_tokens": 30,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "bnd_b058da96c5_03",
+      "question": "Can I use contrastive learning to separate polysemous senses of the same word in an embedding space? How should I design the positives and negatives?",
+      "expected": "in_scope",
+      "kind": "boundary_positive",
+      "category": "boundary",
+      "group": "boundary",
+      "language": "en",
+      "domain": "abbreviation_and_polysemy",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.4166,
+      "probabilities": {
+        "in_scope": 0.4424,
+        "out_of_scope": 0.5576
+      },
+      "confidence": 0.0096,
+      "answer_confidence": 0.5576,
+      "usage": {
+        "input_tokens": 101,
+        "output_tokens": 0,
+        "state_tokens": 35,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "bnd_b058da96c5_04",
+      "question": "在医学语料里，缩写 ACE 最常见的是哪几种 expansions？有没有权威词典可以直接查？",
+      "expected": "out_of_scope",
+      "kind": "boundary_negative",
+      "category": "boundary",
+      "group": "boundary",
+      "language": "zh_en",
+      "domain": "abbreviation_and_polysemy",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.387,
+      "probabilities": {
+        "in_scope": 0.4296,
+        "out_of_scope": 0.5704
+      },
+      "confidence": 0.0143,
+      "answer_confidence": 0.5704,
+      "usage": {
+        "input_tokens": 94,
+        "output_tokens": 0,
+        "state_tokens": 28,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "bnd_b058da96c5_05",
+      "question": "哪些 graph neural network 方法可以结合 knowledge graph 来做 word sense disambiguation？",
+      "expected": "in_scope",
+      "kind": "boundary_positive",
+      "category": "boundary",
+      "group": "boundary",
+      "language": "zh_en",
+      "domain": "abbreviation_and_polysemy",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3424,
+      "probabilities": {
+        "in_scope": 0.7472,
+        "out_of_scope": 0.2528
+      },
+      "confidence": 0.1844,
+      "answer_confidence": 0.7472,
+      "usage": {
+        "input_tokens": 87,
+        "output_tokens": 0,
+        "state_tokens": 21,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_0e4a105f41_01",
+      "question": "OIAFC 与 OIAFB 分别针对固定置信度和固定预算设置设计，二者在这些设置下的样本复杂度保证有何异同？",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "zh",
+      "domain": "online learning / principal-agent",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3957,
+      "probabilities": {
+        "in_scope": 0.5968,
+        "out_of_scope": 0.4032
+      },
+      "confidence": 0.0272,
+      "answer_confidence": 0.5968,
+      "usage": {
+        "input_tokens": 104,
+        "output_tokens": 0,
+        "state_tokens": 38,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_0e4a105f41_02",
+      "question": "Does the agent identification bound attain a O~(sqrt(dT))-type regret in continuous-action dueling bandits with only offline regression oracles, similar to the instance-dependent guarantee of OIAFC in scoring-rule identification?",
+      "expected": "in_scope",
+      "kind": "trend",
+      "category": "in_scope",
+      "group": "trend",
+      "language": "zh_en",
+      "domain": "online learning / bandits",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4333,
+      "probabilities": {
+        "in_scope": 0.5446,
+        "out_of_scope": 0.4554
+      },
+      "confidence": 0.0057,
+      "answer_confidence": 0.5446,
+      "usage": {
+        "input_tokens": 116,
+        "output_tokens": 0,
+        "state_tokens": 50,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_0f398d72fa_01",
+      "question": "基于代理损失的变分不等式求解方法在隐藏单调结构、插值与充分优化代理这三个假设下如何保证收敛，并兼容 ADAM 等深度学习优化器？",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "zh",
+      "domain": "rl_optimization",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4282,
+      "probabilities": {
+        "in_scope": 0.636,
+        "out_of_scope": 0.364
+      },
+      "confidence": 0.054,
+      "answer_confidence": 0.636,
+      "usage": {
+        "input_tokens": 112,
+        "output_tokens": 0,
+        "state_tokens": 46,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_0f398d72fa_02",
+      "question": "Why do naive gradient-based approaches from supervised learning diverge or cycle on VI problems like projected Bellman error and min-max optimization, and how does the surrogate-based approach avoid this failure mode?",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "en",
+      "domain": "rl_optimization",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4728,
+      "probabilities": {
+        "in_scope": 0.6018,
+        "out_of_scope": 0.3982
+      },
+      "confidence": 0.0301,
+      "answer_confidence": 0.6018,
+      "usage": {
+        "input_tokens": 111,
+        "output_tokens": 0,
+        "state_tokens": 45,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_2457c636da_01",
+      "question": "DVD Agent 如何根据当前观测状态自主规划、选择多粒度视频数据库上的搜索工具，以动态编排工作流完成长视频问答？",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "zh",
+      "domain": "llm_agent_video",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4147,
+      "probabilities": {
+        "in_scope": 0.8005,
+        "out_of_scope": 0.1995
+      },
+      "confidence": 0.2791,
+      "answer_confidence": 0.8005,
+      "usage": {
+        "input_tokens": 104,
+        "output_tokens": 0,
+        "state_tokens": 38,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_2457c636da_02",
+      "question": "How does DVD's adaptive tool-selection workflow over segmented clips differ from previous video agents that manually design a rigid question-answering workflow?",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "en",
+      "domain": "llm_agent_video",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.4143,
+      "probabilities": {
+        "in_scope": 0.2051,
+        "out_of_scope": 0.7949
+      },
+      "confidence": 0.268,
+      "answer_confidence": 0.7949,
+      "usage": {
+        "input_tokens": 100,
+        "output_tokens": 0,
+        "state_tokens": 34,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_2b887098f7_01",
+      "question": "PointPatchRL 如何通过分块、token 化与 Transformer 处理点云，并利用掩码重建的自监督目标提升强化学习的表征质量？",
+      "expected": "in_scope",
+      "kind": "relation",
+      "category": "in_scope",
+      "group": "relation",
+      "language": "zh",
+      "domain": "RL representation / point clouds",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4033,
+      "probabilities": {
+        "in_scope": 0.7779,
+        "out_of_scope": 0.2221
+      },
+      "confidence": 0.236,
+      "answer_confidence": 0.7779,
+      "usage": {
+        "input_tokens": 103,
+        "output_tokens": 0,
+        "state_tokens": 37,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_2b887098f7_02",
+      "question": "Compared with image-based observations in robot RL, what advantages do point clouds offer for capturing geometry, and how does PointPatchRL's architecture outperform prior point-cloud encoders used for RL?",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "en",
+      "domain": "RL representation / point clouds",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3984,
+      "probabilities": {
+        "in_scope": 0.7688,
+        "out_of_scope": 0.2312
+      },
+      "confidence": 0.2199,
+      "answer_confidence": 0.7688,
+      "usage": {
+        "input_tokens": 111,
+        "output_tokens": 0,
+        "state_tokens": 45,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_36b51178c1_01",
+      "question": "Besides prediction performance and efficiency, which evaluation dimensions in GC4NC (e.g., privacy preservation, denoising ability, NAS effectiveness, transferability) offer new insights into design choices of graph condensation methods?",
+      "expected": "in_scope",
+      "kind": "followup",
+      "category": "in_scope",
+      "group": "followup",
+      "language": "en",
+      "domain": "graph_learning",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4274,
+      "probabilities": {
+        "in_scope": 0.6316,
+        "out_of_scope": 0.3684
+      },
+      "confidence": 0.0506,
+      "answer_confidence": 0.6316,
+      "usage": {
+        "input_tokens": 114,
+        "output_tokens": 0,
+        "state_tokens": 48,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_36b51178c1_02",
+      "question": "GC4NC 从哪些维度系统评估面向节点分类的图压缩（graph condensation）方法？",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "zh",
+      "domain": "graph_learning",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3631,
+      "probabilities": {
+        "in_scope": 0.6188,
+        "out_of_scope": 0.3812
+      },
+      "confidence": 0.0411,
+      "answer_confidence": 0.6188,
+      "usage": {
+        "input_tokens": 91,
+        "output_tokens": 0,
+        "state_tokens": 25,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_3e107e8127_01",
+      "question": "DynaRend 如何借助可微体积渲染的掩码重建与未来预测，把几何、语义和动力学联合编码到统一的 triplane 表示中？",
+      "expected": "in_scope",
+      "kind": "relation",
+      "category": "in_scope",
+      "group": "relation",
+      "language": "zh",
+      "domain": "robotics",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4196,
+      "probabilities": {
+        "in_scope": 0.6815,
+        "out_of_scope": 0.3185
+      },
+      "confidence": 0.0973,
+      "answer_confidence": 0.6815,
+      "usage": {
+        "input_tokens": 106,
+        "output_tokens": 0,
+        "state_tokens": 40,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_3e107e8127_02",
+      "question": "Why do 2D masked image modeling paradigms or large-scale video prediction models fail to capture the 3D dynamics needed for manipulation, and how does DynaRend's pretraining address that gap?",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "en",
+      "domain": "robotics",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4245,
+      "probabilities": {
+        "in_scope": 0.6939,
+        "out_of_scope": 0.3061
+      },
+      "confidence": 0.1113,
+      "answer_confidence": 0.6939,
+      "usage": {
+        "input_tokens": 112,
+        "output_tokens": 0,
+        "state_tokens": 46,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_4f4884f0e8_01",
+      "question": "Why does the hybrid encoder combine a Mamba-like linear attention channel encoder with a spatiotemporal dynamics model, and what role does each play in capturing EEG's long-term dependency?",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "en",
+      "domain": "EEG affective computing / transfer learning",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4186,
+      "probabilities": {
+        "in_scope": 0.6727,
+        "out_of_scope": 0.3273
+      },
+      "confidence": 0.0878,
+      "answer_confidence": 0.6727,
+      "usage": {
+        "input_tokens": 109,
+        "output_tokens": 0,
+        "state_tokens": 43,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_4f4884f0e8_02",
+      "question": "跨数据集协方差对齐损失（cross-dataset covariance alignment loss）是如何在无大量标注和逐被试校准的情况下对齐不同数据集之间的分布偏移，从而提升情绪识别泛化能力的？",
+      "expected": "in_scope",
+      "kind": "relation",
+      "category": "in_scope",
+      "group": "relation",
+      "language": "zh",
+      "domain": "EEG affective computing / transfer learning",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4409,
+      "probabilities": {
+        "in_scope": 0.7744,
+        "out_of_scope": 0.2256
+      },
+      "confidence": 0.2297,
+      "answer_confidence": 0.7744,
+      "usage": {
+        "input_tokens": 117,
+        "output_tokens": 0,
+        "state_tokens": 51,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_6ddb0b2fcf_01",
+      "question": "记忆一致神经网络如何通过把策略输出硬约束在锚定于训练记忆样本的可行区域内，来抑制行为克隆中的复合误差累积？",
+      "expected": "in_scope",
+      "kind": "relation",
+      "category": "in_scope",
+      "group": "relation",
+      "language": "zh",
+      "domain": "imitation learning / behavior cloning",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4257,
+      "probabilities": {
+        "in_scope": 0.7039,
+        "out_of_scope": 0.2961
+      },
+      "confidence": 0.1236,
+      "answer_confidence": 0.7039,
+      "usage": {
+        "input_tokens": 106,
+        "output_tokens": 0,
+        "state_tokens": 40,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_6ddb0b2fcf_02",
+      "question": "What guaranteed upper bound on the sub-optimality gap do MCNN policies provide, and across which model classes (MLP, Transformer, ...) is this validated on the imitation benchmarks?",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "en",
+      "domain": "imitation learning / behavior cloning",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3834,
+      "probabilities": {
+        "in_scope": 0.5984,
+        "out_of_scope": 0.4016
+      },
+      "confidence": 0.0281,
+      "answer_confidence": 0.5984,
+      "usage": {
+        "input_tokens": 107,
+        "output_tokens": 0,
+        "state_tokens": 41,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_710d59fe86_01",
+      "question": "PARCO 中基于优先级的冲突处理器是如何利用学习到的优先级来解决多智能体并行构造解决方案过程中的决策冲突的？",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "zh",
+      "domain": "multi-agent reinforcement learning / combinatorial optimization",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3699,
+      "probabilities": {
+        "in_scope": 0.649,
+        "out_of_scope": 0.351
+      },
+      "confidence": 0.0651,
+      "answer_confidence": 0.649,
+      "usage": {
+        "input_tokens": 100,
+        "output_tokens": 0,
+        "state_tokens": 34,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_710d59fe86_02",
+      "question": "How do the transformer-based communication layers and the multiple pointer mechanism in PARCO jointly enable effective agent coordination and low-latency parallel decision-making for multi-agent combinatorial tasks like vehicle routing?",
+      "expected": "in_scope",
+      "kind": "relation",
+      "category": "in_scope",
+      "group": "relation",
+      "language": "en",
+      "domain": "multi-agent reinforcement learning / combinatorial optimization",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.4475,
+      "probabilities": {
+        "in_scope": 0.4427,
+        "out_of_scope": 0.5573
+      },
+      "confidence": 0.0095,
+      "answer_confidence": 0.5573,
+      "usage": {
+        "input_tokens": 110,
+        "output_tokens": 0,
+        "state_tokens": 44,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_73ab87b9c6_01",
+      "question": "In the controlled oracle-teacher-student distillation setup, what causes a student distilled from an imperfect teacher to drift from the ground-truth distribution?",
+      "expected": "in_scope",
+      "kind": "relation",
+      "category": "in_scope",
+      "group": "relation",
+      "language": "en",
+      "domain": "rlhf",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3476,
+      "probabilities": {
+        "in_scope": 0.5701,
+        "out_of_scope": 0.4299
+      },
+      "confidence": 0.0142,
+      "answer_confidence": 0.5701,
+      "usage": {
+        "input_tokens": 100,
+        "output_tokens": 0,
+        "state_tokens": 34,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_73ab87b9c6_02",
+      "question": "教师劫持（teacher hacking）与 RLHF 中的奖励劫持（reward hacking）在机制上有何相似之处，这种相似性源于什么？",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "zh",
+      "domain": "rlhf",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4064,
+      "probabilities": {
+        "in_scope": 0.7694,
+        "out_of_scope": 0.2306
+      },
+      "confidence": 0.2209,
+      "answer_confidence": 0.7694,
+      "usage": {
+        "input_tokens": 104,
+        "output_tokens": 0,
+        "state_tokens": 38,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_751ab28cf1_01",
+      "question": "How can integrating cyclic consistency objectives into existing slot-based methods improve the practical utility of object-centric representations in downstream tasks?",
+      "expected": "in_scope",
+      "kind": "followup",
+      "category": "in_scope",
+      "group": "followup",
+      "language": "en",
+      "domain": "object-centric learning / unsupervised",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3496,
+      "probabilities": {
+        "in_scope": 0.4224,
+        "out_of_scope": 0.5776
+      },
+      "confidence": 0.0174,
+      "answer_confidence": 0.5776,
+      "usage": {
+        "input_tokens": 96,
+        "output_tokens": 0,
+        "state_tokens": 30,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_751ab28cf1_02",
+      "question": "该工作引入的循环一致性目标如何显式优化“场景中每个对象与独立 slot 对应”的约束，以解决依赖架构先验的对象发现方法的不足？",
+      "expected": "in_scope",
+      "kind": "relation",
+      "category": "in_scope",
+      "group": "relation",
+      "language": "zh",
+      "domain": "object-centric learning / unsupervised",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4077,
+      "probabilities": {
+        "in_scope": 0.7482,
+        "out_of_scope": 0.2518
+      },
+      "confidence": 0.1859,
+      "answer_confidence": 0.7482,
+      "usage": {
+        "input_tokens": 109,
+        "output_tokens": 0,
+        "state_tokens": 43,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_78fa4cac2a_01",
+      "question": "在安全约束难以解析编码或先验建模的场景下，该工作如何通过扩展 ATACOM 的可学习约束来兼顾长期安全与不确定性？",
+      "expected": "in_scope",
+      "kind": "relation",
+      "category": "in_scope",
+      "group": "relation",
+      "language": "zh",
+      "domain": "safe",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3941,
+      "probabilities": {
+        "in_scope": 0.6865,
+        "out_of_scope": 0.3135
+      },
+      "confidence": 0.1028,
+      "answer_confidence": 0.6865,
+      "usage": {
+        "input_tokens": 108,
+        "output_tokens": 0,
+        "state_tokens": 42,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_78fa4cac2a_02",
+      "question": "Why do purely data-driven safe RL methods often struggle to deploy on complex real-world robots, and in what way does the model-based extension of ATACOM with learnable constraints differ from them?",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "en",
+      "domain": "exploration",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4361,
+      "probabilities": {
+        "in_scope": 0.7017,
+        "out_of_scope": 0.2983
+      },
+      "confidence": 0.1208,
+      "answer_confidence": 0.7017,
+      "usage": {
+        "input_tokens": 113,
+        "output_tokens": 0,
+        "state_tokens": 47,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_812cc2fa0f_01",
+      "question": "How does Vapnik's principle motivate replacing point-wise scoring with pairwise-comparison evaluation when using noisy LLM feedback to guide the search for promising intermediate thoughts in CoT generation?",
+      "expected": "in_scope",
+      "kind": "relation",
+      "category": "in_scope",
+      "group": "relation",
+      "language": "en",
+      "domain": "llm_reasoning",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.423,
+      "probabilities": {
+        "in_scope": 0.4923,
+        "out_of_scope": 0.5077
+      },
+      "confidence": 0.0002,
+      "answer_confidence": 0.5077,
+      "usage": {
+        "input_tokens": 108,
+        "output_tokens": 0,
+        "state_tokens": 42,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_812cc2fa0f_02",
+      "question": "在生成思维链（CoT）的过程中，为什么用成对比较评估替代点式评分，能更鲁棒地应对 LLM 反馈噪声并筛选最有潜力的中间思维？",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "zh",
+      "domain": "llm_reasoning",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4987,
+      "probabilities": {
+        "in_scope": 0.6218,
+        "out_of_scope": 0.3782
+      },
+      "confidence": 0.0432,
+      "answer_confidence": 0.6218,
+      "usage": {
+        "input_tokens": 112,
+        "output_tokens": 0,
+        "state_tokens": 46,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_853f7d5ed2_01",
+      "question": "π0.5 基于 π0 引入异构任务上的 co-training，与仅用单一工况数据端到端训练的 VLA 模型相比，在开放世界机器人操控泛化上有何优势？",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "zh",
+      "domain": "robotics",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4291,
+      "probabilities": {
+        "in_scope": 0.6743,
+        "out_of_scope": 0.3257
+      },
+      "confidence": 0.0895,
+      "answer_confidence": 0.6743,
+      "usage": {
+        "input_tokens": 118,
+        "output_tokens": 0,
+        "state_tokens": 52,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_853f7d5ed2_02",
+      "question": "What role do the hybrid multi-modal examples (image observations, language commands, object detections, semantic subtask prediction, low-level actions) play in enabling broad generalization for π0.5's real-world manipulation?",
+      "expected": "in_scope",
+      "kind": "relation",
+      "category": "in_scope",
+      "group": "relation",
+      "language": "en",
+      "domain": "robotics",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4193,
+      "probabilities": {
+        "in_scope": 0.7303,
+        "out_of_scope": 0.2697
+      },
+      "confidence": 0.159,
+      "answer_confidence": 0.7303,
+      "usage": {
+        "input_tokens": 117,
+        "output_tokens": 0,
+        "state_tokens": 51,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_90977ce98b_01",
+      "question": "To handle the potential non-uniqueness of solutions caused by arbitrary features, what novel stochastic approximation result does the paper introduce, and how does it establish convergence rates to the solution set rather than a single point?",
+      "expected": "in_scope",
+      "kind": "relation",
+      "category": "in_scope",
+      "group": "relation",
+      "language": "en",
+      "domain": "TD learning / finite-sample theory",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4402,
+      "probabilities": {
+        "in_scope": 0.7058,
+        "out_of_scope": 0.2942
+      },
+      "confidence": 0.1259,
+      "answer_confidence": 0.7058,
+      "usage": {
+        "input_tokens": 113,
+        "output_tokens": 0,
+        "state_tokens": 47,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_90977ce98b_02",
+      "question": "当特征任意（可能线性相关）且不满足线性无关假设时，线性 TD(λ) 的 L² 收敛率是如何建立的？该结论同时适用于折扣与平均奖励两种设定吗？",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "zh",
+      "domain": "TD learning / finite-sample theory",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.4142,
+      "probabilities": {
+        "in_scope": 0.3749,
+        "out_of_scope": 0.6251
+      },
+      "confidence": 0.0456,
+      "answer_confidence": 0.6251,
+      "usage": {
+        "input_tokens": 114,
+        "output_tokens": 0,
+        "state_tokens": 48,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_927e9b7f4b_01",
+      "question": "How does performing closed-loop act-or-repeat selection per action dimension help SDAR balance action persistence and diversity and improve sample efficiency?",
+      "expected": "in_scope",
+      "kind": "relation",
+      "category": "in_scope",
+      "group": "relation",
+      "language": "zh_en",
+      "domain": "连续控制/强化学习",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3795,
+      "probabilities": {
+        "in_scope": 0.7375,
+        "out_of_scope": 0.2625
+      },
+      "confidence": 0.1695,
+      "answer_confidence": 0.7375,
+      "usage": {
+        "input_tokens": 99,
+        "output_tokens": 0,
+        "state_tokens": 33,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_927e9b7f4b_02",
+      "question": "SDAR 提出的空间解耦动作重复与以往把全部动作维度作为一个整体重复的方法有何不同，这种逐维度 act-or-repeat 选择带来什么优势？",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "zh",
+      "domain": "连续控制/强化学习",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3864,
+      "probabilities": {
+        "in_scope": 0.5956,
+        "out_of_scope": 0.4044
+      },
+      "confidence": 0.0265,
+      "answer_confidence": 0.5956,
+      "usage": {
+        "input_tokens": 106,
+        "output_tokens": 0,
+        "state_tokens": 40,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_9fd34b4f93_01",
+      "question": "How do the newly introduced PMD and RMD metrics, by quantifying sequence-level and residue-level mass deviations, provide more delicate supervision than existing peptide sequencing metrics?",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "en",
+      "domain": "rl_for_science_dl",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.4141,
+      "probabilities": {
+        "in_scope": 0.3769,
+        "out_of_scope": 0.6231
+      },
+      "confidence": 0.0442,
+      "answer_confidence": 0.6231,
+      "usage": {
+        "input_tokens": 106,
+        "output_tokens": 0,
+        "state_tokens": 40,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_9fd34b4f93_02",
+      "question": "RankNovo 如何通过列表式重排，把候选肽段建模为多重序列比对并用轴向注意力提取跨候选特征，从而提升从头肽段测序性能？",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "zh",
+      "domain": "rl_for_science_dl",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4526,
+      "probabilities": {
+        "in_scope": 0.5014,
+        "out_of_scope": 0.4986
+      },
+      "confidence": 0.0,
+      "answer_confidence": 0.5014,
+      "usage": {
+        "input_tokens": 114,
+        "output_tokens": 0,
+        "state_tokens": 48,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_aafd39496e_01",
+      "question": "AuctionNet 中广告机会生成模块采用深度生成网络，在哪些设计动机下弥合仿真与真实广告拍卖数据之间的差距并降低敏感数据暴露风险？",
+      "expected": "in_scope",
+      "kind": "trend",
+      "category": "in_scope",
+      "group": "trend",
+      "language": "zh",
+      "domain": "RL for systems / benchmarks",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3962,
+      "probabilities": {
+        "in_scope": 0.815,
+        "out_of_scope": 0.185
+      },
+      "confidence": 0.3091,
+      "answer_confidence": 0.815,
+      "usage": {
+        "input_tokens": 106,
+        "output_tokens": 0,
+        "state_tokens": 40,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_aafd39496e_02",
+      "question": "What baseline bid decision-making algorithms does AuctionNet evaluate, and how does its environment replicate the integrity and complexity of real-world ad auctions for RL research?",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "en",
+      "domain": "RL for systems / benchmarks",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4129,
+      "probabilities": {
+        "in_scope": 0.7882,
+        "out_of_scope": 0.2118
+      },
+      "confidence": 0.2551,
+      "answer_confidence": 0.7882,
+      "usage": {
+        "input_tokens": 103,
+        "output_tokens": 0,
+        "state_tokens": 37,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_b0a9742985_01",
+      "question": "Why do all baselines fail in the sideways-in-hand scenario but LTC still exceeds 60% success, and what does this reveal about the learned policy's robustness compared to standard pick-and-place approaches?",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "en",
+      "domain": "robotics / dexterous manipulation / policy learning",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.4079,
+      "probabilities": {
+        "in_scope": 0.2863,
+        "out_of_scope": 0.7137
+      },
+      "confidence": 0.1361,
+      "answer_confidence": 0.7137,
+      "usage": {
+        "input_tokens": 117,
+        "output_tokens": 0,
+        "state_tokens": 51,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_b0a9742985_02",
+      "question": "LTC 框架如何在存在大量动态接触的条件下，通过学习实现灵巧手抛接任务在未见物体上的零样本迁移？",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "zh",
+      "domain": "robotics / learning-based control / dexterous manipulation",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3593,
+      "probabilities": {
+        "in_scope": 0.5781,
+        "out_of_scope": 0.4219
+      },
+      "confidence": 0.0177,
+      "answer_confidence": 0.5781,
+      "usage": {
+        "input_tokens": 101,
+        "output_tokens": 0,
+        "state_tokens": 35,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_b6734f9423_01",
+      "question": "In what way does this almost-sure global convergence result for stochastic gradient bandits under arbitrary constant learning rates extend existing understanding when standard smoothness and noise control assumptions break down?",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "en",
+      "domain": "bandit algorithms",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3722,
+      "probabilities": {
+        "in_scope": 0.4836,
+        "out_of_scope": 0.5164
+      },
+      "confidence": 0.0008,
+      "answer_confidence": 0.5164,
+      "usage": {
+        "input_tokens": 104,
+        "output_tokens": 0,
+        "state_tokens": 38,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_b6734f9423_02",
+      "question": "随机梯度 bandit 算法在任意常数学习率下几乎必然收敛到全局最优策略，其证明依赖于哪些关于动作采样频率以及累积进展与噪声关系的新发现？",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "zh",
+      "domain": "bandit algorithms",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4564,
+      "probabilities": {
+        "in_scope": 0.5478,
+        "out_of_scope": 0.4522
+      },
+      "confidence": 0.0066,
+      "answer_confidence": 0.5478,
+      "usage": {
+        "input_tokens": 115,
+        "output_tokens": 0,
+        "state_tokens": 49,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_c09a6da794_01",
+      "question": "How does robust RL in multi-agent settings (robust Markov games) differ from single-agent robust RL when strategic interactions are combined with environmental uncertainty?",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "en",
+      "domain": "multi_agent",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3826,
+      "probabilities": {
+        "in_scope": 0.486,
+        "out_of_scope": 0.514
+      },
+      "confidence": 0.0006,
+      "answer_confidence": 0.514,
+      "usage": {
+        "input_tokens": 101,
+        "output_tokens": 0,
+        "state_tokens": 35,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_c09a6da794_02",
+      "question": "DRNVI 在分布式鲁棒马尔可夫博弈中如何为非自适应生成模型采样给出有限样本复杂度保证，其鲁棒均衡定义是什么？",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "zh",
+      "domain": "multi_agent",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3805,
+      "probabilities": {
+        "in_scope": 0.5887,
+        "out_of_scope": 0.4113
+      },
+      "confidence": 0.0228,
+      "answer_confidence": 0.5887,
+      "usage": {
+        "input_tokens": 109,
+        "output_tokens": 0,
+        "state_tokens": 43,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_c10480a877_01",
+      "question": "How does the auxiliary branch modeling high-order attribute interactions help alleviate the optimization difficulty of low-bit hash codes and reinforce the robustness of generated attribute-aware codes?",
+      "expected": "in_scope",
+      "kind": "relation",
+      "category": "in_scope",
+      "group": "relation",
+      "language": "en",
+      "domain": "retrieval_hashing",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3714,
+      "probabilities": {
+        "in_scope": 0.7696,
+        "out_of_scope": 0.2304
+      },
+      "confidence": 0.2214,
+      "answer_confidence": 0.7696,
+      "usage": {
+        "input_tokens": 104,
+        "output_tokens": 0,
+        "state_tokens": 38,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_c10480a877_02",
+      "question": "该方法如何利用可学习的查询（learnable queries）让每个哈希位对应特定的视觉属性，从而提升细粒度图像检索的哈希码可解释性？",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "zh",
+      "domain": "retrieval_hashing",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.336,
+      "probabilities": {
+        "in_scope": 0.5798,
+        "out_of_scope": 0.4202
+      },
+      "confidence": 0.0184,
+      "answer_confidence": 0.5798,
+      "usage": {
+        "input_tokens": 109,
+        "output_tokens": 0,
+        "state_tokens": 43,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_d0693dec44_01",
+      "question": "What role does execution-sandbox empirical feedback play in the closed-loop test-time optimization of Afterburner, and how does it differentiate RL-based GRPO from SFT and DPO?",
+      "expected": "in_scope",
+      "kind": "trend",
+      "category": "in_scope",
+      "group": "trend",
+      "language": "en",
+      "domain": "llm_reasoning_rl/code",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3295,
+      "probabilities": {
+        "in_scope": 0.3731,
+        "out_of_scope": 0.6269
+      },
+      "confidence": 0.047,
+      "answer_confidence": 0.6269,
+      "usage": {
+        "input_tokens": 110,
+        "output_tokens": 0,
+        "state_tokens": 44,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_d0693dec44_02",
+      "question": "Afterburner 中 GRPO 训练策略相比 SFT 和 DPO 为何能持续提升代码效率，并以 pass@1 和超越人类提交的效率概率为指标的提升幅度如何？",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "zh",
+      "domain": "llm_reasoning_rl/code",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3418,
+      "probabilities": {
+        "in_scope": 0.7796,
+        "out_of_scope": 0.2204
+      },
+      "confidence": 0.2391,
+      "answer_confidence": 0.7796,
+      "usage": {
+        "input_tokens": 113,
+        "output_tokens": 0,
+        "state_tokens": 47,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_e0ed353c43_01",
+      "question": "How does GenARM's autoregressive reward model compute next-token rewards from partial responses to enable efficient autoregressive test-time alignment of frozen LLMs, and what theoretical guarantee does it provide?",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "en",
+      "domain": "rlhf",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3355,
+      "probabilities": {
+        "in_scope": 0.4451,
+        "out_of_scope": 0.5549
+      },
+      "confidence": 0.0087,
+      "answer_confidence": 0.5549,
+      "usage": {
+        "input_tokens": 113,
+        "output_tokens": 0,
+        "state_tokens": 47,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_e0ed353c43_02",
+      "question": "GenARM 提出的自回归奖励模型与传统轨迹级奖励模型（trajectory-level RM）在测试时对齐中引导冻结 LLM 生成的方式有何关键区别？",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "zh",
+      "domain": "rlhf",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.355,
+      "probabilities": {
+        "in_scope": 0.622,
+        "out_of_scope": 0.378
+      },
+      "confidence": 0.0434,
+      "answer_confidence": 0.622,
+      "usage": {
+        "input_tokens": 109,
+        "output_tokens": 0,
+        "state_tokens": 43,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_e2f4185f78_01",
+      "question": "Compared with prior selective-parameter knowledge editing methods, in what way does OVERTONE seek to preserve the edited model's ability to reason about new knowledge instead of only updating a few parameters?",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "en",
+      "domain": "llm_knowledge_editing",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3901,
+      "probabilities": {
+        "in_scope": 0.6327,
+        "out_of_scope": 0.3673
+      },
+      "confidence": 0.0514,
+      "answer_confidence": 0.6327,
+      "usage": {
+        "input_tokens": 109,
+        "output_tokens": 0,
+        "state_tokens": 43,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_e2f4185f78_02",
+      "question": "OVERTONE 是如何从 token 层面自适应地平滑目标分布来缓解 LLM 知识编辑中的异构 token 过拟合（HTO）问题的？",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "zh",
+      "domain": "llm_knowledge_editing",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.308,
+      "probabilities": {
+        "in_scope": 0.7924,
+        "out_of_scope": 0.2076
+      },
+      "confidence": 0.2631,
+      "answer_confidence": 0.7924,
+      "usage": {
+        "input_tokens": 106,
+        "output_tokens": 0,
+        "state_tokens": 40,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_ecabe0c41d_01",
+      "question": "该方法如何将简单数独规则的模仿学习与显式深度优先搜索（DFS）的试错猜测相结合，使纯 decoder-only 的 GPT-2 无需外部工具即可求解 NP 类组合问题？",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "zh",
+      "domain": "llm_combinatorial_reasoning",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3175,
+      "probabilities": {
+        "in_scope": 0.6215,
+        "out_of_scope": 0.3785
+      },
+      "confidence": 0.0431,
+      "answer_confidence": 0.6215,
+      "usage": {
+        "input_tokens": 119,
+        "output_tokens": 0,
+        "state_tokens": 53,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_ecabe0c41d_02",
+      "question": "How does incorporating depth-1 informed guessing with backtracking reduce the number of guesses needed to reach a solution compared with pure imitation learning of Sudoku rules?",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "en",
+      "domain": "llm_combinatorial_reasoning",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.2922,
+      "probabilities": {
+        "in_scope": 0.6652,
+        "out_of_scope": 0.3348
+      },
+      "confidence": 0.0802,
+      "answer_confidence": 0.6652,
+      "usage": {
+        "input_tokens": 101,
+        "output_tokens": 0,
+        "state_tokens": 35,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_f56b99f90e_01",
+      "question": "In contrast to prior dueling-bandit algorithms that rely on online optimization oracles or finite action spaces, how does the proposed offline-oracle-based method extend to continuous action spaces while keeping a O~(sqrt(dT)) regret?",
+      "expected": "in_scope",
+      "kind": "trend",
+      "category": "in_scope",
+      "group": "trend",
+      "language": "zh_en",
+      "domain": "bandits / RLHF theory",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3568,
+      "probabilities": {
+        "in_scope": 0.183,
+        "out_of_scope": 0.817
+      },
+      "confidence": 0.3133,
+      "answer_confidence": 0.817,
+      "usage": {
+        "input_tokens": 117,
+        "output_tokens": 0,
+        "state_tokens": 51,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_f56b99f90e_02",
+      "question": "针对连续动作空间的上下文决斗老虎机，该正则化 min-max 优化算法首次给出了怎样的 regret 界，并如何借助离线回归 oracle 提升计算效率？",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "zh",
+      "domain": "bandits / RLHF",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3257,
+      "probabilities": {
+        "in_scope": 0.5291,
+        "out_of_scope": 0.4709
+      },
+      "confidence": 0.0024,
+      "answer_confidence": 0.5291,
+      "usage": {
+        "input_tokens": 111,
+        "output_tokens": 0,
+        "state_tokens": 45,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_f62089dfcf_01",
+      "question": "GVF-TAPE 是如何在闭环中迭代整合生成式视频预测与任务无关的位姿估计，从而把预测的 RGB-D 帧转化为可执行的操作命令的？",
+      "expected": "in_scope",
+      "kind": "relation",
+      "category": "in_scope",
+      "group": "relation",
+      "language": "zh",
+      "domain": "robotics / visual foresight",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3728,
+      "probabilities": {
+        "in_scope": 0.3357,
+        "out_of_scope": 0.6643
+      },
+      "confidence": 0.0794,
+      "answer_confidence": 0.6643,
+      "usage": {
+        "input_tokens": 112,
+        "output_tokens": 0,
+        "state_tokens": 46,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_f62089dfcf_02",
+      "question": "How does GVF-TAPE's decoupled pose estimation model convert predicted future frames into executable commands, and why does this reduce reliance on task-specific action data?",
+      "expected": "in_scope",
+      "kind": "relation",
+      "category": "in_scope",
+      "group": "relation",
+      "language": "en",
+      "domain": "robotics / visual foresight",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.4277,
+      "probabilities": {
+        "in_scope": 0.2128,
+        "out_of_scope": 0.7872
+      },
+      "confidence": 0.2532,
+      "answer_confidence": 0.7872,
+      "usage": {
+        "input_tokens": 106,
+        "output_tokens": 0,
+        "state_tokens": 40,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_f901fd5496_01",
+      "question": "In the unknown-dynamics case, by what factor does the proposed policy optimization algorithm improve the previously best regret bound under aggregate bandit feedback?",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "en",
+      "domain": "online MDP / bandits / theory",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3998,
+      "probabilities": {
+        "in_scope": 0.4721,
+        "out_of_scope": 0.5279
+      },
+      "confidence": 0.0022,
+      "answer_confidence": 0.5279,
+      "usage": {
+        "input_tokens": 98,
+        "output_tokens": 0,
+        "state_tokens": 32,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_f901fd5496_02",
+      "question": "在仅能观测整个轨迹总损失（聚合bandit反馈）的在线有限时域MDP中，已知动力学情形下本文策略优化算法达到的最优遗憾界是什么？",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "zh",
+      "domain": "online MDP / bandits / theory",
+      "predicted": "out_of_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.4138,
+      "probabilities": {
+        "in_scope": 0.4982,
+        "out_of_scope": 0.5018
+      },
+      "confidence": 0.0,
+      "answer_confidence": 0.5018,
+      "usage": {
+        "input_tokens": 114,
+        "output_tokens": 0,
+        "state_tokens": 48,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_fd3816c457_01",
+      "question": "How does leveraging the connection between GFlowNets and reinforcement learning allow QGFN to bias sampling towards high-utility outputs without sacrificing diversity, compared with standard GFN sampling?",
+      "expected": "in_scope",
+      "kind": "compare",
+      "category": "in_scope",
+      "group": "compare",
+      "language": "en",
+      "domain": "generative flow networks",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3737,
+      "probabilities": {
+        "in_scope": 0.5822,
+        "out_of_scope": 0.4178
+      },
+      "confidence": 0.0196,
+      "answer_confidence": 0.5822,
+      "usage": {
+        "input_tokens": 106,
+        "output_tokens": 0,
+        "state_tokens": 40,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ins_fd3816c457_02",
+      "question": "QGFN 是如何将 GFN 策略与动作值估计 Q 结合，并通过混合参数控制采样策略的贪婪程度，从而在保持多样性的同时提升高奖励样本的生成数量？",
+      "expected": "in_scope",
+      "kind": "local",
+      "category": "in_scope",
+      "group": "local",
+      "language": "zh",
+      "domain": "generative flow networks",
+      "predicted": "in_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4022,
+      "probabilities": {
+        "in_scope": 0.5748,
+        "out_of_scope": 0.4252
+      },
+      "confidence": 0.0162,
+      "answer_confidence": 0.5748,
+      "usage": {
+        "input_tokens": 116,
+        "output_tokens": 0,
+        "state_tokens": 50,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_02f851ca9c_01",
+      "question": "Explain how a reaction wheel changes the attitude of a spacecraft using angular momentum exchange without consuming propellant.",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "en",
+      "domain": "aerospace",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3676,
+      "probabilities": {
+        "in_scope": 0.1628,
+        "out_of_scope": 0.8372
+      },
+      "confidence": 0.359,
+      "answer_confidence": 0.8372,
+      "usage": {
+        "input_tokens": 90,
+        "output_tokens": 0,
+        "state_tokens": 24,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_02f851ca9c_02",
+      "question": "深失速( deep stall )状态下机翼大迎角分离流使操纵面失效、飞机难以改出，设计上如何通过气动布局避免进入这种状态？",
+      "expected": "out_of_scope",
+      "kind": "hard_negative",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh_en",
+      "domain": "aerospace",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4063,
+      "probabilities": {
+        "in_scope": 0.4,
+        "out_of_scope": 0.6
+      },
+      "confidence": 0.029,
+      "answer_confidence": 0.6,
+      "usage": {
+        "input_tokens": 110,
+        "output_tokens": 0,
+        "state_tokens": 44,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_02f851ca9c_03",
+      "question": "What is the difference between static stability and dynamic stability of an aircraft, and can an aircraft be statically stable but dynamically unstable?",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "en",
+      "domain": "aerospace",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3289,
+      "probabilities": {
+        "in_scope": 0.5366,
+        "out_of_scope": 0.4634
+      },
+      "confidence": 0.0039,
+      "answer_confidence": 0.5366,
+      "usage": {
+        "input_tokens": 97,
+        "output_tokens": 0,
+        "state_tokens": 31,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_02f851ca9c_04",
+      "question": "返回舱再入时，烧蚀型热防护材料主要通过把气动加热转变成什么物态变化过程来保护内部结构？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh_en",
+      "domain": "aerospace",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3539,
+      "probabilities": {
+        "in_scope": 0.3847,
+        "out_of_scope": 0.6153
+      },
+      "confidence": 0.0387,
+      "answer_confidence": 0.6153,
+      "usage": {
+        "input_tokens": 101,
+        "output_tokens": 0,
+        "state_tokens": 35,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_02f851ca9c_05",
+      "question": "空间碎片的面质比( area-to-mass ratio )越大，其轨道寿命受大气阻力影响会变长还是变短，为什么？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh_en",
+      "domain": "aerospace",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4106,
+      "probabilities": {
+        "in_scope": 0.4989,
+        "out_of_scope": 0.5011
+      },
+      "confidence": 0.0,
+      "answer_confidence": 0.5011,
+      "usage": {
+        "input_tokens": 103,
+        "output_tokens": 0,
+        "state_tokens": 37,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_02f851ca9c_06",
+      "question": "霍曼转移轨道由几次什么性质的变轨速度增量组成，为什么它是同平面圆轨道间最省燃料的双脉冲转移方式？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "aerospace",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.4069,
+      "probabilities": {
+        "in_scope": 0.6427,
+        "out_of_scope": 0.3573
+      },
+      "confidence": 0.0596,
+      "answer_confidence": 0.6427,
+      "usage": {
+        "input_tokens": 104,
+        "output_tokens": 0,
+        "state_tokens": 38,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_02f851ca9c_07",
+      "question": "描述卫星椭圆轨道的六个经典开普勒根数分别是哪些，其中哪个量决定了轨道面的方位？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "aerospace",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3956,
+      "probabilities": {
+        "in_scope": 0.6869,
+        "out_of_scope": 0.3131
+      },
+      "confidence": 0.1032,
+      "answer_confidence": 0.6869,
+      "usage": {
+        "input_tokens": 97,
+        "output_tokens": 0,
+        "state_tokens": 31,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_02f851ca9c_08",
+      "question": "火箭发动机的比冲单位是什么，它主要由推进剂能量还是发动机结构质量决定？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "aerospace",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3551,
+      "probabilities": {
+        "in_scope": 0.3545,
+        "out_of_scope": 0.6455
+      },
+      "confidence": 0.062,
+      "answer_confidence": 0.6455,
+      "usage": {
+        "input_tokens": 91,
+        "output_tokens": 0,
+        "state_tokens": 25,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_02f851ca9c_09",
+      "question": "涡轮风扇发动机的涵道比增大后，巡航耗油率与最大推力通常分别呈现怎样的变化趋势？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "aerospace",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3838,
+      "probabilities": {
+        "in_scope": 0.3477,
+        "out_of_scope": 0.6523
+      },
+      "confidence": 0.068,
+      "answer_confidence": 0.6523,
+      "usage": {
+        "input_tokens": 100,
+        "output_tokens": 0,
+        "state_tokens": 34,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_02f851ca9c_10",
+      "question": "Why do satellites in low Earth orbit gradually lose altitude and re-enter even without any active deorbit maneuver?",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "en",
+      "domain": "aerospace",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3472,
+      "probabilities": {
+        "in_scope": 0.3672,
+        "out_of_scope": 0.6328
+      },
+      "confidence": 0.0515,
+      "answer_confidence": 0.6328,
+      "usage": {
+        "input_tokens": 93,
+        "output_tokens": 0,
+        "state_tokens": 27,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_33e8381ba0_01",
+      "question": "集合种群（metapopulation）理论中栖息地斑块的灭绝-再定居动态是如何描述和量化的？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "ecology",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3827,
+      "probabilities": {
+        "in_scope": 0.245,
+        "out_of_scope": 0.755
+      },
+      "confidence": 0.1967,
+      "answer_confidence": 0.755,
+      "usage": {
+        "input_tokens": 99,
+        "output_tokens": 0,
+        "state_tokens": 33,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_33e8381ba0_02",
+      "question": "在进化生态学中，强化（reinforcement）选择如何推动杂交带两侧物种的生殖隔离进一步分化？",
+      "expected": "out_of_scope",
+      "kind": "hard_negative",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "ecology",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3838,
+      "probabilities": {
+        "in_scope": 0.3481,
+        "out_of_scope": 0.6519
+      },
+      "confidence": 0.0677,
+      "answer_confidence": 0.6519,
+      "usage": {
+        "input_tokens": 99,
+        "output_tokens": 0,
+        "state_tokens": 33,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_33e8381ba0_03",
+      "question": "生物地球化学循环中碳、氮、磷的耦合关系如何影响湖泊富营养化？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "ecology",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4096,
+      "probabilities": {
+        "in_scope": 0.0932,
+        "out_of_scope": 0.9068
+      },
+      "confidence": 0.5529,
+      "answer_confidence": 0.9068,
+      "usage": {
+        "input_tokens": 93,
+        "output_tokens": 0,
+        "state_tokens": 27,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_33e8381ba0_04",
+      "question": "湿地生态系统的水文过程对候鸟栖息地维持和食物网结构起什么作用？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "ecology",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3768,
+      "probabilities": {
+        "in_scope": 0.1129,
+        "out_of_scope": 0.8871
+      },
+      "confidence": 0.4913,
+      "answer_confidence": 0.8871,
+      "usage": {
+        "input_tokens": 93,
+        "output_tokens": 0,
+        "state_tokens": 27,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_33e8381ba0_05",
+      "question": "What are the main differences between the r/K selection theory and the intermediate disturbance hypothesis in describing community dynamics?",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "en",
+      "domain": "ecology",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3305,
+      "probabilities": {
+        "in_scope": 0.3987,
+        "out_of_scope": 0.6013
+      },
+      "confidence": 0.0298,
+      "answer_confidence": 0.6013,
+      "usage": {
+        "input_tokens": 93,
+        "output_tokens": 0,
+        "state_tokens": 27,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_33e8381ba0_06",
+      "question": "What ecological functions do keystone species serve in maintaining the stability of an ecosystem?",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "en",
+      "domain": "ecology",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3478,
+      "probabilities": {
+        "in_scope": 0.4507,
+        "out_of_scope": 0.5493
+      },
+      "confidence": 0.007,
+      "answer_confidence": 0.5493,
+      "usage": {
+        "input_tokens": 86,
+        "output_tokens": 0,
+        "state_tokens": 20,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_33e8381ba0_07",
+      "question": "顶级捕食者对食物网营养级联（trophic cascade）的调控体现在哪些生态过程中？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "ecology",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3812,
+      "probabilities": {
+        "in_scope": 0.5229,
+        "out_of_scope": 0.4771
+      },
+      "confidence": 0.0015,
+      "answer_confidence": 0.5229,
+      "usage": {
+        "input_tokens": 94,
+        "output_tokens": 0,
+        "state_tokens": 28,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_33e8381ba0_08",
+      "question": "生态学中 population（种群）与 community（群落）的定义层级有何不同？",
+      "expected": "out_of_scope",
+      "kind": "hard_negative",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh_en",
+      "domain": "ecology",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3592,
+      "probabilities": {
+        "in_scope": 0.4467,
+        "out_of_scope": 0.5533
+      },
+      "confidence": 0.0082,
+      "answer_confidence": 0.5533,
+      "usage": {
+        "input_tokens": 92,
+        "output_tokens": 0,
+        "state_tokens": 26,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_33e8381ba0_09",
+      "question": "植物化感作用如何通过分泌化感物质抑制伴生种并推动群落演替？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "ecology",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3311,
+      "probabilities": {
+        "in_scope": 0.607,
+        "out_of_scope": 0.393
+      },
+      "confidence": 0.0333,
+      "answer_confidence": 0.607,
+      "usage": {
+        "input_tokens": 92,
+        "output_tokens": 0,
+        "state_tokens": 26,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_33e8381ba0_10",
+      "question": "Ecotone（生态交错带）为何常表现出较高的物种多样性，其边缘效应机制是什么？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh_en",
+      "domain": "ecology",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3841,
+      "probabilities": {
+        "in_scope": 0.4581,
+        "out_of_scope": 0.5419
+      },
+      "confidence": 0.0051,
+      "answer_confidence": 0.5419,
+      "usage": {
+        "input_tokens": 96,
+        "output_tokens": 0,
+        "state_tokens": 30,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_4fee939ed1_01",
+      "question": "油藏数值模拟器对空间进行离散时常用哪种网格系统，网格过粗会引入什么样的数值弥散误差？",
+      "expected": "out_of_scope",
+      "kind": "hard_negative",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh_en",
+      "domain": "petroleum_engineering",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.4341,
+      "probabilities": {
+        "in_scope": 0.8529,
+        "out_of_scope": 0.1471
+      },
+      "confidence": 0.3973,
+      "answer_confidence": 0.8529,
+      "usage": {
+        "input_tokens": 102,
+        "output_tokens": 0,
+        "state_tokens": 36,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_4fee939ed1_02",
+      "question": "水力压裂施工中为什么要在压裂液中加入支撑剂，支撑剂被带入裂缝后起什么作用？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "petroleum_engineering",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4146,
+      "probabilities": {
+        "in_scope": 0.2851,
+        "out_of_scope": 0.7149
+      },
+      "confidence": 0.1377,
+      "answer_confidence": 0.7149,
+      "usage": {
+        "input_tokens": 99,
+        "output_tokens": 0,
+        "state_tokens": 33,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_4fee939ed1_03",
+      "question": "孔隙度与渗透率在物理含义上的本质区别是什么，高孔隙度储层是否一定具有高渗透率？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "petroleum_engineering",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3737,
+      "probabilities": {
+        "in_scope": 0.6389,
+        "out_of_scope": 0.3611
+      },
+      "confidence": 0.0564,
+      "answer_confidence": 0.6389,
+      "usage": {
+        "input_tokens": 100,
+        "output_tokens": 0,
+        "state_tokens": 34,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_4fee939ed1_04",
+      "question": "一次采油主要依靠哪种天然能量，二次采油通常注入什么介质，三次采油又包括哪些提高采收率手段？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "petroleum_engineering",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3638,
+      "probabilities": {
+        "in_scope": 0.6637,
+        "out_of_scope": 0.3363
+      },
+      "confidence": 0.0788,
+      "answer_confidence": 0.6637,
+      "usage": {
+        "input_tokens": 102,
+        "output_tokens": 0,
+        "state_tokens": 36,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_4fee939ed1_05",
+      "question": "油藏流体PVT相态分析中，泡点压力与露点压力各自对应油气在哪一相之间的转变？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "petroleum_engineering",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.346,
+      "probabilities": {
+        "in_scope": 0.5254,
+        "out_of_scope": 0.4746
+      },
+      "confidence": 0.0019,
+      "answer_confidence": 0.5254,
+      "usage": {
+        "input_tokens": 99,
+        "output_tokens": 0,
+        "state_tokens": 33,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_4fee939ed1_06",
+      "question": "管道输送黏度较高的原油时，工程上常采用伴热保温、稀释或减阻剂等哪些手段来降低输送阻力？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "petroleum_engineering",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4134,
+      "probabilities": {
+        "in_scope": 0.3776,
+        "out_of_scope": 0.6224
+      },
+      "confidence": 0.0437,
+      "answer_confidence": 0.6224,
+      "usage": {
+        "input_tokens": 106,
+        "output_tokens": 0,
+        "state_tokens": 40,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_4fee939ed1_07",
+      "question": "What are the typical natural reservoir drive mechanisms, and how does each influence the ultimate oil recovery factor?",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "en",
+      "domain": "petroleum_engineering",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3736,
+      "probabilities": {
+        "in_scope": 0.5218,
+        "out_of_scope": 0.4782
+      },
+      "confidence": 0.0014,
+      "answer_confidence": 0.5218,
+      "usage": {
+        "input_tokens": 91,
+        "output_tokens": 0,
+        "state_tokens": 25,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_4fee939ed1_08",
+      "question": "Describe the functions of the main components of a blowout preventer stack during an emergency well control operation.",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "en",
+      "domain": "petroleum_engineering",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3979,
+      "probabilities": {
+        "in_scope": 0.4211,
+        "out_of_scope": 0.5789
+      },
+      "confidence": 0.0181,
+      "answer_confidence": 0.5789,
+      "usage": {
+        "input_tokens": 91,
+        "output_tokens": 0,
+        "state_tokens": 25,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_4fee939ed1_09",
+      "question": "套管程序设计中，下入表层套管( surface casing )的主要目的是什么，它通常要封隔住哪类地层？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh_en",
+      "domain": "petroleum_engineering",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.4077,
+      "probabilities": {
+        "in_scope": 0.7419,
+        "out_of_scope": 0.2581
+      },
+      "confidence": 0.1761,
+      "answer_confidence": 0.7419,
+      "usage": {
+        "input_tokens": 102,
+        "output_tokens": 0,
+        "state_tokens": 36,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_4fee939ed1_10",
+      "question": "钻井液的密度若设置过低，实际上更容易诱发井壁坍塌还是井喷，其背后依据的液柱压力平衡原理是什么？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh_en",
+      "domain": "petroleum_engineering",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3997,
+      "probabilities": {
+        "in_scope": 0.4247,
+        "out_of_scope": 0.5753
+      },
+      "confidence": 0.0164,
+      "answer_confidence": 0.5753,
+      "usage": {
+        "input_tokens": 104,
+        "output_tokens": 0,
+        "state_tokens": 38,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_57da72314e_01",
+      "question": "MIC与MBC在临床药敏试验中各自代表什么？二者比值大小如何提示药物的杀菌或抑菌性质？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh_en",
+      "domain": "pharmacology",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3666,
+      "probabilities": {
+        "in_scope": 0.7926,
+        "out_of_scope": 0.2074
+      },
+      "confidence": 0.2636,
+      "answer_confidence": 0.7926,
+      "usage": {
+        "input_tokens": 100,
+        "output_tokens": 0,
+        "state_tokens": 34,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_57da72314e_02",
+      "question": "What is the mechanism of action of proton pump inhibitors on gastric H+/K+-ATPase and how does acid activation affect their efficacy?",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "en",
+      "domain": "pharmacology",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3515,
+      "probabilities": {
+        "in_scope": 0.163,
+        "out_of_scope": 0.837
+      },
+      "confidence": 0.3585,
+      "answer_confidence": 0.837,
+      "usage": {
+        "input_tokens": 98,
+        "output_tokens": 0,
+        "state_tokens": 32,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_57da72314e_03",
+      "question": "硝苯地平属于二氢吡啶类还是非二氢吡啶类钙通道阻滞剂？其血管选择性如何影响临床应用？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "pharmacology",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3702,
+      "probabilities": {
+        "in_scope": 0.4577,
+        "out_of_scope": 0.5423
+      },
+      "confidence": 0.0052,
+      "answer_confidence": 0.5423,
+      "usage": {
+        "input_tokens": 103,
+        "output_tokens": 0,
+        "state_tokens": 37,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_57da72314e_04",
+      "question": "阿司匹林通过抑制环氧合酶-1来发挥抗血小板作用的机制是什么？为什么低剂量即可起效？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "pharmacology",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3798,
+      "probabilities": {
+        "in_scope": 0.6692,
+        "out_of_scope": 0.3308
+      },
+      "confidence": 0.0843,
+      "answer_confidence": 0.6692,
+      "usage": {
+        "input_tokens": 102,
+        "output_tokens": 0,
+        "state_tokens": 36,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_57da72314e_05",
+      "question": "为什么茶碱和西咪替丁合用时需要减少茶碱的剂量？这属于哪类pharmacokinetic interaction？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh_en",
+      "domain": "pharmacology",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.334,
+      "probabilities": {
+        "in_scope": 0.6256,
+        "out_of_scope": 0.3744
+      },
+      "confidence": 0.046,
+      "answer_confidence": 0.6256,
+      "usage": {
+        "input_tokens": 98,
+        "output_tokens": 0,
+        "state_tokens": 32,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_57da72314e_06",
+      "question": "What are the pharmacological differences between statins in terms of lipophilicity, hepatic metabolism pathways, and the resulting drug interaction profiles?",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "en",
+      "domain": "pharmacology",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3558,
+      "probabilities": {
+        "in_scope": 0.437,
+        "out_of_scope": 0.563
+      },
+      "confidence": 0.0115,
+      "answer_confidence": 0.563,
+      "usage": {
+        "input_tokens": 97,
+        "output_tokens": 0,
+        "state_tokens": 31,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_57da72314e_07",
+      "question": "华法林的药代动力学特点是什么？哪些富含维生素K的食物会减弱其抗凝作用？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "pharmacology",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.4068,
+      "probabilities": {
+        "in_scope": 0.3979,
+        "out_of_scope": 0.6021
+      },
+      "confidence": 0.0303,
+      "answer_confidence": 0.6021,
+      "usage": {
+        "input_tokens": 96,
+        "output_tokens": 0,
+        "state_tokens": 30,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_57da72314e_08",
+      "question": "吗啡长期使用后产生耐受和药物依赖的神经药理学基础是什么？涉及哪些受体通路？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "pharmacology",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3748,
+      "probabilities": {
+        "in_scope": 0.6966,
+        "out_of_scope": 0.3034
+      },
+      "confidence": 0.1145,
+      "answer_confidence": 0.6966,
+      "usage": {
+        "input_tokens": 96,
+        "output_tokens": 0,
+        "state_tokens": 30,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_57da72314e_09",
+      "question": "How do cardioselective beta-blockers differ from non-selective ones in their receptor subtype affinity and clinical indications?",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "en",
+      "domain": "pharmacology",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3749,
+      "probabilities": {
+        "in_scope": 0.3236,
+        "out_of_scope": 0.6764
+      },
+      "confidence": 0.0917,
+      "answer_confidence": 0.6764,
+      "usage": {
+        "input_tokens": 94,
+        "output_tokens": 0,
+        "state_tokens": 28,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_57da72314e_10",
+      "question": "How does the IC50 of a compound against CYP3A4 affect its potential for drug interactions when co-administered with simvastatin?",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh_en",
+      "domain": "pharmacology",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.31,
+      "probabilities": {
+        "in_scope": 0.284,
+        "out_of_scope": 0.716
+      },
+      "confidence": 0.1392,
+      "answer_confidence": 0.716,
+      "usage": {
+        "input_tokens": 99,
+        "output_tokens": 0,
+        "state_tokens": 33,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_68228bd690_01",
+      "question": "海洋中的温跃层出现在什么深度范围，其成因是什么？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "marine_science",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3461,
+      "probabilities": {
+        "in_scope": 0.0307,
+        "out_of_scope": 0.9693
+      },
+      "confidence": 0.802,
+      "answer_confidence": 0.9693,
+      "usage": {
+        "input_tokens": 86,
+        "output_tokens": 0,
+        "state_tokens": 20,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_68228bd690_02",
+      "question": "大陆架海域为何生产力较高，其上栖息着哪些典型生物群落？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "marine_science",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3749,
+      "probabilities": {
+        "in_scope": 0.3464,
+        "out_of_scope": 0.6536
+      },
+      "confidence": 0.0692,
+      "answer_confidence": 0.6536,
+      "usage": {
+        "input_tokens": 91,
+        "output_tokens": 0,
+        "state_tokens": 25,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_68228bd690_03",
+      "question": "洋中脊在地质上具有什么结构，海底扩张如何在此发生？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "marine_science",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3088,
+      "probabilities": {
+        "in_scope": 0.2203,
+        "out_of_scope": 0.7797
+      },
+      "confidence": 0.2392,
+      "answer_confidence": 0.7797,
+      "usage": {
+        "input_tokens": 87,
+        "output_tokens": 0,
+        "state_tokens": 21,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_68228bd690_04",
+      "question": "What are the main drivers of ocean surface currents and deep circulation?",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "en",
+      "domain": "marine_science",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3407,
+      "probabilities": {
+        "in_scope": 0.7261,
+        "out_of_scope": 0.2739
+      },
+      "confidence": 0.1531,
+      "answer_confidence": 0.7261,
+      "usage": {
+        "input_tokens": 84,
+        "output_tokens": 0,
+        "state_tokens": 18,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_68228bd690_05",
+      "question": "厄尔尼诺事件如何影响秘鲁沿岸的浮游生物和渔业资源？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "marine_science",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.34,
+      "probabilities": {
+        "in_scope": 0.0555,
+        "out_of_scope": 0.9445
+      },
+      "confidence": 0.6908,
+      "answer_confidence": 0.9445,
+      "usage": {
+        "input_tokens": 91,
+        "output_tokens": 0,
+        "state_tokens": 25,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_68228bd690_06",
+      "question": "潮汐主要由月球和太阳的什么引力作用造成，为何一天有两次高潮？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "marine_science",
+      "predicted": "in_scope",
+      "correct": false,
+      "error": null,
+      "latency_s": 0.3747,
+      "probabilities": {
+        "in_scope": 0.5817,
+        "out_of_scope": 0.4183
+      },
+      "confidence": 0.0193,
+      "answer_confidence": 0.5817,
+      "usage": {
+        "input_tokens": 93,
+        "output_tokens": 0,
+        "state_tokens": 27,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_68228bd690_07",
+      "question": "深海热液喷口（hydrothermal vent）生态系统的能量来自何处？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh_en",
+      "domain": "marine_science",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3417,
+      "probabilities": {
+        "in_scope": 0.1023,
+        "out_of_scope": 0.8977
+      },
+      "confidence": 0.5236,
+      "answer_confidence": 0.8977,
+      "usage": {
+        "input_tokens": 89,
+        "output_tokens": 0,
+        "state_tokens": 23,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_68228bd690_08",
+      "question": "How do tsunamis form and why do they travel so fast across the open ocean?",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "en",
+      "domain": "marine_science",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.341,
+      "probabilities": {
+        "in_scope": 0.022,
+        "out_of_scope": 0.978
+      },
+      "confidence": 0.8476,
+      "answer_confidence": 0.978,
+      "usage": {
+        "input_tokens": 89,
+        "output_tokens": 0,
+        "state_tokens": 23,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_68228bd690_09",
+      "question": "全球 thermohaline circulation 的 conveyor belt 模型是如何连接各大洋的？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh_en",
+      "domain": "marine_science",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3096,
+      "probabilities": {
+        "in_scope": 0.3246,
+        "out_of_scope": 0.6754
+      },
+      "confidence": 0.0907,
+      "answer_confidence": 0.6754,
+      "usage": {
+        "input_tokens": 86,
+        "output_tokens": 0,
+        "state_tokens": 20,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    },
+    {
+      "id": "ood_68228bd690_10",
+      "question": "珊瑚白化如何发生，海水温度升高为何会导致共生虫黄藻大量离开？",
+      "expected": "out_of_scope",
+      "kind": "ood",
+      "category": "ood",
+      "group": "OOD",
+      "language": "zh",
+      "domain": "marine_science",
+      "predicted": "out_of_scope",
+      "correct": true,
+      "error": null,
+      "latency_s": 0.3856,
+      "probabilities": {
+        "in_scope": 0.2019,
+        "out_of_scope": 0.7981
+      },
+      "confidence": 0.2742,
+      "answer_confidence": 0.7981,
+      "usage": {
+        "input_tokens": 91,
+        "output_tokens": 0,
+        "state_tokens": 25,
+        "state_tokens_dropped": 0,
+        "truncated": false,
+        "truncated_questions": []
+      }
+    }
+  ]
+}

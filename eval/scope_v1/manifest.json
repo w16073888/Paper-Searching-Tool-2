@@ -1,0 +1,22 @@
+{
+  "dataset_version": "scope-v1",
+  "frozen_at": "2026-10-23",
+  "split": "test",
+  "items": 16,
+  "labels": {
+    "in_scope": 12,
+    "out_of_scope": 4
+  },
+  "kinds": {
+    "local": 5,
+    "compare": 3,
+    "relation": 4,
+    "refuse": 4
+  },
+  "source": "eval/v2_acceptance_16.json",
+  "sha256": "d881f0bb4b4e0f4305aaebbebb072925410a1bcebc18e1d0d85312d5b44e4cdf",
+  "training_allowed": false,
+  "threshold_selection_allowed": false,
+  "base_model": "convaiinnovations/laya-multilingual",
+  "base_model_revision": "1720e3e3357cfe1e281542e223f8273b0890ca34"
+}

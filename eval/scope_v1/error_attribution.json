@@ -1,0 +1,2072 @@
+{
+  "scope": {
+    "model": ".models\\jev\\ft\\scope-v1-head-only-seed0",
+    "internal_test_reused_for_attribution": true,
+    "external_16_reused": false
+  },
+  "calibration": {
+    "base_metrics": {
+      "items": 120,
+      "evaluated": 120,
+      "errors": 0,
+      "accuracy": 0.6833,
+      "in_scope_recall": 0.6818,
+      "in_scope_false_refusal_rate": 0.3182,
+      "out_of_scope_recall": 0.6852,
+      "ood_false_pass_rate": 0.3148,
+      "confusion": {
+        "tp": 45,
+        "fn": 21,
+        "tn": 37,
+        "fp": 17
+      }
+    },
+    "trained_metrics": {
+      "items": 120,
+      "evaluated": 120,
+      "errors": 0,
+      "accuracy": 0.675,
+      "in_scope_recall": 0.7121,
+      "in_scope_false_refusal_rate": 0.2879,
+      "out_of_scope_recall": 0.6296,
+      "ood_false_pass_rate": 0.3704,
+      "confusion": {
+        "tp": 47,
+        "fn": 19,
+        "tn": 34,
+        "fp": 20
+      }
+    },
+    "base_by_group": {
+      "OOD": {
+        "items": 50,
+        "evaluated": 50,
+        "errors": 0,
+        "accuracy": 0.68,
+        "in_scope_recall": 0.0,
+        "in_scope_false_refusal_rate": 0.0,
+        "out_of_scope_recall": 0.68,
+        "ood_false_pass_rate": 0.32,
+        "confusion": {
+          "tp": 0,
+          "fn": 0,
+          "tn": 34,
+          "fp": 16
+        }
+      },
+      "boundary": {
+        "items": 10,
+        "evaluated": 10,
+        "errors": 0,
+        "accuracy": 0.6,
+        "in_scope_recall": 0.5,
+        "in_scope_false_refusal_rate": 0.5,
+        "out_of_scope_recall": 0.75,
+        "ood_false_pass_rate": 0.25,
+        "confusion": {
+          "tp": 3,
+          "fn": 3,
+          "tn": 3,
+          "fp": 1
+        }
+      },
+      "compare": {
+        "items": 14,
+        "evaluated": 14,
+        "errors": 0,
+        "accuracy": 0.7857,
+        "in_scope_recall": 0.7857,
+        "in_scope_false_refusal_rate": 0.2143,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 11,
+          "fn": 3,
+          "tn": 0,
+          "fp": 0
+        }
+      },
+      "followup": {
+        "items": 3,
+        "evaluated": 3,
+        "errors": 0,
+        "accuracy": 0.6667,
+        "in_scope_recall": 0.6667,
+        "in_scope_false_refusal_rate": 0.3333,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 2,
+          "fn": 1,
+          "tn": 0,
+          "fp": 0
+        }
+      },
+      "local": {
+        "items": 15,
+        "evaluated": 15,
+        "errors": 0,
+        "accuracy": 0.6667,
+        "in_scope_recall": 0.6667,
+        "in_scope_false_refusal_rate": 0.3333,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 10,
+          "fn": 5,
+          "tn": 0,
+          "fp": 0
+        }
+      },
+      "relation": {
+        "items": 23,
+        "evaluated": 23,
+        "errors": 0,
+        "accuracy": 0.6957,
+        "in_scope_recall": 0.6957,
+        "in_scope_false_refusal_rate": 0.3043,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 16,
+          "fn": 7,
+          "tn": 0,
+          "fp": 0
+        }
+      },
+      "trend": {
+        "items": 5,
+        "evaluated": 5,
+        "errors": 0,
+        "accuracy": 0.6,
+        "in_scope_recall": 0.6,
+        "in_scope_false_refusal_rate": 0.4,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 3,
+          "fn": 2,
+          "tn": 0,
+          "fp": 0
+        }
+      }
+    },
+    "trained_by_group": {
+      "OOD": {
+        "items": 50,
+        "evaluated": 50,
+        "errors": 0,
+        "accuracy": 0.62,
+        "in_scope_recall": 0.0,
+        "in_scope_false_refusal_rate": 0.0,
+        "out_of_scope_recall": 0.62,
+        "ood_false_pass_rate": 0.38,
+        "confusion": {
+          "tp": 0,
+          "fn": 0,
+          "tn": 31,
+          "fp": 19
+        }
+      },
+      "boundary": {
+        "items": 10,
+        "evaluated": 10,
+        "errors": 0,
+        "accuracy": 0.7,
+        "in_scope_recall": 0.6667,
+        "in_scope_false_refusal_rate": 0.3333,
+        "out_of_scope_recall": 0.75,
+        "ood_false_pass_rate": 0.25,
+        "confusion": {
+          "tp": 4,
+          "fn": 2,
+          "tn": 3,
+          "fp": 1
+        }
+      },
+      "compare": {
+        "items": 14,
+        "evaluated": 14,
+        "errors": 0,
+        "accuracy": 0.8571,
+        "in_scope_recall": 0.8571,
+        "in_scope_false_refusal_rate": 0.1429,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 12,
+          "fn": 2,
+          "tn": 0,
+          "fp": 0
+        }
+      },
+      "followup": {
+        "items": 3,
+        "evaluated": 3,
+        "errors": 0,
+        "accuracy": 0.6667,
+        "in_scope_recall": 0.6667,
+        "in_scope_false_refusal_rate": 0.3333,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 2,
+          "fn": 1,
+          "tn": 0,
+          "fp": 0
+        }
+      },
+      "local": {
+        "items": 15,
+        "evaluated": 15,
+        "errors": 0,
+        "accuracy": 0.6667,
+        "in_scope_recall": 0.6667,
+        "in_scope_false_refusal_rate": 0.3333,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 10,
+          "fn": 5,
+          "tn": 0,
+          "fp": 0
+        }
+      },
+      "relation": {
+        "items": 23,
+        "evaluated": 23,
+        "errors": 0,
+        "accuracy": 0.6957,
+        "in_scope_recall": 0.6957,
+        "in_scope_false_refusal_rate": 0.3043,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 16,
+          "fn": 7,
+          "tn": 0,
+          "fp": 0
+        }
+      },
+      "trend": {
+        "items": 5,
+        "evaluated": 5,
+        "errors": 0,
+        "accuracy": 0.6,
+        "in_scope_recall": 0.6,
+        "in_scope_false_refusal_rate": 0.4,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 3,
+          "fn": 2,
+          "tn": 0,
+          "fp": 0
+        }
+      }
+    },
+    "base_by_language": {
+      "en": {
+        "items": 35,
+        "evaluated": 35,
+        "errors": 0,
+        "accuracy": 0.8,
+        "in_scope_recall": 0.7391,
+        "in_scope_false_refusal_rate": 0.2609,
+        "out_of_scope_recall": 0.9167,
+        "ood_false_pass_rate": 0.0833,
+        "confusion": {
+          "tp": 17,
+          "fn": 6,
+          "tn": 11,
+          "fp": 1
+        }
+      },
+      "zh": {
+        "items": 62,
+        "evaluated": 62,
+        "errors": 0,
+        "accuracy": 0.6452,
+        "in_scope_recall": 0.6875,
+        "in_scope_false_refusal_rate": 0.3125,
+        "out_of_scope_recall": 0.6,
+        "ood_false_pass_rate": 0.4,
+        "confusion": {
+          "tp": 22,
+          "fn": 10,
+          "tn": 18,
+          "fp": 12
+        }
+      },
+      "zh_en": {
+        "items": 23,
+        "evaluated": 23,
+        "errors": 0,
+        "accuracy": 0.6087,
+        "in_scope_recall": 0.5455,
+        "in_scope_false_refusal_rate": 0.4545,
+        "out_of_scope_recall": 0.6667,
+        "ood_false_pass_rate": 0.3333,
+        "confusion": {
+          "tp": 6,
+          "fn": 5,
+          "tn": 8,
+          "fp": 4
+        }
+      }
+    },
+    "trained_by_language": {
+      "en": {
+        "items": 35,
+        "evaluated": 35,
+        "errors": 0,
+        "accuracy": 0.8286,
+        "in_scope_recall": 0.7826,
+        "in_scope_false_refusal_rate": 0.2174,
+        "out_of_scope_recall": 0.9167,
+        "ood_false_pass_rate": 0.0833,
+        "confusion": {
+          "tp": 18,
+          "fn": 5,
+          "tn": 11,
+          "fp": 1
+        }
+      },
+      "zh": {
+        "items": 62,
+        "evaluated": 62,
+        "errors": 0,
+        "accuracy": 0.5968,
+        "in_scope_recall": 0.6875,
+        "in_scope_false_refusal_rate": 0.3125,
+        "out_of_scope_recall": 0.5,
+        "ood_false_pass_rate": 0.5,
+        "confusion": {
+          "tp": 22,
+          "fn": 10,
+          "tn": 15,
+          "fp": 15
+        }
+      },
+      "zh_en": {
+        "items": 23,
+        "evaluated": 23,
+        "errors": 0,
+        "accuracy": 0.6522,
+        "in_scope_recall": 0.6364,
+        "in_scope_false_refusal_rate": 0.3636,
+        "out_of_scope_recall": 0.6667,
+        "ood_false_pass_rate": 0.3333,
+        "confusion": {
+          "tp": 7,
+          "fn": 4,
+          "tn": 8,
+          "fp": 4
+        }
+      }
+    },
+    "flips": {
+      "counts": {
+        "correct_to_correct": 79,
+        "wrong_to_wrong": 36,
+        "wrong_to_correct": 2,
+        "correct_to_wrong": 3
+      },
+      "flips": [
+        {
+          "id": "bnd_8b355d3afc_04",
+          "question": "我想把 spike sorting 变成一个 supervised learning 问题来分类 extracellular recordings，用哪种 neural network 效果最好？",
+          "group": "boundary",
+          "language": "zh_en",
+          "expected": "in_scope",
+          "before": "out_of_scope",
+          "after": "in_scope",
+          "change": "wrong_to_correct"
+        },
+        {
+          "id": "ins_e6b53c0677_01",
+          "question": "How do the collision avoidance and social compliance improvements of SELFI compare against offline-only pre-training, as measured by real-world experiments and a human user study?",
+          "group": "compare",
+          "language": "en",
+          "expected": "in_scope",
+          "before": "out_of_scope",
+          "after": "in_scope",
+          "change": "wrong_to_correct"
+        },
+        {
+          "id": "ood_9d05307deb_08",
+          "question": "被动式太阳房如何通过集热、蓄热、保温三个环节实现冬季节能？",
+          "group": "OOD",
+          "language": "zh",
+          "expected": "out_of_scope",
+          "before": "out_of_scope",
+          "after": "in_scope",
+          "change": "correct_to_wrong"
+        },
+        {
+          "id": "ood_e43ead4dd5_06",
+          "question": "环形交叉口与信号控制交叉口在通行能力和行车冲突组织上各适用于什么条件？",
+          "group": "OOD",
+          "language": "zh",
+          "expected": "out_of_scope",
+          "before": "out_of_scope",
+          "after": "in_scope",
+          "change": "correct_to_wrong"
+        },
+        {
+          "id": "ood_e43ead4dd5_09",
+          "question": "路口渠化设计的主要目的是通过哪些设施来分离与引导冲突交通流？",
+          "group": "OOD",
+          "language": "zh",
+          "expected": "out_of_scope",
+          "before": "out_of_scope",
+          "after": "in_scope",
+          "change": "correct_to_wrong"
+        }
+      ]
+    },
+    "confidence_base": {
+      "mean_confidence_correct": 0.7135,
+      "mean_confidence_wrong": 0.6638,
+      "high_confidence_wrong": 4,
+      "high_confidence_wrong_ids": [
+        "ins_8beed7a9ca_01",
+        "ins_a7a7845e50_02",
+        "ood_e43ead4dd5_03",
+        "ood_e43ead4dd5_08"
+      ]
+    },
+    "confidence_trained": {
+      "mean_confidence_correct": 0.7128,
+      "mean_confidence_wrong": 0.6427,
+      "high_confidence_wrong": 3,
+      "high_confidence_wrong_ids": [
+        "bnd_95424100e3_01",
+        "ins_a7a7845e50_02",
+        "ood_e43ead4dd5_03"
+      ]
+    },
+    "trained_errors": {
+      "error_items": 39,
+      "false_refusal_items": 19,
+      "false_pass_items": 20,
+      "reviewed_error_items": 6,
+      "by_group": {
+        "boundary": 3,
+        "compare": 2,
+        "local": 5,
+        "relation": 7,
+        "followup": 1,
+        "trend": 2,
+        "OOD": 19
+      },
+      "by_language": {
+        "en": 6,
+        "zh_en": 8,
+        "zh": 25
+      },
+      "by_domain": {
+        "transportation_engineering": 6,
+        "architecture": 4,
+        "general_knowledge": 4,
+        "civil_engineering": 3,
+        "imitation learning / robotics": 3,
+        "climate_science": 2,
+        "ml_for_civil_monitoring": 2,
+        "robotics/policy mobilization": 2,
+        "AI for science / protein design": 1,
+        "MoE / decentralized learning": 1,
+        "NAS / robustness theory": 1,
+        "ml_for_neuroscience": 1,
+        "model-based RL / exploration": 1,
+        "offline": 1,
+        "policy gradient theory": 1,
+        "policy_gradient": 1,
+        "rlhf/reward learning": 1,
+        "spiking neural networks / neuromorphic computing": 1,
+        "tensor_regression": 1,
+        "value-based deep RL": 1,
+        "科学机器学习/神经代理模型": 1
+      },
+      "examples": [
+        {
+          "id": "bnd_8b355d3afc_03",
+          "question": "What is the standard patch-clamp protocol for measuring the action potential threshold in hippocampal slices?",
+          "expected": "out_of_scope",
+          "category": "boundary",
+          "group": "boundary",
+          "kind": "boundary_negative",
+          "language": "en",
+          "domain": "ml_for_neuroscience",
+          "reviewed": false,
+          "predicted": "in_scope",
+          "p_in_scope": 0.616292,
+          "p_out_of_scope": 0.383708,
+          "confidence": 0.616292
+        },
+        {
+          "id": "bnd_95424100e3_01",
+          "question": "把桥梁振动数据喂给自编码器做异常检测，无监督下怎么区分自然的环境噪声变化和真实的结构损伤信号？",
+          "expected": "in_scope",
+          "category": "boundary",
+          "group": "boundary",
+          "kind": "boundary_positive",
+          "language": "zh_en",
+          "domain": "ml_for_civil_monitoring",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.167385,
+          "p_out_of_scope": 0.832615,
+          "confidence": 0.832615
+        },
+        {
+          "id": "bnd_95424100e3_02",
+          "question": "Using an LSTM on long-term strain sensor streams, how would you predict early deterioration of a bridge before it becomes visible?",
+          "expected": "in_scope",
+          "category": "boundary",
+          "group": "boundary",
+          "kind": "boundary_positive",
+          "language": "en",
+          "domain": "ml_for_civil_monitoring",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.432493,
+          "p_out_of_scope": 0.567507,
+          "confidence": 0.567507
+        },
+        {
+          "id": "ins_048c03f412_01",
+          "question": "How does BTR's training cost (e.g., 200 million Atari frames within 12 hours on a desktop PC) compare with typical Rainbow DQN training, and what do the ablation studies reveal about each integrated component?",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "compare",
+          "kind": "compare",
+          "language": "en",
+          "domain": "value-based deep RL",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.433688,
+          "p_out_of_scope": 0.566312,
+          "confidence": 0.566312
+        },
+        {
+          "id": "ins_21662acad5_01",
+          "question": "Mobi-π 提出的“策略机动化”（policy mobilization）问题是如何将导航与操作解耦，从而无需额外演示数据就能泛化到新环境？",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "local",
+          "kind": "local",
+          "language": "zh",
+          "domain": "robotics/policy mobilization",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.474535,
+          "p_out_of_scope": 0.525465,
+          "confidence": 0.525465
+        },
+        {
+          "id": "ins_21662acad5_02",
+          "question": "给定一个在 limited camera viewpoints 下训练的 manipulation policy，Mobi-π 如何在新环境中找出 in-distribution 的 mobile base pose？",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "relation",
+          "kind": "relation",
+          "language": "zh_en",
+          "domain": "robotics/policy mobilization",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.319686,
+          "p_out_of_scope": 0.680314,
+          "confidence": 0.680314
+        },
+        {
+          "id": "ins_430b3ed6eb_01",
+          "question": "论文如何生成六种不同类型的高质量模拟反馈，并基于它们训练奖励模型与下游 RL，以研究多类型反馈对奖励学习的增益？",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "relation",
+          "kind": "relation",
+          "language": "zh",
+          "domain": "rlhf/reward learning",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.32132,
+          "p_out_of_scope": 0.67868,
+          "confidence": 0.67868
+        },
+        {
+          "id": "ins_471b31f774_02",
+          "question": "How is self-progress prediction, derived from demonstration durations, used to compose independently trained sub-policies for seamless transitions in long-horizon tasks?",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "followup",
+          "kind": "followup",
+          "language": "en",
+          "domain": "imitation learning / robotics",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.376704,
+          "p_out_of_scope": 0.623296,
+          "confidence": 0.623296
+        },
+        {
+          "id": "ins_52dda3f027_01",
+          "question": "为什么直接对深度神经网络参数化 SDE 应用策略梯度会因有限轨迹估计而失效，导致数据稀疏区域策略行为不受控？",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "local",
+          "kind": "local",
+          "language": "zh",
+          "domain": "policy_gradient",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.330662,
+          "p_out_of_scope": 0.669338,
+          "confidence": 0.669338
+        },
+        {
+          "id": "ins_7ee2c696c9_02",
+          "question": "COPlanner 如何对同一不确定性估计同时充当 model rollout 中的惩罚项和真实环境探索中的奖励项，从而实现保守滚动与乐观探索？",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "relation",
+          "kind": "relation",
+          "language": "zh",
+          "domain": "model-based RL / exploration",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.445991,
+          "p_out_of_scope": 0.554009,
+          "confidence": 0.554009
+        },
+        {
+          "id": "ins_8beed7a9ca_01",
+          "question": "在稀疏性与低秩结构假设下，带非凸惩罚的最小二乘估计器如何被证明达到高维张量响应回归的 oracle 统计速率？",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "local",
+          "kind": "local",
+          "language": "zh",
+          "domain": "tensor_regression",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.208225,
+          "p_out_of_scope": 0.791775,
+          "confidence": 0.791775
+        },
+        {
+          "id": "ins_93d0a404fd_01",
+          "question": "How does integrating a pretrained common expert into the gating function enable just-in-time personalization and reduce inference cost for adaptive MoEs in decentralized settings?",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "trend",
+          "kind": "trend",
+          "language": "zh_en",
+          "domain": "MoE / decentralized learning",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.481675,
+          "p_out_of_scope": 0.518325,
+          "confidence": 0.518325
+        },
+        {
+          "id": "ins_a7a7845e50_02",
+          "question": "Diffusion Actor-Critic (DAC) 如何把带 KL 约束的策略迭代转化为扩散噪声回归问题，从而直接用扩散模型表示目标策略？",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "local",
+          "kind": "local",
+          "language": "zh",
+          "domain": "offline",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.084997,
+          "p_out_of_scope": 0.915003,
+          "confidence": 0.915003
+        },
+        {
+          "id": "ins_b42f186d72_02",
+          "question": "How does the Meta-SpikeFormer extend the Spike-driven Transformer into a meta-architecture, and what design inspiration does it provide for next-generation Transformer-based neuromorphic chips?",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "trend",
+          "kind": "trend",
+          "language": "en",
+          "domain": "spiking neural networks / neuromorphic computing",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.316101,
+          "p_out_of_scope": 0.683899,
+          "confidence": 0.683899
+        },
+        {
+          "id": "ins_be42df3d95_01",
+          "question": "CoastalBench 作为十年高分辨率海岸环流数据集，为何能为训练和验证深度学习模型以替代昂贵的数值海岸模拟提供条件？",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "relation",
+          "kind": "relation",
+          "language": "zh",
+          "domain": "科学机器学习/神经代理模型",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.493551,
+          "p_out_of_scope": 0.506449,
+          "confidence": 0.506449
+        },
+        {
+          "id": "ins_c163b1ab3d_01",
+          "question": "How does the Skill Routing Transformer (SRT) chain the learned skills to execute long-horizon dexterous manipulation, and why is LodeStar's synthetic data augmentation more sample-efficient than collecting comprehensive real-world demonstration datasets?",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "compare",
+          "kind": "compare",
+          "language": "en",
+          "domain": "imitation learning / robotics",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.287566,
+          "p_out_of_scope": 0.712434,
+          "confidence": 0.712434
+        },
+        {
+          "id": "ins_c163b1ab3d_02",
+          "question": "LodeStar 是如何利用现成基础模型将少量人类演示自动分解为语义技能，并通过强化学习生成多样化合成演示数据来增强技能训练的？",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "relation",
+          "kind": "relation",
+          "language": "zh",
+          "domain": "imitation learning / robotics",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.442304,
+          "p_out_of_scope": 0.557696,
+          "confidence": 0.557696
+        },
+        {
+          "id": "ins_d4c0d067c1_02",
+          "question": "φ-update 中的 φ 如何作为优势函数的缩放函数，并在无显式正则化的情况下保证策略收敛（即使存在多个最优策略）？",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "relation",
+          "kind": "relation",
+          "language": "zh",
+          "domain": "policy gradient theory",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.49395,
+          "p_out_of_scope": 0.50605,
+          "confidence": 0.50605
+        },
+        {
+          "id": "ins_f195d5f363_02",
+          "question": "How does the paper leverage the neural tangent kernel (NTK) tool to derive generalization guarantees for architecture search under multi-objective adversarial training?",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "relation",
+          "kind": "relation",
+          "language": "zh_en",
+          "domain": "NAS / robustness theory",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.349828,
+          "p_out_of_scope": 0.650172,
+          "confidence": 0.650172
+        },
+        {
+          "id": "ins_fb690a763e_01",
+          "question": "FAMPNN 是如何在同一模型里联合学习每个残基的离散氨基酸身份与连续侧链构象，并把分类交叉熵与扩散损失组合为统一训练目标的？",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "local",
+          "kind": "local",
+          "language": "zh",
+          "domain": "AI for science / protein design",
+          "reviewed": false,
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.37886,
+          "p_out_of_scope": 0.62114,
+          "confidence": 0.62114
+        }
+      ]
+    },
+    "term_profile": [
+      {
+        "term": "训练/损失",
+        "wrong_items": 8,
+        "examples": [
+          {
+            "id": "ins_048c03f412_01",
+            "group": "compare",
+            "language": "en",
+            "question": "How does BTR's training cost (e.g., 200 million Atari frames within 12 hours on a desktop PC) compare with typical Rainbow DQN training, and what do the ablation studies reveal about each integrated component?"
+          },
+          {
+            "id": "ins_21662acad5_02",
+            "group": "relation",
+            "language": "zh_en",
+            "question": "给定一个在 limited camera viewpoints 下训练的 manipulation policy，Mobi-π 如何在新环境中找出 in-distribution 的 mobile base pose？"
+          },
+          {
+            "id": "ins_430b3ed6eb_01",
+            "group": "relation",
+            "language": "zh",
+            "question": "论文如何生成六种不同类型的高质量模拟反馈，并基于它们训练奖励模型与下游 RL，以研究多类型反馈对奖励学习的增益？"
+          }
+        ]
+      },
+      {
+        "term": "模型/算法",
+        "wrong_items": 7,
+        "examples": [
+          {
+            "id": "ins_430b3ed6eb_01",
+            "group": "relation",
+            "language": "zh",
+            "question": "论文如何生成六种不同类型的高质量模拟反馈，并基于它们训练奖励模型与下游 RL，以研究多类型反馈对奖励学习的增益？"
+          },
+          {
+            "id": "ins_7ee2c696c9_02",
+            "group": "relation",
+            "language": "zh",
+            "question": "COPlanner 如何对同一不确定性估计同时充当 model rollout 中的惩罚项和真实环境探索中的奖励项，从而实现保守滚动与乐观探索？"
+          },
+          {
+            "id": "ins_a7a7845e50_02",
+            "group": "local",
+            "language": "zh",
+            "question": "Diffusion Actor-Critic (DAC) 如何把带 KL 约束的策略迭代转化为扩散噪声回归问题，从而直接用扩散模型表示目标策略？"
+          }
+        ]
+      },
+      {
+        "term": "策略/决策",
+        "wrong_items": 5,
+        "examples": [
+          {
+            "id": "ins_21662acad5_01",
+            "group": "local",
+            "language": "zh",
+            "question": "Mobi-π 提出的“策略机动化”（policy mobilization）问题是如何将导航与操作解耦，从而无需额外演示数据就能泛化到新环境？"
+          },
+          {
+            "id": "ins_21662acad5_02",
+            "group": "relation",
+            "language": "zh_en",
+            "question": "给定一个在 limited camera viewpoints 下训练的 manipulation policy，Mobi-π 如何在新环境中找出 in-distribution 的 mobile base pose？"
+          },
+          {
+            "id": "ins_52dda3f027_01",
+            "group": "local",
+            "language": "zh",
+            "question": "为什么直接对深度神经网络参数化 SDE 应用策略梯度会因有限轨迹估计而失效，导致数据稀疏区域策略行为不受控？"
+          }
+        ]
+      },
+      {
+        "term": "RL",
+        "wrong_items": 3,
+        "examples": [
+          {
+            "id": "ins_430b3ed6eb_01",
+            "group": "relation",
+            "language": "zh",
+            "question": "论文如何生成六种不同类型的高质量模拟反馈，并基于它们训练奖励模型与下游 RL，以研究多类型反馈对奖励学习的增益？"
+          },
+          {
+            "id": "ins_52dda3f027_01",
+            "group": "local",
+            "language": "zh",
+            "question": "为什么直接对深度神经网络参数化 SDE 应用策略梯度会因有限轨迹估计而失效，导致数据稀疏区域策略行为不受控？"
+          },
+          {
+            "id": "ins_c163b1ab3d_02",
+            "group": "relation",
+            "language": "zh",
+            "question": "LodeStar 是如何利用现成基础模型将少量人类演示自动分解为语义技能，并通过强化学习生成多样化合成演示数据来增强技能训练的？"
+          }
+        ]
+      },
+      {
+        "term": "神经网络",
+        "wrong_items": 3,
+        "examples": [
+          {
+            "id": "ins_52dda3f027_01",
+            "group": "local",
+            "language": "zh",
+            "question": "为什么直接对深度神经网络参数化 SDE 应用策略梯度会因有限轨迹估计而失效，导致数据稀疏区域策略行为不受控？"
+          },
+          {
+            "id": "ins_be42df3d95_01",
+            "group": "relation",
+            "language": "zh",
+            "question": "CoastalBench 作为十年高分辨率海岸环流数据集，为何能为训练和验证深度学习模型以替代昂贵的数值海岸模拟提供条件？"
+          },
+          {
+            "id": "ins_f195d5f363_02",
+            "group": "relation",
+            "language": "zh_en",
+            "question": "How does the paper leverage the neural tangent kernel (NTK) tool to derive generalization guarantees for architecture search under multi-objective adversarial training?"
+          }
+        ]
+      },
+      {
+        "term": "Transformer/LLM",
+        "wrong_items": 2,
+        "examples": [
+          {
+            "id": "ins_b42f186d72_02",
+            "group": "trend",
+            "language": "en",
+            "question": "How does the Meta-SpikeFormer extend the Spike-driven Transformer into a meta-architecture, and what design inspiration does it provide for next-generation Transformer-based neuromorphic chips?"
+          },
+          {
+            "id": "ins_c163b1ab3d_01",
+            "group": "compare",
+            "language": "en",
+            "question": "How does the Skill Routing Transformer (SRT) chain the learned skills to execute long-horizon dexterous manipulation, and why is LodeStar's synthetic data augmentation more sample-efficient than collecting comprehensive real-world demonstration datasets?"
+          }
+        ]
+      },
+      {
+        "term": "CNN/LSTM",
+        "wrong_items": 1,
+        "examples": [
+          {
+            "id": "bnd_95424100e3_02",
+            "group": "boundary",
+            "language": "en",
+            "question": "Using an LSTM on long-term strain sensor streams, how would you predict early deterioration of a bridge before it becomes visible?"
+          }
+        ]
+      }
+    ]
+  },
+  "internal_test": {
+    "base_metrics": {
+      "items": 125,
+      "evaluated": 125,
+      "errors": 0,
+      "accuracy": 0.68,
+      "in_scope_recall": 0.6812,
+      "in_scope_false_refusal_rate": 0.3188,
+      "out_of_scope_recall": 0.6786,
+      "ood_false_pass_rate": 0.3214,
+      "confusion": {
+        "tp": 47,
+        "fn": 22,
+        "tn": 38,
+        "fp": 18
+      }
+    },
+    "trained_metrics": {
+      "items": 125,
+      "evaluated": 125,
+      "errors": 0,
+      "accuracy": 0.688,
+      "in_scope_recall": 0.7101,
+      "in_scope_false_refusal_rate": 0.2899,
+      "out_of_scope_recall": 0.6607,
+      "ood_false_pass_rate": 0.3393,
+      "confusion": {
+        "tp": 49,
+        "fn": 20,
+        "tn": 37,
+        "fp": 19
+      }
+    },
+    "base_by_group": {
+      "OOD": {
+        "items": 50,
+        "evaluated": 50,
+        "errors": 0,
+        "accuracy": 0.68,
+        "in_scope_recall": 0.0,
+        "in_scope_false_refusal_rate": 0.0,
+        "out_of_scope_recall": 0.68,
+        "ood_false_pass_rate": 0.32,
+        "confusion": {
+          "tp": 0,
+          "fn": 0,
+          "tn": 34,
+          "fp": 16
+        }
+      },
+      "boundary": {
+        "items": 15,
+        "evaluated": 15,
+        "errors": 0,
+        "accuracy": 0.5333,
+        "in_scope_recall": 0.4444,
+        "in_scope_false_refusal_rate": 0.5556,
+        "out_of_scope_recall": 0.6667,
+        "ood_false_pass_rate": 0.3333,
+        "confusion": {
+          "tp": 4,
+          "fn": 5,
+          "tn": 4,
+          "fp": 2
+        }
+      },
+      "compare": {
+        "items": 20,
+        "evaluated": 20,
+        "errors": 0,
+        "accuracy": 0.7,
+        "in_scope_recall": 0.7,
+        "in_scope_false_refusal_rate": 0.3,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 14,
+          "fn": 6,
+          "tn": 0,
+          "fp": 0
+        }
+      },
+      "followup": {
+        "items": 2,
+        "evaluated": 2,
+        "errors": 0,
+        "accuracy": 0.5,
+        "in_scope_recall": 0.5,
+        "in_scope_false_refusal_rate": 0.5,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 1,
+          "fn": 1,
+          "tn": 0,
+          "fp": 0
+        }
+      },
+      "local": {
+        "items": 19,
+        "evaluated": 19,
+        "errors": 0,
+        "accuracy": 0.7895,
+        "in_scope_recall": 0.7895,
+        "in_scope_false_refusal_rate": 0.2105,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 15,
+          "fn": 4,
+          "tn": 0,
+          "fp": 0
+        }
+      },
+      "relation": {
+        "items": 15,
+        "evaluated": 15,
+        "errors": 0,
+        "accuracy": 0.7333,
+        "in_scope_recall": 0.7333,
+        "in_scope_false_refusal_rate": 0.2667,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 11,
+          "fn": 4,
+          "tn": 0,
+          "fp": 0
+        }
+      },
+      "trend": {
+        "items": 4,
+        "evaluated": 4,
+        "errors": 0,
+        "accuracy": 0.5,
+        "in_scope_recall": 0.5,
+        "in_scope_false_refusal_rate": 0.5,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 2,
+          "fn": 2,
+          "tn": 0,
+          "fp": 0
+        }
+      }
+    },
+    "trained_by_group": {
+      "OOD": {
+        "items": 50,
+        "evaluated": 50,
+        "errors": 0,
+        "accuracy": 0.66,
+        "in_scope_recall": 0.0,
+        "in_scope_false_refusal_rate": 0.0,
+        "out_of_scope_recall": 0.66,
+        "ood_false_pass_rate": 0.34,
+        "confusion": {
+          "tp": 0,
+          "fn": 0,
+          "tn": 33,
+          "fp": 17
+        }
+      },
+      "boundary": {
+        "items": 15,
+        "evaluated": 15,
+        "errors": 0,
+        "accuracy": 0.6,
+        "in_scope_recall": 0.5556,
+        "in_scope_false_refusal_rate": 0.4444,
+        "out_of_scope_recall": 0.6667,
+        "ood_false_pass_rate": 0.3333,
+        "confusion": {
+          "tp": 5,
+          "fn": 4,
+          "tn": 4,
+          "fp": 2
+        }
+      },
+      "compare": {
+        "items": 20,
+        "evaluated": 20,
+        "errors": 0,
+        "accuracy": 0.7,
+        "in_scope_recall": 0.7,
+        "in_scope_false_refusal_rate": 0.3,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 14,
+          "fn": 6,
+          "tn": 0,
+          "fp": 0
+        }
+      },
+      "followup": {
+        "items": 2,
+        "evaluated": 2,
+        "errors": 0,
+        "accuracy": 0.5,
+        "in_scope_recall": 0.5,
+        "in_scope_false_refusal_rate": 0.5,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 1,
+          "fn": 1,
+          "tn": 0,
+          "fp": 0
+        }
+      },
+      "local": {
+        "items": 19,
+        "evaluated": 19,
+        "errors": 0,
+        "accuracy": 0.8421,
+        "in_scope_recall": 0.8421,
+        "in_scope_false_refusal_rate": 0.1579,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 16,
+          "fn": 3,
+          "tn": 0,
+          "fp": 0
+        }
+      },
+      "relation": {
+        "items": 15,
+        "evaluated": 15,
+        "errors": 0,
+        "accuracy": 0.7333,
+        "in_scope_recall": 0.7333,
+        "in_scope_false_refusal_rate": 0.2667,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 11,
+          "fn": 4,
+          "tn": 0,
+          "fp": 0
+        }
+      },
+      "trend": {
+        "items": 4,
+        "evaluated": 4,
+        "errors": 0,
+        "accuracy": 0.5,
+        "in_scope_recall": 0.5,
+        "in_scope_false_refusal_rate": 0.5,
+        "out_of_scope_recall": 0.0,
+        "ood_false_pass_rate": 0.0,
+        "confusion": {
+          "tp": 2,
+          "fn": 2,
+          "tn": 0,
+          "fp": 0
+        }
+      }
+    },
+    "base_by_language": {
+      "en": {
+        "items": 43,
+        "evaluated": 43,
+        "errors": 0,
+        "accuracy": 0.6512,
+        "in_scope_recall": 0.5667,
+        "in_scope_false_refusal_rate": 0.4333,
+        "out_of_scope_recall": 0.8462,
+        "ood_false_pass_rate": 0.1538,
+        "confusion": {
+          "tp": 17,
+          "fn": 13,
+          "tn": 11,
+          "fp": 2
+        }
+      },
+      "zh": {
+        "items": 61,
+        "evaluated": 61,
+        "errors": 0,
+        "accuracy": 0.7377,
+        "in_scope_recall": 0.8182,
+        "in_scope_false_refusal_rate": 0.1818,
+        "out_of_scope_recall": 0.6429,
+        "ood_false_pass_rate": 0.3571,
+        "confusion": {
+          "tp": 27,
+          "fn": 6,
+          "tn": 18,
+          "fp": 10
+        }
+      },
+      "zh_en": {
+        "items": 21,
+        "evaluated": 21,
+        "errors": 0,
+        "accuracy": 0.5714,
+        "in_scope_recall": 0.5,
+        "in_scope_false_refusal_rate": 0.5,
+        "out_of_scope_recall": 0.6,
+        "ood_false_pass_rate": 0.4,
+        "confusion": {
+          "tp": 3,
+          "fn": 3,
+          "tn": 9,
+          "fp": 6
+        }
+      }
+    },
+    "trained_by_language": {
+      "en": {
+        "items": 43,
+        "evaluated": 43,
+        "errors": 0,
+        "accuracy": 0.6279,
+        "in_scope_recall": 0.5667,
+        "in_scope_false_refusal_rate": 0.4333,
+        "out_of_scope_recall": 0.7692,
+        "ood_false_pass_rate": 0.2308,
+        "confusion": {
+          "tp": 17,
+          "fn": 13,
+          "tn": 10,
+          "fp": 3
+        }
+      },
+      "zh": {
+        "items": 61,
+        "evaluated": 61,
+        "errors": 0,
+        "accuracy": 0.7541,
+        "in_scope_recall": 0.8788,
+        "in_scope_false_refusal_rate": 0.1212,
+        "out_of_scope_recall": 0.6071,
+        "ood_false_pass_rate": 0.3929,
+        "confusion": {
+          "tp": 29,
+          "fn": 4,
+          "tn": 17,
+          "fp": 11
+        }
+      },
+      "zh_en": {
+        "items": 21,
+        "evaluated": 21,
+        "errors": 0,
+        "accuracy": 0.619,
+        "in_scope_recall": 0.5,
+        "in_scope_false_refusal_rate": 0.5,
+        "out_of_scope_recall": 0.6667,
+        "ood_false_pass_rate": 0.3333,
+        "confusion": {
+          "tp": 3,
+          "fn": 3,
+          "tn": 10,
+          "fp": 5
+        }
+      }
+    },
+    "flips": {
+      "counts": {
+        "wrong_to_wrong": 37,
+        "correct_to_correct": 83,
+        "wrong_to_correct": 3,
+        "correct_to_wrong": 2
+      },
+      "flips": [
+        {
+          "id": "bnd_32eb5c480e_04",
+          "question": "用物理信息神经网络（PINN）求解纳维-斯托克斯方程时，如何权衡观测数据项与 PDE 残差项在损失中的权重？",
+          "group": "boundary",
+          "language": "zh",
+          "expected": "in_scope",
+          "before": "out_of_scope",
+          "after": "in_scope",
+          "change": "wrong_to_correct"
+        },
+        {
+          "id": "ins_9fd34b4f93_02",
+          "question": "RankNovo 如何通过列表式重排，把候选肽段建模为多重序列比对并用轴向注意力提取跨候选特征，从而提升从头肽段测序性能？",
+          "group": "local",
+          "language": "zh",
+          "expected": "in_scope",
+          "before": "out_of_scope",
+          "after": "in_scope",
+          "change": "wrong_to_correct"
+        },
+        {
+          "id": "ood_02f851ca9c_05",
+          "question": "空间碎片的面质比( area-to-mass ratio )越大，其轨道寿命受大气阻力影响会变长还是变短，为什么？",
+          "group": "OOD",
+          "language": "zh_en",
+          "expected": "out_of_scope",
+          "before": "in_scope",
+          "after": "out_of_scope",
+          "change": "wrong_to_correct"
+        },
+        {
+          "id": "ood_33e8381ba0_07",
+          "question": "顶级捕食者对食物网营养级联（trophic cascade）的调控体现在哪些生态过程中？",
+          "group": "OOD",
+          "language": "zh",
+          "expected": "out_of_scope",
+          "before": "out_of_scope",
+          "after": "in_scope",
+          "change": "correct_to_wrong"
+        },
+        {
+          "id": "ood_4fee939ed1_07",
+          "question": "What are the typical natural reservoir drive mechanisms, and how does each influence the ultimate oil recovery factor?",
+          "group": "OOD",
+          "language": "en",
+          "expected": "out_of_scope",
+          "before": "out_of_scope",
+          "after": "in_scope",
+          "change": "correct_to_wrong"
+        }
+      ]
+    },
+    "confidence_base": {
+      "mean_confidence_correct": 0.68,
+      "mean_confidence_wrong": 0.6434,
+      "high_confidence_wrong": 5,
+      "high_confidence_wrong_ids": [
+        "bnd_5437773ae3_02",
+        "ins_2457c636da_02",
+        "ins_f56b99f90e_01",
+        "ins_f62089dfcf_02",
+        "ood_4fee939ed1_01"
+      ]
+    },
+    "confidence_trained": {
+      "mean_confidence_correct": 0.676,
+      "mean_confidence_wrong": 0.6393,
+      "high_confidence_wrong": 3,
+      "high_confidence_wrong_ids": [
+        "bnd_5437773ae3_02",
+        "ins_f56b99f90e_01",
+        "ood_4fee939ed1_01"
+      ]
+    },
+    "trained_errors": {
+      "error_items": 39,
+      "false_refusal_items": 20,
+      "false_pass_items": 19,
+      "reviewed_error_items": 10,
+      "by_group": {
+        "boundary": 6,
+        "compare": 6,
+        "relation": 4,
+        "followup": 1,
+        "local": 3,
+        "trend": 2,
+        "OOD": 17
+      },
+      "by_language": {
+        "zh_en": 8,
+        "zh": 15,
+        "en": 16
+      },
+      "by_domain": {
+        "petroleum_engineering": 6,
+        "ml_for_education": 4,
+        "pharmacology": 4,
+        "aerospace": 3,
+        "ecology": 2,
+        "marine_science": 2,
+        "online MDP / bandits / theory": 2,
+        "robotics / visual foresight": 2,
+        "TD learning / finite-sample theory": 1,
+        "abbreviation_and_polysemy": 1,
+        "bandit algorithms": 1,
+        "bandits / RLHF theory": 1,
+        "llm_agent_video": 1,
+        "llm_reasoning": 1,
+        "llm_reasoning_rl/code": 1,
+        "multi-agent reinforcement learning / combinatorial optimization": 1,
+        "multi_agent": 1,
+        "object-centric learning / unsupervised": 1,
+        "physics_informed_ml": 1,
+        "rl_for_science_dl": 1,
+        "rlhf": 1,
+        "robotics / dexterous manipulation / policy learning": 1
+      },
+      "examples": [
+        {
+          "id": "bnd_32eb5c480e_01",
+          "question": "PINN 训练时出现梯度爆炸，如何对 PDE loss 做归一化，以及选择什么激活函数比较合适？",
+          "expected": "in_scope",
+          "category": "boundary",
+          "group": "boundary",
+          "kind": "boundary_positive",
+          "language": "zh_en",
+          "domain": "physics_informed_ml",
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.4232,
+          "p_out_of_scope": 0.5768,
+          "confidence": 0.5768
+        },
+        {
+          "id": "bnd_5437773ae3_01",
+          "question": "用 multi-armed bandit 做个性化题目推荐时，如何在探索（exploration）与利用（exploitation）之间取舍？",
+          "expected": "in_scope",
+          "category": "boundary",
+          "group": "boundary",
+          "kind": "boundary_positive",
+          "language": "zh_en",
+          "domain": "ml_for_education",
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.3448,
+          "p_out_of_scope": 0.6552,
+          "confidence": 0.6552
+        },
+        {
+          "id": "bnd_5437773ae3_02",
+          "question": "小组合作学习中，按什么标准分组才能最大程度提升课堂讨论的参与度？",
+          "expected": "out_of_scope",
+          "category": "boundary",
+          "group": "boundary",
+          "kind": "boundary_negative",
+          "language": "zh",
+          "domain": "ml_for_education",
+          "predicted": "in_scope",
+          "p_in_scope": 0.8395,
+          "p_out_of_scope": 0.1605,
+          "confidence": 0.8395
+        },
+        {
+          "id": "bnd_5437773ae3_04",
+          "question": "如何用深度知识追踪（Deep Knowledge Tracing）这类序列模型预测学生作答下一题的正确率？",
+          "expected": "in_scope",
+          "category": "boundary",
+          "group": "boundary",
+          "kind": "boundary_positive",
+          "language": "zh",
+          "domain": "ml_for_education",
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.3053,
+          "p_out_of_scope": 0.6947,
+          "confidence": 0.6947
+        },
+        {
+          "id": "bnd_5437773ae3_05",
+          "question": "在翻转课堂（flipped classroom）模式下，如何设计 8 分钟以内的课前预习视频才能促进概念掌握？",
+          "expected": "out_of_scope",
+          "category": "boundary",
+          "group": "boundary",
+          "kind": "boundary_negative",
+          "language": "zh_en",
+          "domain": "ml_for_education",
+          "predicted": "in_scope",
+          "p_in_scope": 0.6677,
+          "p_out_of_scope": 0.3323,
+          "confidence": 0.6677
+        },
+        {
+          "id": "bnd_b058da96c5_03",
+          "question": "Can I use contrastive learning to separate polysemous senses of the same word in an embedding space? How should I design the positives and negatives?",
+          "expected": "in_scope",
+          "category": "boundary",
+          "group": "boundary",
+          "kind": "boundary_positive",
+          "language": "en",
+          "domain": "abbreviation_and_polysemy",
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.4424,
+          "p_out_of_scope": 0.5576,
+          "confidence": 0.5576
+        },
+        {
+          "id": "ins_2457c636da_02",
+          "question": "How does DVD's adaptive tool-selection workflow over segmented clips differ from previous video agents that manually design a rigid question-answering workflow?",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "compare",
+          "kind": "compare",
+          "language": "en",
+          "domain": "llm_agent_video",
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.2051,
+          "p_out_of_scope": 0.7949,
+          "confidence": 0.7949
+        },
+        {
+          "id": "ins_710d59fe86_02",
+          "question": "How do the transformer-based communication layers and the multiple pointer mechanism in PARCO jointly enable effective agent coordination and low-latency parallel decision-making for multi-agent combinatorial tasks like vehicle routing?",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "relation",
+          "kind": "relation",
+          "language": "en",
+          "domain": "multi-agent reinforcement learning / combinatorial optimization",
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.4427,
+          "p_out_of_scope": 0.5573,
+          "confidence": 0.5573
+        },
+        {
+          "id": "ins_751ab28cf1_01",
+          "question": "How can integrating cyclic consistency objectives into existing slot-based methods improve the practical utility of object-centric representations in downstream tasks?",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "followup",
+          "kind": "followup",
+          "language": "en",
+          "domain": "object-centric learning / unsupervised",
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.4224,
+          "p_out_of_scope": 0.5776,
+          "confidence": 0.5776
+        },
+        {
+          "id": "ins_812cc2fa0f_01",
+          "question": "How does Vapnik's principle motivate replacing point-wise scoring with pairwise-comparison evaluation when using noisy LLM feedback to guide the search for promising intermediate thoughts in CoT generation?",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "relation",
+          "kind": "relation",
+          "language": "en",
+          "domain": "llm_reasoning",
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.4923,
+          "p_out_of_scope": 0.5077,
+          "confidence": 0.5077
+        },
+        {
+          "id": "ins_90977ce98b_02",
+          "question": "当特征任意（可能线性相关）且不满足线性无关假设时，线性 TD(λ) 的 L² 收敛率是如何建立的？该结论同时适用于折扣与平均奖励两种设定吗？",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "local",
+          "kind": "local",
+          "language": "zh",
+          "domain": "TD learning / finite-sample theory",
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.3749,
+          "p_out_of_scope": 0.6251,
+          "confidence": 0.6251
+        },
+        {
+          "id": "ins_9fd34b4f93_01",
+          "question": "How do the newly introduced PMD and RMD metrics, by quantifying sequence-level and residue-level mass deviations, provide more delicate supervision than existing peptide sequencing metrics?",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "compare",
+          "kind": "compare",
+          "language": "en",
+          "domain": "rl_for_science_dl",
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.3769,
+          "p_out_of_scope": 0.6231,
+          "confidence": 0.6231
+        },
+        {
+          "id": "ins_b0a9742985_01",
+          "question": "Why do all baselines fail in the sideways-in-hand scenario but LTC still exceeds 60% success, and what does this reveal about the learned policy's robustness compared to standard pick-and-place approaches?",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "compare",
+          "kind": "compare",
+          "language": "en",
+          "domain": "robotics / dexterous manipulation / policy learning",
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.2863,
+          "p_out_of_scope": 0.7137,
+          "confidence": 0.7137
+        },
+        {
+          "id": "ins_b6734f9423_01",
+          "question": "In what way does this almost-sure global convergence result for stochastic gradient bandits under arbitrary constant learning rates extend existing understanding when standard smoothness and noise control assumptions break down?",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "compare",
+          "kind": "compare",
+          "language": "en",
+          "domain": "bandit algorithms",
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.4836,
+          "p_out_of_scope": 0.5164,
+          "confidence": 0.5164
+        },
+        {
+          "id": "ins_c09a6da794_01",
+          "question": "How does robust RL in multi-agent settings (robust Markov games) differ from single-agent robust RL when strategic interactions are combined with environmental uncertainty?",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "compare",
+          "kind": "compare",
+          "language": "en",
+          "domain": "multi_agent",
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.486,
+          "p_out_of_scope": 0.514,
+          "confidence": 0.514
+        },
+        {
+          "id": "ins_d0693dec44_01",
+          "question": "What role does execution-sandbox empirical feedback play in the closed-loop test-time optimization of Afterburner, and how does it differentiate RL-based GRPO from SFT and DPO?",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "trend",
+          "kind": "trend",
+          "language": "en",
+          "domain": "llm_reasoning_rl/code",
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.3731,
+          "p_out_of_scope": 0.6269,
+          "confidence": 0.6269
+        },
+        {
+          "id": "ins_e0ed353c43_01",
+          "question": "How does GenARM's autoregressive reward model compute next-token rewards from partial responses to enable efficient autoregressive test-time alignment of frozen LLMs, and what theoretical guarantee does it provide?",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "local",
+          "kind": "local",
+          "language": "en",
+          "domain": "rlhf",
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.4451,
+          "p_out_of_scope": 0.5549,
+          "confidence": 0.5549
+        },
+        {
+          "id": "ins_f56b99f90e_01",
+          "question": "In contrast to prior dueling-bandit algorithms that rely on online optimization oracles or finite action spaces, how does the proposed offline-oracle-based method extend to continuous action spaces while keeping a O~(sqrt(dT)) regret?",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "trend",
+          "kind": "trend",
+          "language": "zh_en",
+          "domain": "bandits / RLHF theory",
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.183,
+          "p_out_of_scope": 0.817,
+          "confidence": 0.817
+        },
+        {
+          "id": "ins_f62089dfcf_01",
+          "question": "GVF-TAPE 是如何在闭环中迭代整合生成式视频预测与任务无关的位姿估计，从而把预测的 RGB-D 帧转化为可执行的操作命令的？",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "relation",
+          "kind": "relation",
+          "language": "zh",
+          "domain": "robotics / visual foresight",
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.3357,
+          "p_out_of_scope": 0.6643,
+          "confidence": 0.6643
+        },
+        {
+          "id": "ins_f62089dfcf_02",
+          "question": "How does GVF-TAPE's decoupled pose estimation model convert predicted future frames into executable commands, and why does this reduce reliance on task-specific action data?",
+          "expected": "in_scope",
+          "category": "in_scope",
+          "group": "relation",
+          "kind": "relation",
+          "language": "en",
+          "domain": "robotics / visual foresight",
+          "predicted": "out_of_scope",
+          "p_in_scope": 0.2128,
+          "p_out_of_scope": 0.7872,
+          "confidence": 0.7872
+        }
+      ]
+    },
+    "term_profile": [
+      {
+        "term": "模型/算法",
+        "wrong_items": 5,
+        "examples": [
+          {
+            "id": "bnd_5437773ae3_04",
+            "group": "boundary",
+            "language": "zh",
+            "question": "如何用深度知识追踪（Deep Knowledge Tracing）这类序列模型预测学生作答下一题的正确率？"
+          },
+          {
+            "id": "ins_e0ed353c43_01",
+            "group": "local",
+            "language": "en",
+            "question": "How does GenARM's autoregressive reward model compute next-token rewards from partial responses to enable efficient autoregressive test-time alignment of frozen LLMs, and what theoretical guarantee does it provide?"
+          },
+          {
+            "id": "ins_f62089dfcf_02",
+            "group": "relation",
+            "language": "en",
+            "question": "How does GVF-TAPE's decoupled pose estimation model convert predicted future frames into executable commands, and why does this reduce reliance on task-specific action data?"
+          }
+        ]
+      },
+      {
+        "term": "策略/决策",
+        "wrong_items": 4,
+        "examples": [
+          {
+            "id": "ins_710d59fe86_02",
+            "group": "relation",
+            "language": "en",
+            "question": "How do the transformer-based communication layers and the multiple pointer mechanism in PARCO jointly enable effective agent coordination and low-latency parallel decision-making for multi-agent combinatorial tasks like vehicle routing?"
+          },
+          {
+            "id": "ins_b0a9742985_01",
+            "group": "compare",
+            "language": "en",
+            "question": "Why do all baselines fail in the sideways-in-hand scenario but LTC still exceeds 60% success, and what does this reveal about the learned policy's robustness compared to standard pick-and-place approaches?"
+          },
+          {
+            "id": "ins_f901fd5496_01",
+            "group": "compare",
+            "language": "en",
+            "question": "In the unknown-dynamics case, by what factor does the proposed policy optimization algorithm improve the previously best regret bound under aggregate bandit feedback?"
+          }
+        ]
+      },
+      {
+        "term": "RL",
+        "wrong_items": 2,
+        "examples": [
+          {
+            "id": "ins_c09a6da794_01",
+            "group": "compare",
+            "language": "en",
+            "question": "How does robust RL in multi-agent settings (robust Markov games) differ from single-agent robust RL when strategic interactions are combined with environmental uncertainty?"
+          },
+          {
+            "id": "ins_d0693dec44_01",
+            "group": "trend",
+            "language": "en",
+            "question": "What role does execution-sandbox empirical feedback play in the closed-loop test-time optimization of Afterburner, and how does it differentiate RL-based GRPO from SFT and DPO?"
+          }
+        ]
+      },
+      {
+        "term": "Transformer/LLM",
+        "wrong_items": 2,
+        "examples": [
+          {
+            "id": "ins_710d59fe86_02",
+            "group": "relation",
+            "language": "en",
+            "question": "How do the transformer-based communication layers and the multiple pointer mechanism in PARCO jointly enable effective agent coordination and low-latency parallel decision-making for multi-agent combinatorial tasks like vehicle routing?"
+          },
+          {
+            "id": "ins_812cc2fa0f_01",
+            "group": "relation",
+            "language": "en",
+            "question": "How does Vapnik's principle motivate replacing point-wise scoring with pairwise-comparison evaluation when using noisy LLM feedback to guide the search for promising intermediate thoughts in CoT generation?"
+          }
+        ]
+      },
+      {
+        "term": "对比/生成",
+        "wrong_items": 2,
+        "examples": [
+          {
+            "id": "bnd_b058da96c5_03",
+            "group": "boundary",
+            "language": "en",
+            "question": "Can I use contrastive learning to separate polysemous senses of the same word in an embedding space? How should I design the positives and negatives?"
+          },
+          {
+            "id": "ins_f62089dfcf_01",
+            "group": "relation",
+            "language": "zh",
+            "question": "GVF-TAPE 是如何在闭环中迭代整合生成式视频预测与任务无关的位姿估计，从而把预测的 RGB-D 帧转化为可执行的操作命令的？"
+          }
+        ]
+      },
+      {
+        "term": "PINN/物理ML",
+        "wrong_items": 1,
+        "examples": [
+          {
+            "id": "bnd_32eb5c480e_01",
+            "group": "boundary",
+            "language": "zh_en",
+            "question": "PINN 训练时出现梯度爆炸，如何对 PDE loss 做归一化，以及选择什么激活函数比较合适？"
+          }
+        ]
+      },
+      {
+        "term": "训练/损失",
+        "wrong_items": 1,
+        "examples": [
+          {
+            "id": "bnd_32eb5c480e_01",
+            "group": "boundary",
+            "language": "zh_en",
+            "question": "PINN 训练时出现梯度爆炸，如何对 PDE loss 做归一化，以及选择什么激活函数比较合适？"
+          }
+        ]
+      }
+    ]
+  },
+  "gate": {
+    "thresholds": {
+      "in_scope": 0.81,
+      "out_of_scope": 0.835,
+      "selected_only_on_calibration": true,
+      "max_false_refusal": 0.02,
+      "max_false_pass": 0.05
+    },
+    "calibration_coverage": 0.125,
+    "coverage": 0.096,
+    "accepted_items": 12,
+    "accepted_errors": 2,
+    "fallback_items": 113,
+    "fallback_errors": 7,
+    "accepted_error_examples": [
+      {
+        "id": "bnd_5437773ae3_02",
+        "question": "小组合作学习中，按什么标准分组才能最大程度提升课堂讨论的参与度？",
+        "expected": "out_of_scope",
+        "category": "boundary",
+        "group": "boundary",
+        "kind": "boundary_negative",
+        "language": "zh",
+        "domain": "ml_for_education",
+        "predicted": "in_scope",
+        "p_in_scope": 0.8395,
+        "p_out_of_scope": 0.1605,
+        "confidence": 0.8395,
+        "route": "laya",
+        "final_predicted": "in_scope",
+        "error": null,
+        "reviewed": true
+      },
+      {
+        "id": "ood_4fee939ed1_01",
+        "question": "油藏数值模拟器对空间进行离散时常用哪种网格系统，网格过粗会引入什么样的数值弥散误差？",
+        "expected": "out_of_scope",
+        "category": "ood",
+        "group": "OOD",
+        "kind": "hard_negative",
+        "language": "zh_en",
+        "domain": "petroleum_engineering",
+        "predicted": "in_scope",
+        "p_in_scope": 0.8529,
+        "p_out_of_scope": 0.1471,
+        "confidence": 0.8529,
+        "route": "laya",
+        "final_predicted": "in_scope",
+        "error": null,
+        "reviewed": false
+      }
+    ],
+    "fallback_error_examples": [
+      {
+        "id": "bnd_32eb5c480e_03",
+        "question": "How to choose collocation points and adaptive sampling strategies for training a physics-informed neural network?",
+        "expected": "in_scope",
+        "category": "boundary",
+        "group": "boundary",
+        "kind": "boundary_positive",
+        "language": "en",
+        "domain": "physics_informed_ml",
+        "predicted": "in_scope",
+        "p_in_scope": 0.6268,
+        "p_out_of_scope": 0.3732,
+        "confidence": 0.6268,
+        "route": "llm_fallback",
+        "final_predicted": "out_of_scope",
+        "error": null,
+        "reviewed": true
+      },
+      {
+        "id": "bnd_b058da96c5_03",
+        "question": "Can I use contrastive learning to separate polysemous senses of the same word in an embedding space? How should I design the positives and negatives?",
+        "expected": "in_scope",
+        "category": "boundary",
+        "group": "boundary",
+        "kind": "boundary_positive",
+        "language": "en",
+        "domain": "abbreviation_and_polysemy",
+        "predicted": "out_of_scope",
+        "p_in_scope": 0.4424,
+        "p_out_of_scope": 0.5576,
+        "confidence": 0.5576,
+        "route": "llm_fallback",
+        "final_predicted": null,
+        "error": {
+          "code": "scope_timeout",
+          "message": "The agent run timed out."
+        },
+        "reviewed": true
+      },
+      {
+        "id": "bnd_b058da96c5_05",
+        "question": "哪些 graph neural network 方法可以结合 knowledge graph 来做 word sense disambiguation？",
+        "expected": "in_scope",
+        "category": "boundary",
+        "group": "boundary",
+        "kind": "boundary_positive",
+        "language": "zh_en",
+        "domain": "abbreviation_and_polysemy",
+        "predicted": "in_scope",
+        "p_in_scope": 0.7472,
+        "p_out_of_scope": 0.2528,
+        "confidence": 0.7472,
+        "route": "llm_fallback",
+        "final_predicted": "out_of_scope",
+        "error": null,
+        "reviewed": true
+      },
+      {
+        "id": "ins_4f4884f0e8_01",
+        "question": "Why does the hybrid encoder combine a Mamba-like linear attention channel encoder with a spatiotemporal dynamics model, and what role does each play in capturing EEG's long-term dependency?",
+        "expected": "in_scope",
+        "category": "in_scope",
+        "group": "local",
+        "kind": "local",
+        "language": "en",
+        "domain": "EEG affective computing / transfer learning",
+        "predicted": "in_scope",
+        "p_in_scope": 0.6727,
+        "p_out_of_scope": 0.3273,
+        "confidence": 0.6727,
+        "route": "llm_fallback",
+        "final_predicted": "out_of_scope",
+        "error": null,
+        "reviewed": false
+      },
+      {
+        "id": "ins_9fd34b4f93_01",
+        "question": "How do the newly introduced PMD and RMD metrics, by quantifying sequence-level and residue-level mass deviations, provide more delicate supervision than existing peptide sequencing metrics?",
+        "expected": "in_scope",
+        "category": "in_scope",
+        "group": "compare",
+        "kind": "compare",
+        "language": "en",
+        "domain": "rl_for_science_dl",
+        "predicted": "out_of_scope",
+        "p_in_scope": 0.3769,
+        "p_out_of_scope": 0.6231,
+        "confidence": 0.6231,
+        "route": "llm_fallback",
+        "final_predicted": "out_of_scope",
+        "error": null,
+        "reviewed": false
+      },
+      {
+        "id": "ins_c10480a877_01",
+        "question": "How does the auxiliary branch modeling high-order attribute interactions help alleviate the optimization difficulty of low-bit hash codes and reinforce the robustness of generated attribute-aware codes?",
+        "expected": "in_scope",
+        "category": "in_scope",
+        "group": "relation",
+        "kind": "relation",
+        "language": "en",
+        "domain": "retrieval_hashing",
+        "predicted": "in_scope",
+        "p_in_scope": 0.7696,
+        "p_out_of_scope": 0.2304,
+        "confidence": 0.7696,
+        "route": "llm_fallback",
+        "final_predicted": "out_of_scope",
+        "error": null,
+        "reviewed": false
+      },
+      {
+        "id": "ins_c10480a877_02",
+        "question": "该方法如何利用可学习的查询（learnable queries）让每个哈希位对应特定的视觉属性，从而提升细粒度图像检索的哈希码可解释性？",
+        "expected": "in_scope",
+        "category": "in_scope",
+        "group": "local",
+        "kind": "local",
+        "language": "zh",
+        "domain": "retrieval_hashing",
+        "predicted": "in_scope",
+        "p_in_scope": 0.5798,
+        "p_out_of_scope": 0.4202,
+        "confidence": 0.5798,
+        "route": "llm_fallback",
+        "final_predicted": "out_of_scope",
+        "error": null,
+        "reviewed": false
+      }
+    ],
+    "accepted_by_group": {
+      "boundary": 2,
+      "trend": 1,
+      "OOD": 9
+    },
+    "accepted_by_language": {
+      "zh": 7,
+      "en": 3,
+      "zh_en": 2
+    }
+  },
+  "root_causes": [
+    {
+      "severity": "primary",
+      "cause": "head-only 只改善了概率排序，没有移动主要决策边界",
+      "evidence": "internal_test 仅 3 条错转对、2 条对转错，37 条继续错；NLL/Brier 改善但 accuracy 仅从 0.680 到 0.688。",
+      "next_action": "先用已标错误构造更难/更均衡的 head-only 诊断集，不先加 seed。"
+    },
+    {
+      "severity": "primary",
+      "cause": "英文 ML 问题被误拒，中文专业领域问题被误放行",
+      "evidence": "20 条范围内误拒中 13 条为英文；19 条 OOD 误放行中 11 条为中文。OOD 误放行集中在 petroleum_engineering 6、pharmacology 4、aerospace 3。",
+      "next_action": "补英文 ML 术语正例和中文 OOD 技术词负例，按领域分层复核。"
+    },
+    {
+      "severity": "primary",
+      "cause": "跨域边界定义仍是主要混淆源",
+      "evidence": "boundary accuracy 0.60；该组 6 条错误中 ml_for_education 4、physics_informed_ml 1、abbreviation_and_polysemy 1。",
+      "next_action": "扩充边界金标，重点覆盖“用 ML 优化领域”与“领域传统方法”的最小对比对。"
+    },
+    {
+      "severity": "secondary",
+      "cause": "正确/错误样本的置信度可分离性不足",
+      "evidence": "internal_test 正确均值 0.6760、错误均值 0.6393，仅差 0.0367；安全门控因此只覆盖 0.096。",
+      "next_action": "若数据修正后仍有此问题，再评估更大容量 head 或 encoder 解冻。"
+    },
+    {
+      "severity": "not_primary_but_incomplete",
+      "cause": "标签/切分错误不是已证实主因，但仍有银标覆盖缺口",
+      "evidence": "切分泄漏和近重复均为 0；internal_test 的 39 条错误中 10 条经过复核且全部为 accept，其余 29 条未逐条审阅。",
+      "next_action": "优先人工复核 29 条未审错误，再判断是否需要调整 silver 标签。"
+    }
+  ],
+  "conclusion": "head-only 改善了 NLL/Brier，但没有改善 argmax 决策边界；主要瓶颈是边界/跨域定义和英文/混合语言表示。全量 146 条复核样本中错误样本标签均为 accept，因此当前证据不支持把失败主要归因于已复核标签错误。安全门控需要较高阈值才能在 calibration 控制风险，导致覆盖率不足 60%。"
+}

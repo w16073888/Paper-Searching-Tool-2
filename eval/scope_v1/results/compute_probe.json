@@ -1,0 +1,54 @@
+{
+  "generated_at": "2026-10-23T14:30:52+00:00",
+  "git_commit": "2cb2a27619703a378dd6e9712aad807a6a362ac7",
+  "hardware": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.9",
+    "cpu_count": 8,
+    "gpu": [
+      "NVIDIA GeForce MX330, 2048 MiB, 1969 MiB, 555.99"
+    ]
+  },
+  "laya": {
+    "load_s": 25.9217,
+    "warmup_s": 0.6329,
+    "timed_inference_calls": 48,
+    "warm_summary": {
+      "latency_s": {
+        "mean": 0.3168,
+        "p50": 0.3175,
+        "p95": 0.3445,
+        "max": 0.3676
+      }
+    }
+  },
+  "laya_train_dry_run": {
+    "command": [
+      "D:\\Ana_\\python.exe",
+      "-m",
+      "laya.train_cli",
+      "--data",
+      "D:\\大学编程学习\\移动云杯\\eval\\scope_v1\\smoke.jsonl",
+      "--base",
+      "D:\\大学编程学习\\移动云杯\\.models\\jev",
+      "--out",
+      "D:\\大学编程学习\\移动云杯\\.models\\jev\\ft\\scope-v1-dryrun",
+      "--freeze-encoder",
+      "--loss",
+      "soft-ce",
+      "--device",
+      "cpu",
+      "--max-len",
+      "256",
+      "--head-max-len",
+      "256",
+      "--seed",
+      "0",
+      "--dry-run"
+    ],
+    "returncode": 0,
+    "elapsed_s": 29.2344,
+    "stdout": "dry-run: 4 rows read, 4 valid items, skipped: {}\ndry-run: optimizer budget: 4 train item(s), effective batch up to 64 (micro_batch 8 x grad_accum 8), 4 optimizer updates over 4 epoch(s)\n",
+    "stderr": ""
+  }
+}

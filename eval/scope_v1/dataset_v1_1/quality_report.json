@@ -1,0 +1,58 @@
+{
+  "generated_at": "2026-10-23T15:32:46+00:00",
+  "items": 800,
+  "checks": {
+    "required_fields": {
+      "passed": true,
+      "failures": 0
+    },
+    "group_split_isolation": {
+      "passed": true,
+      "crossing_groups": 0
+    },
+    "paper_group_size": {
+      "passed": true,
+      "bad_groups": 0
+    },
+    "boundary_both_labels": {
+      "passed": true,
+      "domains_with_both": 16,
+      "domains": 16
+    },
+    "category_label_consistency": {
+      "passed": true,
+      "failures": 0
+    },
+    "external_exact_overlap": {
+      "passed": true,
+      "overlaps": 0
+    }
+  },
+  "near_duplicates": {
+    "threshold": 0.9,
+    "same_split_pairs": 0,
+    "cross_split_pairs": 0,
+    "same_split_examples": []
+  },
+  "question_length": {
+    "min": 18,
+    "mean": 92.02,
+    "max": 273
+  },
+  "silver_confidence": {
+    "min": 0.63,
+    "mean": 0.913,
+    "max": 0.99
+  },
+  "passed": true,
+  "dataset_version": "scope-dataset-v1.1",
+  "review": {
+    "rows": 146,
+    "decisions": {
+      "accept": 146
+    },
+    "laya_disagreements": 55,
+    "reviewed_at": "2026-10-23T15:31:41+00:00",
+    "reviewer": "Codex manual semantic review with Laya disagreement precheck"
+  }
+}

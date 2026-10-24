@@ -1,0 +1,135 @@
+{
+  "dataset_version": "scope-dataset-v1.2",
+  "generated_at": "2026-10-24T02:20:32+00:00",
+  "seed": 20261023,
+  "generator": {
+    "provider": "mobile_cloud_maas",
+    "model": "deepseek-v4-flash-0731",
+    "api_key_env": "Mobile_trash_API_KEY",
+    "prompt_version": "scope-dataset-v1",
+    "prompt_sha256": {
+      "in_scope": "1cf9df9e6b8268108596891faa20fe76adc5c22e28654546b55c21c215d725c4",
+      "ood": "ef61287a4aae3b57daead81c103a1060207b149cebfa32906bd5c14451e5717b",
+      "boundary": "4df7e5c2bb627fffd5237e3815235972ee609c86f3c2a34b6cc064ba65ba40d3"
+    },
+    "generation_args": {
+      "paper_count": 200,
+      "paper_batch_size": 10,
+      "ood_count": 32,
+      "ood_batch_size": 4,
+      "ood_per_domain": 10,
+      "boundary_count": 16,
+      "boundary_batch_size": 2,
+      "boundary_per_domain": 5,
+      "concurrency": 4
+    }
+  },
+  "counts": {
+    "split": {
+      "train": 697,
+      "calibration": 178,
+      "internal_test": 125
+    },
+    "label": {
+      "in_scope": 548,
+      "out_of_scope": 452
+    },
+    "category": {
+      "boundary": 160,
+      "in_scope": 460,
+      "ood": 380
+    },
+    "language": {
+      "zh": 520,
+      "en": 338,
+      "zh_en": 142
+    },
+    "groups": 274
+  },
+  "external_test": {
+    "path": "eval\\scope_v1\\test.jsonl",
+    "sha256": "d881f0bb4b4e0f4305aaebbebb072925410a1bcebc18e1d0d85312d5b44e4cdf",
+    "training_allowed": false
+  },
+  "quality_policy": {
+    "label_source": "mixed_reviewed_and_llm_silver",
+    "gold": false,
+    "internal_test_reviewed_error_subset": true,
+    "threshold_selection_allowed": false
+  },
+  "files": {
+    "all.jsonl": {
+      "sha256": "7e5aa1563a9c9fb7fb6428317bcd6305212279180f107c77fae025dfab86d811",
+      "bytes": 865118
+    },
+    "train.jsonl": {
+      "sha256": "02cd57b2d50de11bc93aae97ad9cec0ad7dadbd7f389c157f6e0b08b2a25831b",
+      "bytes": 597936
+    },
+    "calibration.jsonl": {
+      "sha256": "dd29c3a1c1a7946d94477f5e071f64f70fef3461e01e13a279395d03ab1aa9d7",
+      "bytes": 155419
+    },
+    "internal_test.jsonl": {
+      "sha256": "59bb660f253b7b74056ca4d69c662506ad2bc0127a6e9b4c21913401fcda0bd8",
+      "bytes": 111763
+    },
+    "laya_train.jsonl": {
+      "sha256": "374cd0df5783b1e462d083e31d2c312f9120c35f1da2217137589aeb8bc0fd52",
+      "bytes": 447848
+    },
+    "laya_calibration.jsonl": {
+      "sha256": "27448a22a51a4eb8d691987d53653e25455cfa3f1ec2ddfe368a736d363a7cc7",
+      "bytes": 115367
+    },
+    "laya_internal_test.jsonl": {
+      "sha256": "92eb9b79bcedfbda705e954b9446cffdc699c3030cb99b2a745cf7ff541ca08f",
+      "bytes": 81910
+    },
+    "review.csv": {
+      "sha256": "361b2f3cbb12fcd65457f6188c928d5d2d5c695d9f45aa54f7738dd7bc44eda4",
+      "bytes": 75234
+    },
+    "review_errors_29.csv": {
+      "sha256": "17994ba1e489f8f5461cd877bd84304c45a5a9c4656d8cbce743acc3580338b0",
+      "bytes": 10599
+    },
+    "quality_report.json": {
+      "sha256": "3e2e9a561b6ea9c64a6461bd45d353e79a0677a897e9ccf16d22ceb446d19af4",
+      "bytes": 1067
+    }
+  },
+  "parent": {
+    "dataset_version": "scope-dataset-v1.1",
+    "manifest_sha256": "0bc723ef31f298ae3f1786679a6e85a21a94fd5f6a1ffacf8ae524c395fc2213"
+  },
+  "review": {
+    "rows": 146,
+    "decisions": {
+      "accept": 146
+    },
+    "laya_disagreements": 55,
+    "reviewed_at": "2026-10-23T15:31:41+00:00",
+    "reviewer": "Codex manual semantic review with Laya disagreement precheck"
+  },
+  "augmentation": {
+    "model": "deepseek-v4-flash-0731",
+    "prompt_version": "scope-augment-v1",
+    "prompt_sha256": {
+      "english": "8d8667580b460a7e0064afbd822b65b73c62acc0e6328b339ee5f8ff37a71fd4",
+      "ood": "2a69102c9ded35730386f02ea2816f5d35f279661a69167cce72fe1c87fe10b2",
+      "minimal_pairs": "1e2e2e9f12cef4cdbddb9cd318a36b2960db9de3224d78512262c0a89e8e8bb3"
+    },
+    "train_items": 142,
+    "calibration_items": 58,
+    "internal_test_items": 0,
+    "internal_test_content_changes": 0,
+    "internal_test_id_overlap": 0
+  },
+  "review_errors_29": {
+    "items": 29,
+    "decisions": {
+      "accept": 29
+    }
+  }
+}

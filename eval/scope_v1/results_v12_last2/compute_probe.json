@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-10-24T05:07:46+00:00",
+  "git_commit": "bd02f43232da137c3f4b83ec8244759a51afb4f5",
+  "hardware": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.13.9",
+    "cpu_count": 8,
+    "gpu": [
+      "NVIDIA GeForce MX330, 2048 MiB, 1133 MiB, 555.99"
+    ]
+  },
+  "laya": {
+    "load_s": 30.825,
+    "warmup_s": 2.4555,
+    "timed_inference_calls": 125,
+    "warm_summary": {
+      "latency_s": {
+        "mean": 0.3346,
+        "p50": 0.332,
+        "p95": 0.4054,
+        "max": 0.4496
+      }
+    }
+  }
+}

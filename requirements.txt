@@ -19,3 +19,4 @@ tqdm>=4.60
 requests>=2.28
 plotly>=5.18             # Streit-Garg 关键路径交互图（st.plotly_chart）
 sentence-transformers>=2.2   # bge-m3 embedding（hotspot/vendor/md2vectors.py 依赖）
+laya==0.4.13                 # 本地 Laya 多语言决策模型运行时（.models/jev 权重不入库）

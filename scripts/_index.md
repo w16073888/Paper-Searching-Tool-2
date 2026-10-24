@@ -25,6 +25,14 @@ tags: [索引]
 - `check_api.py` —— 契约与 HTTP/SSE 接口自检。
 - `check_tools_v2.py` —— LanceDB 标题探测与论文读取工具离线自检。
 - `run_v2_eval.py` —— v2 离线工具指标或可选真实 agent 端到端回归。
+- `eval_scope_classifier.py` —— 当前 LLM 与 Laya zero-shot scope 双基线、延迟和训练 dry-run 探针。
+- `build_scope_dataset.py` —— 用移动云模型构造 scope silver 数据、分组切分、审计和 Laya 格式导出。
+- `finalize_scope_review.py` —— 复核 scope 样本、补 Laya 预检、生成带新哈希的不可变数据版本。
+- `train_scope_laya.py` —— 参数化显式 train/calibration 入口，支持冻结/局部解冻与 OOD 非对称损失。
+- `calibrate_scope_laya.py` —— 只用 calibration 选三路阈值，并对 internal_test 做一次固定门控评估。
+- `analyze_scope_errors.py` —— 基于冻结预测做 base→微调翻转、语言/领域和门控误差归因。
+- `augment_scope_dataset.py` —— 复核 29 条错误并生成 v1.2 定向补强数据、哈希和审计报告。
+- `finalize_scope_training.py` —— 从已训练 checkpoint 恢复温度拟合、最终模型和 pilot 报告。
 - `build_lance_index.py` —— 从现有 BGE-M3 向量分片构建 LanceDB 论文索引。
 - `build_qrels_pool.py` —— 生成去分、盲排的 qrels 候选池。
 - `auto_label_qrels.py` —— 用移动云 LLM 批量生成 silver qrels，支持缓存续跑。

@@ -1,0 +1,116 @@
+{
+  "dataset_version": "scope-dataset-v1",
+  "generated_at": "2026-10-23T15:25:11+00:00",
+  "seed": 20261023,
+  "generator": {
+    "provider": "mobile_cloud_maas",
+    "model": "deepseek-v4-flash-0731",
+    "api_key_env": "Mobile_trash_API_KEY",
+    "prompt_version": "scope-dataset-v1",
+    "prompt_sha256": {
+      "in_scope": "1cf9df9e6b8268108596891faa20fe76adc5c22e28654546b55c21c215d725c4",
+      "ood": "ef61287a4aae3b57daead81c103a1060207b149cebfa32906bd5c14451e5717b",
+      "boundary": "4df7e5c2bb627fffd5237e3815235972ee609c86f3c2a34b6cc064ba65ba40d3"
+    },
+    "generation_args": {
+      "paper_count": 200,
+      "paper_batch_size": 10,
+      "ood_count": 32,
+      "ood_batch_size": 4,
+      "ood_per_domain": 10,
+      "boundary_count": 16,
+      "boundary_batch_size": 2,
+      "boundary_per_domain": 5,
+      "concurrency": 4
+    }
+  },
+  "counts": {
+    "total": 800,
+    "split": {
+      "train": 555,
+      "internal_test": 125,
+      "calibration": 120
+    },
+    "label": {
+      "in_scope": 448,
+      "out_of_scope": 352
+    },
+    "category": {
+      "boundary": 80,
+      "in_scope": 400,
+      "ood": 320
+    },
+    "language": {
+      "zh": 408,
+      "en": 262,
+      "zh_en": 130
+    },
+    "kind": {
+      "boundary_positive": 48,
+      "boundary_negative": 32,
+      "compare": 124,
+      "local": 91,
+      "relation": 140,
+      "trend": 33,
+      "followup": 12,
+      "ood": 279,
+      "hard_negative": 41
+    },
+    "groups": {
+      "total": 248,
+      "by_split": {
+        "train": 173,
+        "calibration": 37,
+        "internal_test": 38
+      }
+    }
+  },
+  "external_test": {
+    "path": "eval\\scope_v1\\test.jsonl",
+    "sha256": "d881f0bb4b4e0f4305aaebbebb072925410a1bcebc18e1d0d85312d5b44e4cdf",
+    "training_allowed": false
+  },
+  "quality_policy": {
+    "label_source": "llm_generated_silver",
+    "gold": false,
+    "group_split": true,
+    "exact_duplicate_filter": true,
+    "external_test_overlap_filter": true,
+    "human_review": "pending in review.csv",
+    "threshold_selection_allowed": false
+  },
+  "files": {
+    "all.jsonl": {
+      "sha256": "f93b8c493fc323e62fc398a2db873e0d784548ad150b5358c68a1e7c9a895829",
+      "bytes": 646709
+    },
+    "train.jsonl": {
+      "sha256": "9a6602f1b6d5576a6a8b0eded46ce23edacac0fea9bf52c00036c4808de6d3eb",
+      "bytes": 448379
+    },
+    "calibration.jsonl": {
+      "sha256": "ec8b519836c7e0b8d251467fa7865ff31c062a6cc02b7e10b67eac6de280f415",
+      "bytes": 96473
+    },
+    "internal_test.jsonl": {
+      "sha256": "e6f1bd0fa02df8c43e97af513d632e0f6a696fb0641852307f60e911f4a47487",
+      "bytes": 101857
+    },
+    "laya_train.jsonl": {
+      "sha256": "e173f4910393276a8cfccee6af7120e9036d55ec4ad572d56a9d194c7e925675",
+      "bytes": 333942
+    },
+    "laya_calibration.jsonl": {
+      "sha256": "5dcf31da1de2395c901de83ac2ab09b6d44269a180461134ece93fd2e52e7095",
+      "bytes": 72103
+    },
+    "review.csv": {
+      "sha256": "c342680510cb1bddfedf5f53411342ae79328fd1363d278895af58d82a29184d",
+      "bytes": 49845
+    },
+    "quality_report.json": {
+      "sha256": "8123b3820b8d2c0dcc4e21b71f54892b5db0c8b133d5468868d0541a1e3e0ea1",
+      "bytes": 958
+    }
+  }
+}

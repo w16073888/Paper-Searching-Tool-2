@@ -1,0 +1,47 @@
+{
+  "generated_at": "2026-10-24T02:20:32+00:00",
+  "dataset_version": "scope-dataset-v1.2",
+  "items": 1000,
+  "checks": {
+    "required_fields": true,
+    "group_split_isolation": true,
+    "exact_duplicates": true,
+    "external_test_overlap": true,
+    "category_label_consistency": true,
+    "boundary_domains_have_both_labels": true,
+    "near_duplicates": true
+  },
+  "counts": {
+    "split": {
+      "train": 697,
+      "calibration": 178,
+      "internal_test": 125
+    },
+    "label": {
+      "in_scope": 548,
+      "out_of_scope": 452
+    },
+    "category": {
+      "boundary": 160,
+      "in_scope": 460,
+      "ood": 380
+    },
+    "language": {
+      "zh": 520,
+      "en": 338,
+      "zh_en": 142
+    },
+    "groups": 274
+  },
+  "failures": {
+    "missing_fields": 0,
+    "crossing_groups": 0,
+    "exact_duplicates": 0,
+    "external_overlap": 0,
+    "category_label_bad": 0,
+    "boundary_domains_bad": 0,
+    "same_split_near_duplicates": 0,
+    "cross_split_near_duplicates": 0
+  },
+  "passed": true
+}
