@@ -23,6 +23,7 @@ class AgentDeps:
     seen_ids: set[str] = field(default_factory=set)
     fetched: set[str] = field(default_factory=set)
     fetched_order: list[str] = field(default_factory=list)
+    history_citation_ids: list[str] = field(default_factory=list)
     search_calls: int = 0
     fetch_calls: int = 0
     topic_calls: int = 0

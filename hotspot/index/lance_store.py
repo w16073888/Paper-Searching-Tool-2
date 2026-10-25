@@ -60,6 +60,12 @@ class LancePaperStore:
             str(self.db_path)
         ).table_names()
 
+    def count(self) -> int:
+        """Return the number of indexed rows, or zero when unavailable."""
+        if not self.available:
+            return 0
+        return int(self._table().count_rows())
+
     def _table(self):
         if not self.db_path.exists():
             raise FileNotFoundError(

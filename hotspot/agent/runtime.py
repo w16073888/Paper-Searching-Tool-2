@@ -48,7 +48,7 @@ INSTRUCTIONS = """你是本地论文库研究助手。只能依据工具返回�
 
 规则：
 1. 问题涉及方法或论文时，先调用 search_papers；查询可用英文关键词。
-2. 需要引用任何论文前，必须调用 fetch_papers 获取摘要。
+2. 需要引用任何论文前，必须调用 fetch_papers 获取摘要；服务端已经注入的前文引用论文除外。
 3. 比较两个对象时分别搜索两次，不要只搜一个合并字符串。
 4. 问热门方向、研究趋势或领域概览时，先调用 get_topic_overview；它读取离线主题快照。
 5. 只能引用 fetched 中真实存在的 paper_id，不得编造 ID、标题或结论。
@@ -73,6 +73,36 @@ AGENT_MODEL_SETTINGS = ModelSettings(
     top_p=0.8,
     seed=42,
 )
+HISTORY_ABSTRACT_CHARS = 1200
+
+
+def build_history_context(
+    history: list[dict],
+    store,
+    *,
+    limit: int = 6,
+) -> tuple[str, list[str]]:
+    """Build follow-up context from prior assistant citation IDs."""
+    citation_ids: list[str] = []
+    for message in reversed(history):
+        if message.get("role") != "assistant":
+            continue
+        for raw_id in message.get("citation_ids") or []:
+            paper_id = str(raw_id).strip()
+            if paper_id and paper_id not in citation_ids:
+                citation_ids.append(paper_id)
+    citation_ids = citation_ids[:max(1, min(int(limit), 20))]
+    papers = store.get_papers(citation_ids) if citation_ids else []
+    lines = []
+    for paper in papers:
+        abstract = str(paper.abstract or "").strip()
+        if len(abstract) > HISTORY_ABSTRACT_CHARS:
+            abstract = abstract[:HISTORY_ABSTRACT_CHARS].rstrip() + "…"
+        lines.append(
+            f"[P:{paper.paper_id}] {paper.title or ''}\n"
+            f"摘要: {abstract}"
+        )
+    return "\n\n".join(lines), [paper.paper_id for paper in papers]
 
 
 def _api_key(cfg: dict) -> str:
@@ -319,18 +349,39 @@ def run_research_agent(
         raise RuntimeError(
             "LanceDB index missing; run scripts/build_lance_index.py"
         )
-    prompt = question
+    conversation = ""
     if history:
-        recent = "\n".join(
+        conversation = "\n".join(
             f"{item.get('role')}: {item.get('text')}"
             for item in history[-6:]
             if item.get("text")
         )
-        if recent:
-            prompt = f"最近对话：\n{recent}\n\n当前问题：{question}"
+    scope_prompt = question
+    if conversation:
+        scope_prompt = f"最近对话：\n{conversation}\n\n当前问题：{question}"
+
+    history_context, history_ids = build_history_context(
+        history or [],
+        deps.store,
+        limit=deps.fetch_limit,
+    )
+    deps.history_citation_ids = list(history_ids)
+    if history_ids:
+        deps.seen_ids.update(history_ids)
+        deps.fetched.update(history_ids)
+        deps.fetched_order.extend(
+            paper_id for paper_id in history_ids
+            if paper_id not in deps.fetched_order
+        )
+    agent_prompt = scope_prompt
+    if history_context:
+        agent_prompt += (
+            "\n\n前文引用论文（服务端已读取摘要，可直接作为证据）：\n"
+            + history_context
+        )
     scope_started = time.perf_counter()
     scope_decision, scope_usage = _classify_scope(
-        prompt, cfg, timeout=deps.scope_timeout_s,
+        scope_prompt, cfg, timeout=deps.scope_timeout_s,
     )
     scope_elapsed = round(time.perf_counter() - scope_started, 3)
     if not scope_decision.in_scope:
@@ -345,7 +396,7 @@ def run_research_agent(
     agent_started = time.perf_counter()
     try:
         result = _build_agent(cfg).run_sync(
-            prompt,
+            agent_prompt,
             deps=deps,
             timeout=deps.agent_timeout_s,
             usage_limits=UsageLimits(

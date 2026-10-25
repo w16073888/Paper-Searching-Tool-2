@@ -26,15 +26,17 @@ warnings.filterwarnings("ignore", category=SyntaxWarning)
 from hotspot.api.contract import (  # noqa: E402
     CONTRACT_VERSION,
     PARAM_SPEC,
+    ApiError,
     AskRequest,
     AskResponse,
     MetaResponse,
     SourceInfo,
     new_request_id,
 )
-from hotspot.api.engine import Engine  # noqa: E402
+from hotspot.api.engine import Engine, _history_for_request  # noqa: E402
 from hotspot.api.http import create_server  # noqa: E402
-from hotspot.core.models import AgentAnswer, AnswerClaim  # noqa: E402
+from hotspot.agent.runtime import build_history_context  # noqa: E402
+from hotspot.core.models import AgentAnswer, AnswerClaim, PaperDetail  # noqa: E402
 from hotspot.reasoning.grounding import verify_and_render  # noqa: E402
 
 FAILS: list[str] = []
@@ -120,6 +122,56 @@ def check_contract() -> None:
     check("scope retained", dumped["scope"]["years"] == [2025])
     check("params normalized", dumped["params"] == {"search_limit": 16})
 
+    oversized = AskRequest.from_dict({
+        "question": "x" * (AskRequest.MAX_QUESTION + 1),
+        "history": [
+            {"role": "user", "text": f"问题 {index}"}
+            for index in range(AskRequest.MAX_HISTORY + 1)
+        ],
+    })
+    check("question truncation recorded", oversized.question_truncated)
+    check("history truncation recorded", oversized.history_truncated)
+    check("history keeps newest messages",
+          oversized.history[0].text == "问题 1")
+    check("new mode ignores history", _history_for_request(oversized) == [])
+    oversized.mode = "followup"
+    check("followup mode passes history",
+          len(_history_for_request(oversized)) == AskRequest.MAX_HISTORY)
+    unsupported_scope = AskRequest.from_dict({
+        "question": "测试",
+        "scope": {"subfields": ["RL"]},
+    })
+    check("unsupported scope warned",
+          any("subfields" in warning for warning in unsupported_scope.scope_warnings))
+
+    class HistoryStore:
+        def get_papers(self, ids):
+            return [
+                PaperDetail(
+                    paper_id=paper_id,
+                    title=f"Title {paper_id}",
+                    abstract="A" * 1300,
+                )
+                for paper_id in ids
+                if paper_id == "p1"
+            ]
+
+    context, context_ids = build_history_context(
+        [
+            {"role": "user", "text": "上一问"},
+            {
+                "role": "assistant",
+                "text": "上一答",
+                "citation_ids": ["p1"],
+            },
+        ],
+        HistoryStore(),
+        limit=6,
+    )
+    check("follow-up citation dereferenced",
+          context_ids == ["p1"] and "[P:p1]" in context
+          and "Title p1" in context and "…" in context)
+
     resp = StubEngine().ask(req)
     body = resp.to_dict()
     expected = {
@@ -169,7 +221,8 @@ def check_http() -> None:
         )
         check("sse content type",
               status == 200 and "text/event-stream" in headers.get("Content-Type", ""))
-        check("sse final event", "event: done" in text or '"route": "local"' in text)
+        check("sse final event",
+              "event: result" in text and '"contract_version": "2"' in text)
     finally:
         server.shutdown()
         server.server_close()
@@ -180,6 +233,11 @@ def check_real_meta() -> None:
     meta = Engine().meta().to_dict()
     check("real meta", bool(meta.get("sources")))
     check("algorithm v2", meta["capabilities"].get("algorithm_version") == "2")
+    llm_meta = meta.get("llm") or {}
+    check("meta llm defaults",
+          bool(llm_meta.get("base_url"))
+          and bool(llm_meta.get("model"))
+          and isinstance(llm_meta.get("has_server_key"), bool))
     timeouts = meta["capabilities"].get("timeouts") or {}
     check("independent timeout policy",
           timeouts.get("scope_s") == 30
@@ -194,8 +252,28 @@ def check_real_meta() -> None:
         (item for item in meta.get("sources", []) if item.get("key") == "arxiv"),
         {},
     )
-    check("arXiv index unavailable is explicit",
-          "索引未构建" in str(arxiv.get("note") or ""))
+    check("source index metadata",
+          isinstance(arxiv.get("indexed_papers"), int)
+          and isinstance(arxiv.get("index_ready"), bool))
+    if arxiv.get("index_ready"):
+        check("arXiv index coverage",
+              arxiv["indexed_papers"] <= arxiv["papers"])
+    else:
+        check("arXiv index unavailable is explicit",
+              "索引未构建" in str(arxiv.get("note") or ""))
+
+    truncated = Engine().ask({
+        "question": "x" * (AskRequest.MAX_QUESTION + 1),
+        "history": [
+            {"role": "user", "text": f"问题 {index}"}
+            for index in range(AskRequest.MAX_HISTORY + 1)
+        ],
+        "dry_run": True,
+    })
+    check("request truncation warnings",
+          any("问题超过 2000 字" in warning for warning in truncated.warnings)
+          and any("历史消息超过 40 条" in warning
+                  for warning in truncated.warnings))
 
 
 def check_verify_timeout_fallback() -> None:

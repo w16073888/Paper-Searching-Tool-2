@@ -180,7 +180,7 @@ class AskRequest:
         history: 历史消息（只有 followup 用；服务端**不存会话**）。
         llm: 该用户的 API 配置。
         params: 检索/展示参数覆盖（白名单见 :data:`PARAM_SPEC`）。
-        scope: 前端解析的硬过滤条件（years/venues/sources/subfields）。
+        scope: 前端解析的硬过滤条件（years/venues）。
         dry_run: 不调真 LLM，只走离线链路（前端无 key 时也能把界面跑起来）。
         include_graph: 是否计算/返回 Streit-Garg 关键路径图。
     """
@@ -194,8 +194,12 @@ class AskRequest:
     scope: dict[str, Any] = field(default_factory=dict)
     dry_run: bool = False
     include_graph: bool = True
+    #: 请求格式可解析、但当前算法不执行的字段提示。
+    scope_warnings: list[str] = field(default_factory=list)
     #: 问题超过 :data:`MAX_QUESTION` 时被截断（服务层会给一条 warning）。
     question_truncated: bool = False
+    #: 历史消息超过 :data:`MAX_HISTORY` 时只保留最近的消息。
+    history_truncated: bool = False
 
     #: 问题长度上限（超了截断，不报错 —— 前端输入框也可能没设 maxlength）
     MAX_QUESTION = 2000
@@ -225,6 +229,7 @@ class AskRequest:
         if not isinstance(raw_hist, list):
             raise ApiError(E_BAD_REQUEST, "history 必须是数组")
         history = [Message.from_dict(m, index=i) for i, m in enumerate(raw_hist)]
+        history_truncated = len(history) > cls.MAX_HISTORY
         if len(history) > cls.MAX_HISTORY:
             history = history[-cls.MAX_HISTORY:]
 
@@ -236,6 +241,14 @@ class AskRequest:
         raw_scope = d.get("scope") or {}
         if not isinstance(raw_scope, dict):
             raise ApiError(E_BAD_REQUEST, "scope 必须是对象")
+        unknown_scope = sorted(
+            set(raw_scope) - {"years", "years_explicit", "venues"}
+        )
+        scope_warnings = []
+        if unknown_scope:
+            scope_warnings.append(
+                f"scope 字段 {unknown_scope} 当前不支持，已忽略。"
+            )
         scope: dict[str, Any] = {}
         raw_years = raw_scope.get("years") or []
         if not isinstance(raw_years, list):
@@ -245,11 +258,10 @@ class AskRequest:
         except (TypeError, ValueError):
             raise ApiError(E_BAD_REQUEST, "scope.years 必须是整数数组") from None
         scope["years_explicit"] = bool(raw_scope.get("years_explicit", bool(raw_years)))
-        for key in ("venues", "sources", "subfields", "paper_types"):
-            val = raw_scope.get(key) or []
-            if not isinstance(val, list):
-                raise ApiError(E_BAD_REQUEST, f"scope.{key} 必须是数组")
-            scope[key] = [str(x) for x in val]
+        raw_venues = raw_scope.get("venues") or []
+        if not isinstance(raw_venues, list):
+            raise ApiError(E_BAD_REQUEST, "scope.venues 必须是数组")
+        scope["venues"] = [str(x) for x in raw_venues]
 
         return cls(
             question=q,
@@ -261,7 +273,9 @@ class AskRequest:
             scope=scope,
             dry_run=bool(d.get("dry_run") or False),
             include_graph=bool(d.get("include_graph", True)),
+            scope_warnings=scope_warnings,
             question_truncated=truncated,
+            history_truncated=history_truncated,
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -271,6 +285,9 @@ class AskRequest:
             "llm": self.llm.to_dict(), "params": dict(self.params),
             "scope": dict(self.scope),
             "dry_run": self.dry_run, "include_graph": self.include_graph,
+            "scope_warnings": list(self.scope_warnings),
+            "question_truncated": self.question_truncated,
+            "history_truncated": self.history_truncated,
         }
 
 
@@ -558,6 +575,8 @@ class SourceInfo:
     key: str
     label: str
     papers: int = 0
+    indexed_papers: int = 0
+    index_ready: bool = False
     new_this_week: int = 0
     note: str = ""
 

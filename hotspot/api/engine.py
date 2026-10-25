@@ -8,6 +8,7 @@ controller are assembled.
 from __future__ import annotations
 
 import copy
+import os
 import threading
 import time
 from typing import Any, Optional
@@ -36,12 +37,19 @@ from .contract import (
     SourceInfo,
     Usage,
     apply_params,
+    normalize_base_url,
     new_request_id,
     stage_event,
 )
 
 ProgressHook = Optional[Any]
 _ENGINE: Optional["Engine"] = None
+
+
+def _history_for_request(req: AskRequest) -> list[dict[str, Any]]:
+    if req.mode != "followup":
+        return []
+    return [message.to_dict() for message in req.history]
 
 
 class Engine:
@@ -80,12 +88,36 @@ class Engine:
             try:
                 stats = self._corpus(key).stats()
                 info.papers = int(stats.get("papers") or 0)
-                if not LancePaperStore(self._cfg, source=key).available:
+                store = LancePaperStore(self._cfg, source=key)
+                info.index_ready = store.available
+                if info.index_ready:
+                    info.indexed_papers = store.count()
+                    if info.indexed_papers < info.papers:
+                        info.note = (
+                            f"LanceDB 索引覆盖 {info.indexed_papers}/"
+                            f"{info.papers} 篇"
+                        )
+                else:
                     info.note = "LanceDB 索引未构建，暂不可检索"
             except ApiError as exc:
                 info.note = exc.message
                 out.warnings.append(exc.message)
             out.sources.append(info)
+        llm = self._cfg.get("llm") or {}
+        key = str(llm.get("api_key") or "").strip()
+        key_env = str(llm.get("api_key_env") or "").strip()
+        if not key and key_env:
+            key = str(os.environ.get(key_env) or "").strip()
+        base_url = normalize_base_url(str(llm.get("base_url") or ""))
+        model_flash = str(llm.get("model_flash") or "")
+        model_pro = str(llm.get("model_pro") or "")
+        out.llm = {
+            "base_url": base_url,
+            "model": model_pro or model_flash,
+            "model_flash": model_flash,
+            "model_pro": model_pro,
+            "has_server_key": bool(key),
+        }
         out.capabilities = {
             "algorithm_version": "2",
             "agent": "pydantic-ai",
@@ -119,8 +151,18 @@ class Engine:
         cfg = copy.deepcopy(self._cfg)
         req.llm.apply_to(cfg)
         apply_params(cfg, req.params)
+        request_warnings = []
+        request_warnings.extend(req.scope_warnings)
+        if req.question_truncated:
+            request_warnings.append("问题超过 2000 字，已截断。")
+        if req.history_truncated:
+            request_warnings.append("历史消息超过 40 条，仅使用最近 40 条。")
 
         def finish(response: AskResponse, run=None) -> AskResponse:
+            response.warnings = list(dict.fromkeys([
+                *request_warnings,
+                *response.warnings,
+            ]))
             actions = list(run.deps.events) if run is not None else []
             append_trace(cfg, {
                 "request_id": response.request_id,
@@ -197,7 +239,7 @@ class Engine:
                 cfg=cfg,
                 source=req.source,
                 scope=req.scope,
-                history=[m.to_dict() for m in req.history],
+                history=_history_for_request(req),
             )
         except ResearchAgentError as exc:
             elapsed = round(time.perf_counter() - started, 3)
@@ -307,6 +349,9 @@ class Engine:
                     "search_calls": run.deps.search_calls,
                     "fetch_calls": run.deps.fetch_calls,
                     "topic_calls": run.deps.topic_calls,
+                    "history_citation_ids": list(
+                        run.deps.history_citation_ids
+                    ),
                     "seen_ids": len(run.deps.seen_ids),
                     "fetched_ids": len(run.deps.fetched),
                     "tool_events": run.deps.events,
