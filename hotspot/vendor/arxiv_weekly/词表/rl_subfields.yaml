@@ -1,0 +1,420 @@
+# RL 子方向分类表 —— 用于「方向的完整性」检查与趋势统计
+#
+# ⚠️ 这张表的作用不是给论文归类，而是**发现库里缺了什么**。
+#
+# 因此骨架刻意**从外部文献导入**，不从本库内容归纳：
+# 用库内数据聚类，只能看见已经进来的东西；缺掉的那个子方向在库里没有任何痕迹，
+# 无论怎么统计都浮不出来。只有拿一个外部骨架去套，才能看见「这一类计数为 0」。
+#
+# 骨架来源：Sutton & Barto 教科书的三分（value-based / policy-based / model-based），
+# 加上 2015 年后长出来的分支（offline / MARL / RLHF / safe / hierarchical / robot）。
+# 这是 RL 领域论文里通用的切分，不是本项目发明的。
+#
+# 改这个文件后重跑 `python -m rllib filter --rl` 即可，**无需重爬**。
+#
+# ---------------------------------------------------------------------------
+# 两级关键词，以及为什么必须分两级
+# ---------------------------------------------------------------------------
+#
+# 子方向词表里混着两类词，混作一谈会让趋势数据变成噪声：
+#
+#   * 专有词：「offline rl」「q-learning」「marl」「rlhf」——出现即说明这是 RL 论文。
+#   * 通用词：「planning」「scheduling」「locomotion」「lower bound」——任何领域的
+#     论文都可能出现。单靠它们打标，`rl_for_systems` 会把几千篇系统论文收进来，
+#     趋势曲线变成一条没有意义的斜线。
+#
+# 所以：
+#
+#   `keywords`  专有词。命中任意一条 → 该篇**通过 RL 闸门**，并打上该子方向。
+#   `weak`      通用词。**只有在论文已通过 RL 闸门时才计入**。
+#
+# 闸门定义：命中任意一条 `keywords`，**或** `rl.is_rl` 为真。
+# 注意闸门**不依赖 is_rl 单条**——那样会把「筛选器漏掉的 RL 论文」一并挡在门外，
+# 而找出这些漏网论文正是这张表存在的首要目的（见 PLAN.md 8.2）。
+#
+# 匹配：全小写，词边界（`\bPPO\b` 不命中 "PPOXYZ"），含空格短语按 `\s+` 匹配。
+# 一篇论文可命中多个子方向（列表，不是单选）。
+# **只扫标题 + 摘要，不扫全文**——全文里一句 "we compare against PPO" 会把一大批
+# 不相干的论文拉进来，把计数彻底稀释掉。
+
+version: 1
+
+subfields:
+
+  # ---------------------------------------------------------------- #
+  # 教科书三分：RL 的骨架
+  # ---------------------------------------------------------------- #
+  value_based:
+    label: "值函数 / TD 学习"
+    keywords:
+      - q-learning
+      - q learning
+      - td learning
+      - temporal difference
+      - value iteration
+      - dqn
+      - double dqn
+      - dueling
+      - bellman
+      - td-error
+      - actor-critic
+      - actor critic
+    weak:
+      - value function approximation
+      - advantage function
+      - bootstrapping
+      - critic
+
+  policy_gradient:
+    label: "策略梯度 / 直接策略优化"
+    keywords:
+      - policy gradient
+      - ppo
+      - trpo
+      - reinforce
+      - trust region
+      - natural gradient
+      - policy optimization
+      - a2c
+      - a3c
+      - soft actor-critic
+      - sac
+      - deterministic policy gradient
+      - ddpg
+    weak:
+      - advantage actor
+      - clipped objective
+
+  model_based:
+    label: "基于模型 / 规划"
+    keywords:
+      - model-based reinforcement learning
+      - model-based rl
+      - world model
+      - learned dynamics
+      - dynamics model
+      - monte carlo tree search
+      - mcts
+      - muzero
+      - alphazero
+      - dreamer
+      - latent dynamics
+    weak:
+      - planning
+      - rollout
+      - imagination
+      - forward model
+
+  # ---------------------------------------------------------------- #
+  # 数据来源 / 学习范式
+  # ---------------------------------------------------------------- #
+  offline:
+    label: "离线 RL"
+    keywords:
+      - offline reinforcement learning
+      - offline rl
+      - batch reinforcement learning
+      - batch rl
+      - conservative q
+      - cql
+      - iql
+      - bcq
+      - offline policy
+      - extrapolation error
+    weak:
+      - conservatism
+      - offline dataset
+      - distribution shift
+
+  imitation:
+    label: "模仿学习 / 逆 RL"
+    keywords:
+      - imitation learning
+      - behavior cloning
+      - behavioural cloning
+      - inverse reinforcement learning
+      - inverse rl
+      - learning from demonstration
+      - learning from demonstrations
+      - dagger
+      - apprenticeship learning
+      - irl
+    weak:
+      - expert demonstration
+      - expert trajectory
+
+  unsupervised:
+    label: "无监督 / 自监督 RL"
+    keywords:
+      - unsupervised reinforcement learning
+      - unsupervised skill
+      - self-supervised reinforcement
+      - contrastive reinforcement learning
+      - state entropy
+    weak:
+      - representation learning
+      - diversity
+
+  # ---------------------------------------------------------------- #
+  # 泛化与迁移
+  # ---------------------------------------------------------------- #
+  transfer_meta:
+    label: "迁移 / 元 RL / 泛化"
+    keywords:
+      - meta-reinforcement learning
+      - meta-rl
+      - multi-task reinforcement learning
+      - zero-shot generalization
+      - domain randomization
+      - generalization in reinforcement learning
+    weak:
+      - meta learning
+      - transfer learning
+      - few-shot adaptation
+      - out-of-distribution generalization
+      - task distribution
+
+  # ---------------------------------------------------------------- #
+  # 探索
+  # ---------------------------------------------------------------- #
+  exploration:
+    label: "探索"
+    keywords:
+      - intrinsic motivation
+      - intrinsic reward
+      - random network distillation
+      - count-based
+      - exploration bonus
+      - epsilon-greedy
+      - efficient exploration
+      - entropy regularization
+    weak:
+      - exploration
+      - curiosity
+      - novelty
+      - optimism
+
+  bandits:
+    label: "赌博机"
+    keywords:
+      - multi-armed bandit
+      - multiarmed bandit
+      - contextual bandit
+      - bandit problem
+      - bandit algorithm
+      - thompson sampling
+      - linear bandit
+      - best-arm identification
+    weak:
+      - upper confidence bound
+      - ucb
+      - regret bound
+      - regret minimization
+
+  # ---------------------------------------------------------------- #
+  # 多智能体
+  # ---------------------------------------------------------------- #
+  multi_agent:
+    label: "多智能体 RL"
+    keywords:
+      - multi-agent reinforcement learning
+      - multiagent reinforcement learning
+      - multi-agent rl
+      - marl
+      - cooperative multi-agent
+      - competitive multi-agent
+      - self-play
+      - selfplay
+      - credit assignment
+      - joint action
+    weak:
+      - nash equilibrium
+      - population-based training
+      - emergent behavior
+      - zero-sum game
+
+  # ---------------------------------------------------------------- #
+  # LLM 时代的 RL —— 这两类是新方向「先出现在 arXiv」的典型，
+  # 也是当前只匹配标题的关键词筛选器最容易漏掉的地方
+  # （标题里常常根本不出现 reinforcement learning）
+  # ---------------------------------------------------------------- #
+  rlhf:
+    label: "RLHF / 偏好优化"
+    keywords:
+      - rlhf
+      - reinforcement learning from human feedback
+      - preference optimization
+      - direct preference
+      - dpo
+      - reward model
+      - reward modeling
+      - human preference
+      - constitutional
+    weak:
+      - human feedback
+      - alignment
+      - aligned language model
+      - preference learning
+
+  llm_reasoning_rl:
+    label: "LLM 推理的 RL（RLVR / GRPO 等）"
+    keywords:
+      - rlvr
+      - verifiable reward
+      - verifiable rewards
+      - grpo
+      - group relative policy
+      - reinforcement learning for reasoning
+      - reinforcement learning with verifiable
+      - process reward
+      - outcome reward
+    weak:
+      - reasoning language model
+      - chain-of-thought reinforcement
+      - self-improvement
+      - test-time reinforcement
+      - mathematical reasoning
+
+  # ---------------------------------------------------------------- #
+  # 理论
+  # ---------------------------------------------------------------- #
+  theory:
+    label: "RL 理论 / 收敛性与样本复杂度"
+    # "sample complexity" 与 "theoretical guarantee" 在凸优化里同样通用
+    # （实测命中 "Improved Sample Complexity for Private Nonsmooth Nonconvex
+    # Optimization" 这类纯优化论文），所以只能在闸门已开时计入。
+    keywords:
+      - markov decision process
+      - linear mdps
+      - policy gradient theorem
+      - provably efficient
+      - complexity of reinforcement learning
+    weak:
+      - sample complexity
+      - theoretical guarantee
+      - regret bound
+      - convergence rate
+      - pac learning
+      - lower bound
+      - contraction
+      - fixed point
+      - function approximation theory
+
+  # ---------------------------------------------------------------- #
+  # 安全与约束
+  # ---------------------------------------------------------------- #
+  safe:
+    label: "安全 / 约束 RL"
+    keywords:
+      - safe reinforcement learning
+      - safe rl
+      - constrained markov
+      - constrained reinforcement learning
+      - cmdp
+      - risk-sensitive
+      - risk-averse
+      - cost constraint
+      - feasible policy
+    weak:
+      - shielding
+      - safety constraint
+
+  # ---------------------------------------------------------------- #
+  # 层级与技能
+  # ---------------------------------------------------------------- #
+  hierarchical:
+    label: "层级 RL / 技能发现"
+    keywords:
+      - hierarchical reinforcement learning
+      - hierarchical rl
+      - options framework
+      - option discovery
+      - skill discovery
+      - skill learning
+      - temporally extended
+      - goal-conditioned
+      - subgoal
+      - low-level policy
+      - high-level policy
+    weak:
+      - manager worker
+
+  # ---------------------------------------------------------------- #
+  # 应用：机器人
+  # ---------------------------------------------------------------- #
+  robotics:
+    label: "机器人 / 控制"
+    keywords:
+      - robot learning
+      - robotic manipulation
+      - sim-to-real
+      - sim2real
+      - continuous control
+      - manipulation policy
+      - dexterous
+    weak:
+      - locomotion
+      - quadruped
+      - humanoid
+      - autonomous driving
+      - grasping
+      - drone
+      - navigation
+
+  # ---------------------------------------------------------------- #
+  # 应用：其他领域。单列是为了让课题组看清 RL 的**外溢方向**——
+  # 「RL 被用到别处」与「RL 本身」是两类不同的信号。
+  # 这几类几乎全是通用词，所以 weak 占多数，靠闸门兜底。
+  # ---------------------------------------------------------------- #
+  rl_for_science:
+    label: "RL 用于科学 / 工程"
+    keywords:
+      - chip placement
+      - chip design
+      - neural architecture search
+      - protein design
+      - quantum control
+    weak:
+      - drug discovery
+      - molecular design
+      - protein
+      - compiler optimization
+      - circuit design
+      - materials discovery
+      - fusion
+      - telescope
+      - database tuning
+
+  rl_for_systems:
+    label: "RL 用于系统 / 资源调度"
+    keywords:
+      - cache replacement
+      - query optimization
+    weak:
+      - resource allocation
+      - scheduling
+      - congestion control
+      - cluster scheduling
+      - power management
+      - data center
+      - network routing
+      - recommendation system
+      - bidding
+      - auction
+
+  rl_for_agents:
+    label: "Agent / 工具使用 / 环境交互"
+    keywords:
+      - tool use
+      - tool-use
+      - web agent
+      - gui agent
+      - computer use
+      - embodied agent
+      - environment interaction
+    weak:
+      - agentic
+      - long-horizon task
+      - multi-turn
+      - sandbox
+      - software engineering agent

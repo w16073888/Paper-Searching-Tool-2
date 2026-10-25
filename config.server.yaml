@@ -12,7 +12,12 @@ corpus:
   sources:
     - /home/scu101/rl_data24/资源/papers.jsonl
     - /home/scu101/rl_data/资源/papers.jsonl
-  arxiv_source: /home/scu101/mobile-cup/data/arxiv/papers.jsonl
+  arxiv_source: /home/scu101/mobile-cup/data/arxiv-weekly/papers.jsonl
+
+arxiv_weekly:
+  data_dir: /home/scu101/mobile-cup/data/arxiv-weekly
+  cache_dir: /home/scu101/mobile-cup/data/arxiv-weekly/cache
+  harness_schema: weekly-harness-v1
 
 llm:
   base_url: http://127.0.0.1:8000/v1

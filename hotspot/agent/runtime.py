@@ -215,6 +215,7 @@ def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
         keywords: list[str] | None = None,
         years: list[int] | None = None,
         venues: list[str] | None = None,
+        weeks: list[str] | None = None,
         limit: int = 0,
     ) -> SearchResult:
         """Search local papers. Use concise English queries and optional synonyms."""
@@ -223,6 +224,7 @@ def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
         ctx.deps.search_calls += 1
         requested_years = ctx.deps.years or years or []
         requested_venues = ctx.deps.venues or venues or []
+        requested_weeks = ctx.deps.weeks or weeks or []
         question_lower = ctx.deps.question.casefold()
         # LLMs sometimes invent metadata filters that eliminate every hit.
         # Hard filters are accepted only when the user explicitly wrote them.
@@ -234,6 +236,11 @@ def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
             str(venue) for venue in requested_venues
             if str(venue).strip()
             and str(venue).casefold() in question_lower
+        ]
+        effective_weeks = [
+            str(week) for week in requested_weeks
+            if str(week).strip()
+            and (ctx.deps.weeks or str(week).casefold() in question_lower)
         ]
         model_limit = min(
             ctx.deps.search_limit,
@@ -249,6 +256,7 @@ def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
             keywords=keywords,
             years=effective_years,
             venues=effective_venues,
+            weeks=effective_weeks,
             limit=effective_limit,
         )
         if subqueries:
@@ -259,6 +267,7 @@ def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
                     keywords=[subquery],
                     years=effective_years,
                     venues=effective_venues,
+                    weeks=effective_weeks,
                     limit=effective_limit,
                 )
                 for subquery in subqueries
@@ -278,6 +287,7 @@ def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
             "keywords": list(keywords or []),
             "years": list(effective_years),
             "venues": list(effective_venues),
+            "weeks": list(effective_weeks),
             "limit": effective_limit,
             "returned": len(result.results),
             "ids": [hit.paper_id for hit in result.results],
@@ -437,6 +447,7 @@ def run_research_agent(
         source=source,
         years=[int(y) for y in (scope.get("years") or [])],
         venues=[str(v) for v in (scope.get("venues") or [])],
+        weeks=[str(scope["week_id"])] if scope.get("week_id") else [],
     )
     if not deps.store.available:
         raise RuntimeError(

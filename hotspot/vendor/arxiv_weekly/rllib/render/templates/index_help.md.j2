@@ -1,0 +1,47 @@
+# 使用说明
+
+## 这个库里有什么
+
+`papers/` 下的每篇笔记对应一条论文记录，覆盖 ICML / NeurIPS / ICLR / CoRL 2025。
+文件名是**净化后的 paper_id**（如 `arxiv-2506.03157.md`）而不是标题——
+因为 paper_id 永不改变，改标题、换数据源、重跑都不会让笔记改名，
+你在别处写的 `[[双链]]` 也就不会断。想按标题找，用 frontmatter 里的 `aliases`：
+Obsidian 支持直接 `[[论文标题]]` 或 `[[cite_key]]` 链过去。
+
+## 哪些地方是你的
+
+每篇笔记从开头到 `<!-- AUTO:END -->` 那一行为止是**受管区**，程序会整体重写。
+**这一行之后的全部内容永远是你的**，程序不读、不改、不删。
+
+    ---
+    frontmatter（自动生成）
+    <!-- AUTO:BEGIN ... -->
+    ...表格 / 摘要 / 溯源...
+    <!-- AUTO:END -->      ← 分界线
+    ## 我的笔记
+    这里随便写              ← 重跑后原样保留
+
+frontmatter 同理：程序生成的字段（`title`/`rl`/`citations` 等）每次刷新，
+**程序不认识的键一律原样保留**——所以你可以安全地加 `rating`、`read`、`project`，
+见 [[我的评分与已读]]。
+
+## 命令（在仓库根目录跑）
+
+```bash
+python -m rllib sync --venue icml2025     # 抓会议元数据（幂等，重复跑不产生重复）
+python -m rllib enrich                    # 用 DataCite 解析 arXiv ID
+python -m rllib backfill-abstracts        # 回补摘要（长任务，可随时中断）
+python -m rllib filter --rl               # 重打 RL 标签（零网络，几秒）
+python -m rllib render --scope rl         # 重新渲染笔记
+python -m rllib stats                     # 全库聚合统计
+```
+
+**改 RL 判定标准不需要重新抓数据**：改 `data/rl_keywords.yaml`，
+然后 `filter --rl` 再 `render` 就行。这是把 `rl` 存成结构化对象而非布尔值的原因。
+
+## 这个库的边界
+
+- **真相源是 `data/papers.jsonl`**，笔记只是产物。分析、分类、趋势概括都该跑在 jsonl 上，
+  而不是爬 Obsidian 目录。
+- **本页所在的 `_index/` 需要 Dataview 插件**才会渲染表格。没装插件时看到的是查询源码。
+- **缺口是显式记录的**，见 [[缺口清单]]。

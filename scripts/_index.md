@@ -40,6 +40,11 @@ tags: [索引]
 - `auto_label_qrels.py` —— 用移动云 LLM 批量生成 silver qrels，支持缓存续跑。
 - `run_server.py` —— HTTP 服务入口。
 - `run_ui.py` —— Streamlit 入口。
+- `daily_arxiv_sync.py` —— 云端 arXiv 日更总入口：抓取、校验、周绑定、
+  增量向量化、LanceDB 更新和 harness 导出。
+- `build_weekly_harness_input.py` —— 从全局 arXiv 库生成按 ISO 周绑定的
+  `harness_input.jsonl` 与 manifest。
+- `check_weekly_pipeline.py` —— 周绑定、harness 契约和 week_id 检索过滤的离线自检。
 - `cost_report.py` —— 成本报表。
 - `export_arxiv_weekly.py` —— arXiv 周报向量与发布物生成。
 - `update_arxiv_weekly.py` —— arXiv 周报增量更新。

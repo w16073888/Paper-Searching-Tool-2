@@ -19,6 +19,8 @@
 from __future__ import annotations
 
 import dataclasses
+import datetime as _dt
+import re
 import time
 import uuid
 from dataclasses import dataclass, field
@@ -180,7 +182,7 @@ class AskRequest:
         history: 历史消息（只有 followup 用；服务端**不存会话**）。
         llm: 该用户的 API 配置。
         params: 检索/展示参数覆盖（白名单见 :data:`PARAM_SPEC`）。
-        scope: 前端解析的硬过滤条件（years/venues）。
+        scope: 前端解析的硬过滤条件（years/venues/week_id）。
         dry_run: 不调真 LLM，只走离线链路（前端无 key 时也能把界面跑起来）。
         include_graph: 是否计算/返回 Streit-Garg 关键路径图。
     """
@@ -242,7 +244,7 @@ class AskRequest:
         if not isinstance(raw_scope, dict):
             raise ApiError(E_BAD_REQUEST, "scope 必须是对象")
         unknown_scope = sorted(
-            set(raw_scope) - {"years", "years_explicit", "venues"}
+            set(raw_scope) - {"years", "years_explicit", "venues", "week_id"}
         )
         scope_warnings = []
         if unknown_scope:
@@ -262,6 +264,19 @@ class AskRequest:
         if not isinstance(raw_venues, list):
             raise ApiError(E_BAD_REQUEST, "scope.venues 必须是数组")
         scope["venues"] = [str(x) for x in raw_venues]
+        raw_week = str(raw_scope.get("week_id") or "").strip()
+        if raw_week:
+            match = re.fullmatch(r"(\d{4})-W(\d{2})", raw_week)
+            try:
+                if not match:
+                    raise ValueError
+                _dt.date.fromisocalendar(int(match[1]), int(match[2]), 1)
+            except ValueError:
+                raise ApiError(
+                    E_BAD_REQUEST,
+                    "scope.week_id 必须是合法 ISO 周，例如 2026-W43",
+                ) from None
+            scope["week_id"] = raw_week
 
         return cls(
             question=q,
@@ -428,6 +443,8 @@ class Citation:
     label: str = ""            # 簇卡片的主题名（kind=cluster 时有）
     venue: str = ""
     year: Optional[int] = None
+    week_id: str = ""
+    first_seen: str = ""
     abstract: str = ""
     arxiv_id: str = ""
     url: str = ""

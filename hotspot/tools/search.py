@@ -13,12 +13,17 @@ def search_papers(
     keywords: list[str] | None = None,
     years: list[int] | None = None,
     venues: list[str] | None = None,
+    weeks: list[str] | None = None,
     limit: int = 12,
 ) -> SearchResult:
     """Search papers by semantic and lexical similarity under hard metadata filters."""
     return store.search(
         query,
         keywords=keywords,
-        filters=SearchFilters(years=years or [], venues=venues or []),
+        filters=SearchFilters(
+            years=years or [],
+            venues=venues or [],
+            weeks=weeks or [],
+        ),
         limit=max(1, min(int(limit), 30)),
     )

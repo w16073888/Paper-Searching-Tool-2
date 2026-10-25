@@ -1,0 +1,40 @@
+# 缺口清单
+
+**这一页存在的意义是让缺口可见。** 计划里最明确的纪律之一就是：
+取不到的数据要**显式列出来**，绝不静默跳过——否则三个月后你以为库是全的。
+
+## 汇总
+
+| 项 | 数量 | 占 RL 论文比例 |
+| --- | ---: | ---: |
+| RL 相关论文总数 | {{ stats.rl_total }} | 100% |
+| 其中缺 arXiv ID | {{ stats.rl_no_arxiv }} | {{ stats.rl_no_arxiv_pct }}% |
+| 其中缺摘要 | {{ stats.rl_no_abstract }} | {{ stats.rl_no_abstract_pct }}% |
+| 全库有摘要 | {{ stats.with_abstract }} / {{ stats.total }} | — |
+| 全库有 arXiv ID | {{ stats.with_arxiv }} / {{ stats.total }} | — |
+| 全库有 DOI | {{ stats.with_doi }} / {{ stats.total }} | — |
+
+**缺 arXiv ID 意味着拿不到全文 PDF**（阶段 6 的下载全靠它）。
+未命中主要来自两个原因：论文确实没上传 arXiv，或 arXiv 的 DOI 尚未在
+DataCite 注册（注册是滞后的，所以 `enrich` 会隔 30 天自动重试一次）。
+
+## 缺 arXiv ID 的 RL 论文
+
+```dataview
+TABLE WITHOUT ID link(file.path, title) AS "标题", venue AS "会议", choice(url, "有", "无") AS "会议页"
+FROM "papers"
+WHERE rl = true AND !arxiv_id
+SORT venue ASC, title ASC
+```
+
+## 缺摘要的 RL 论文
+
+摘要来源是各会议站的**单篇页**，靠 `python -m rllib backfill-abstracts` 逐篇回补
+（约一万次请求、数小时、零 token）。回补没跑完时这里会有很多条，属于正常。
+
+```dataview
+TABLE WITHOUT ID link(file.path, title) AS "标题", venue AS "会议"
+FROM "papers"
+WHERE rl = true AND abstract_available = false
+SORT venue ASC, title ASC
+```

@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import json
 import re
+import datetime as _dt
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -52,6 +53,16 @@ class Paper:
     @property
     def key(self) -> str:
         return self.paper_id
+
+    @property
+    def week_id(self) -> str:
+        if not self.first_seen:
+            return ""
+        try:
+            year, week, _ = _dt.date.fromisoformat(self.first_seen).isocalendar()
+        except ValueError:
+            return ""
+        return f"{year}-W{week:02d}"
 
 
 def _load_source(path: Path) -> list[Paper]:

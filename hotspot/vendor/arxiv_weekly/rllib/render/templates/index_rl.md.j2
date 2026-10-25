@@ -1,0 +1,41 @@
+# RL 论文总览
+
+全库 **{{ stats.total }}** 篇 2025 年论文，其中 RL 相关 **{{ stats.rl_total }}** 篇（{{ stats.rl_pct }}%）。
+数据生成于 {{ stats.generated }}。
+
+> 下面的表格由 Dataview 实时查询 `papers/` 目录得出。**没有装 Dataview 插件的话它不会渲染**——
+> 装好插件并启用即可，不需要重新跑任何命令。
+
+## 按会议分布
+
+| 会议 | 入库总数 | RL 相关 |
+| --- | ---: | ---: |
+{% for venue, n in stats.by_venue.items() %}| {{ venue }} | {{ n }} | {{ stats.rl_by_venue.get(venue, 0) }} |
+{% endfor %}
+
+## 全部 RL 论文（按相关度分数降序）
+
+```dataview
+TABLE WITHOUT ID
+  link(file.path, title) AS "标题",
+  venue AS "会议",
+  rl_score AS "分数",
+  citations AS "引用",
+  choice(arxiv_id, "有", "—") AS "arXiv"
+FROM "papers"
+WHERE rl = true
+SORT rl_score DESC, venue ASC, title ASC
+```
+
+## 未被判定为 RL 的论文
+
+同一次采集里落库、但 RL 词表没命中的部分。留在这里是为了**让漏筛可见**：
+如果你发现某篇该在 RL 里却没被标上，去改 `data/rl_keywords.yaml`，
+再跑 `python -m rllib filter --rl` 重打分即可，**不需要重新抓取任何数据**。
+
+```dataview
+TABLE WITHOUT ID link(file.path, title) AS "标题", venue AS "会议"
+FROM "papers"
+WHERE rl = false
+SORT venue ASC, title ASC
+```

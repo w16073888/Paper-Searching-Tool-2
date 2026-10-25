@@ -1,0 +1,28 @@
+{#
+  周报卡片模板。渲染器：rllib/render/weekly_card.py
+
+  ⚠️ 表格行由 Python 侧拼好传进来（`rows`），**不在这里循环拼 markdown 表格**：
+  环境开了 trim_blocks，块标签周边的换行会被吃掉，而 markdown 表格前面少一个空行
+  就**静默地不渲染成表格**——正文照出，只是变成一堆竖线。主库的 paper.md.j2 同一个理由。
+
+  本模板只负责版式，**任何判断都不在这里**：conern 那一栏该说什么话，是渲染器
+  `_concern_block()` 按 outcome 决定的（见那个模块 docstring 的「没有 vs 没读到」）。
+#}
+# {{ title }}
+
+{{ authors_line }}
+
+| | |
+| --- | --- |
+{% for label, value in rows %}| **{{ label }}** | {{ value }} |
+{% endfor %}
+
+## 摘要
+
+{{ abstract }}
+
+## 作者自述的展望 / 缺口
+
+> {{ concern_src }}
+
+{{ concern_text }}

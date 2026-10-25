@@ -35,6 +35,7 @@ tags: [索引]
 | `structure/` | embedding 与会议扩散统计 | [[hotspot/structure/_index\|打开]] |
 | `tools/` | agent 可调用的 search/fetch 工具 | [[hotspot/tools/_index\|打开]] |
 | `ui/` | Streamlit 适配 | [[hotspot/ui/_index\|打开]] |
+| `weekly/` | arXiv 周绑定、harness 输入和增量向量 | [[hotspot/weekly/_index\|打开]] |
 
 ## 脚本速查
 

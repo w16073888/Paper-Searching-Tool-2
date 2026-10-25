@@ -221,6 +221,8 @@ def make_citations(corpus, citation_ids: list[str] | tuple[str, ...]) -> list[Ci
             title=paper.title or "",
             venue=paper.venue or "",
             year=paper.year,
+            week_id=getattr(paper, "week_id", "") or "",
+            first_seen=getattr(paper, "first_seen", "") or "",
             abstract=(paper.abstract or "")[:500],
             arxiv_id=getattr(paper, "arxiv_id", "") or "",
             url=getattr(paper, "url", "") or "",

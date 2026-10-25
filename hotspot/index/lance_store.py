@@ -34,6 +34,15 @@ def _where(filters: SearchFilters | None) -> str:
             parts.append(
                 "venue IN (" + ",".join(f"'{v}'" for v in escaped) + ")"
             )
+    if filters and filters.weeks:
+        weeks = [
+            str(value).replace("'", "''")
+            for value in filters.weeks if str(value).strip()
+        ]
+        if weeks:
+            parts.append(
+                "week_id IN (" + ",".join(f"'{v}'" for v in weeks) + ")"
+            )
     return " AND ".join(parts)
 
 
@@ -89,6 +98,8 @@ class LancePaperStore:
                 abstract=str(by_id.get(pid, {}).get("abstract") or ""),
                 year=int(by_id[pid]["year"]) if pid in by_id and by_id[pid].get("year") else None,
                 venue=str(by_id.get(pid, {}).get("venue") or ""),
+                week_id=str(by_id.get(pid, {}).get("week_id") or ""),
+                first_seen=str(by_id.get(pid, {}).get("first_seen") or ""),
                 subfields=list(by_id.get(pid, {}).get("subfields") or []),
             )
             for pid in ids
@@ -153,6 +164,8 @@ class LancePaperStore:
                 title=str(row.get("title") or ""),
                 year=int(row["year"]) if row.get("year") else None,
                 venue=str(row.get("venue") or ""),
+                week_id=str(row.get("week_id") or ""),
+                first_seen=str(row.get("first_seen") or ""),
                 score=round(float(ranked[pid]), 6),
                 snippet=abstract[:280],
             ))
@@ -205,6 +218,12 @@ def build_lance_index(
             int(papers[p].year) if papers[p].year is not None else 0 for p in kept
         ], type=pa.int32()),
         "venue": pa.array([papers[p].venue or "" for p in kept], type=pa.string()),
+        "first_seen": pa.array([papers[p].first_seen or "" for p in kept], type=pa.string()),
+        "week_id": pa.array([papers[p].week_id for p in kept], type=pa.string()),
+        "topics": pa.array([
+            list(papers[p].topics or ()) for p in kept
+        ], type=pa.list_(pa.string())),
+        "arxiv_id": pa.array([papers[p].arxiv_id or "" for p in kept], type=pa.string()),
         "subfields": pa.array([
             list(papers[p].subfields or ()) for p in kept
         ], type=pa.list_(pa.string())),

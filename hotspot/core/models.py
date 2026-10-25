@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field
 class SearchFilters(BaseModel):
     years: list[int] = Field(default_factory=list)
     venues: list[str] = Field(default_factory=list)
+    weeks: list[str] = Field(default_factory=list)
 
 
 class SearchHit(BaseModel):
@@ -15,6 +16,8 @@ class SearchHit(BaseModel):
     title: str
     year: int | None = None
     venue: str = ""
+    week_id: str = ""
+    first_seen: str = ""
     score: float = 0.0
     snippet: str = ""
 
@@ -32,6 +35,8 @@ class PaperDetail(BaseModel):
     abstract: str = ""
     year: int | None = None
     venue: str = ""
+    week_id: str = ""
+    first_seen: str = ""
     subfields: list[str] = Field(default_factory=list)
 
 

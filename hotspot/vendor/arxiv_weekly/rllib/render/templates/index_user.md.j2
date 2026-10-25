@@ -1,0 +1,50 @@
+# 我的评分与已读
+
+这一页查的是**你自己写的字段**，不是程序生成的。
+
+在任意笔记的 frontmatter 里加上这些键，本页立刻会收录它——
+程序不认识这些键，所以每次重渲染都会**原样保留**，不会被覆盖：
+
+```yaml
+---
+rating: 5            # 1–5 分，随便你用什么刻度
+read: true           # 已读
+project: 我的课题     # 归到哪个课题下
+note: 一句话备注
+---
+```
+
+> 注意：**只有在 `<!-- AUTO:END -->` 那一行之后的正文，以及上面这些
+> 程序没生成的 frontmatter 键，才是你的。** 受管区内的东西每次重渲染都会刷新。
+
+## 已评分
+
+```dataview
+TABLE WITHOUT ID
+  link(file.path, title) AS "标题",
+  venue AS "会议",
+  rating AS "评分",
+  project AS "课题",
+  read AS "已读"
+FROM "papers"
+WHERE rating
+SORT rating DESC, venue ASC
+```
+
+## 已读但未评分
+
+```dataview
+TABLE WITHOUT ID link(file.path, title) AS "标题", venue AS "会议", rl_score AS "RL 分数"
+FROM "papers"
+WHERE read = true AND !rating
+SORT venue ASC
+```
+
+## 标了课题但还没读
+
+```dataview
+TABLE WITHOUT ID link(file.path, title) AS "标题", venue AS "会议", project AS "课题"
+FROM "papers"
+WHERE project AND !read
+SORT project ASC, venue ASC
+```

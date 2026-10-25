@@ -1,0 +1,18 @@
+# {{ paper.title }}
+
+{{ authors_line }}
+
+| | |
+| --- | --- |
+{% for label, value in rows %}| **{{ label }}** | {{ value }} |
+{% endfor %}
+## 摘要
+
+{% if paper.abstract %}{{ paper.abstract }}
+{% else %}*本库还没取到这篇的摘要。这**不代表论文没有摘要**——摘要来源是各会议站的单篇页，
+需要逐篇回补（`python -m rllib backfill-abstracts`）。缺口清单见 `_index/缺口清单.md`。*
+{% endif %}
+## 数据溯源
+
+{% for p in provenance %}- `{{ p.source }}`{% if p.source_id %} · {{ p.source_id }}{% endif %} · 抓取于 {{ p.fetched }}
+{% endfor %}

@@ -1,0 +1,141 @@
+# RL 相关性词表
+#
+# 这个文件是**给你调的**，不是给程序调的。改完跑：
+#     python -m rllib filter --rl
+# 即可重新打分，**不需要重新抓取任何数据**——这正是把 rl 存成结构化对象
+# （score + reasons）而不是布尔的全部意义。
+#
+# 判定规则（见 rllib/filters/rl.py）：
+#   - 命中任一 strong  → 判定为 RL（除非命中 negative）
+#   - 只命中 mid       → 累积分值达到 filter.mid_signal_threshold 才判定
+#   - 命中任一 negative → 直接排除，无视其他命中
+#
+# 调参建议：**先宽后紧**。库的价值在于"不遗漏"，误收几篇非 RL 论文的代价，
+# 远小于漏掉一篇重要 RL 工作的代价。打分结果全部留在 jsonl 里可回溯。
+
+strong:
+  # ---- 直接点名 ----
+  - "reinforcement learning"
+  - "reinforcement-learning"
+  - "deep reinforcement learning"
+  - "offline reinforcement learning"
+  - "offline rl"
+  - "online reinforcement learning"
+  - "model-based reinforcement learning"
+  - "model-free reinforcement learning"
+  - "inverse reinforcement learning"
+  - "multi-agent reinforcement learning"
+  - "hierarchical reinforcement learning"
+  - "distributional reinforcement learning"
+  - "safe reinforcement learning"
+  - "constrained reinforcement learning"
+  - "meta reinforcement learning"
+  - "goal-conditioned reinforcement learning"
+
+  # ---- 算法名 ----
+  - "policy gradient"
+  - "policy optimization"
+  - "proximal policy optimization"
+  - "trust region policy optimization"
+  - "natural policy gradient"
+  - "q-learning"
+  - "deep q-network"
+  - "actor-critic"
+  - "actor critic"
+  - "soft actor-critic"
+  - "advantage actor-critic"
+  - "deterministic policy gradient"
+  - "value iteration"
+  - "policy iteration"
+  - "temporal difference"
+  - "td learning"
+  - "monte carlo tree search"
+  - "self-play"
+  - "self play"
+
+  # ---- 缩写（词边界匹配，见 rllib/filters/rl.py）----
+  - "ppo"
+  - "trpo"
+  - "grpo"
+  - "ddpg"
+  - "td3"
+  - "sac"
+  - "a2c"
+  - "a3c"
+  - "dqn"
+  - "ddqn"
+  - "mappo"
+  - "qmix"
+  - "maddpg"
+  - "muzero"
+  - "dreamer"
+
+  # ---- 强化学习偏好优化（LLM 时代的 RL）----
+  - "rlhf"
+  - "rlaif"
+  - "rlvr"
+  - "reinforcement learning from human feedback"
+  - "reinforcement learning with verifiable rewards"
+
+  # ---- 问题设定 ----
+  - "markov decision process"
+  - "markov decision processes"
+  - "partially observable markov decision"
+  - "multi-armed bandit"
+  - "contextual bandit"
+  - "bandit problem"
+  - "exploration-exploitation"
+  - "exploration exploitation dilemma"
+  - "bellman equation"
+  - "bellman optimality"
+
+mid:
+  # 这些词单独出现不足以判定（视觉、规划、控制领域也常用）
+  - "reward"
+  - "rewards"
+  - "reward shaping"
+  - "reward model"
+  - "reward function"
+  - "exploration"
+  - "exploitation"
+  - "rollout"
+  - "rollouts"
+  - "trajectory optimization"
+  - "credit assignment"
+  - "sample efficiency"
+  - "value function"
+  - "action space"
+  - "state space"
+  - "world model"
+  - "policy network"
+  - "regret bound"
+  - "regret minimization"
+  - "direct preference optimization"
+  - "dpo"
+  - "advantage function"
+  - "discount factor"
+  - "environment interaction"
+  - "trial and error"
+  - "closed-loop control"
+
+negative:
+  # 伪命中：材料学等领域的 "reinforcement" 与 RL 无关。
+  # 命中这些直接排除，无视其他所有命中。
+  - "reinforced concrete"
+  - "reinforcement ratio"
+  - "fiber reinforcement"
+  - "fibre reinforcement"
+  - "steel reinforcement"
+  - "reinforcement corrosion"
+  - "reinforcement bar"
+  - "positive reinforcement"
+  - "negative reinforcement"
+
+# OpenAlex 主题名直接命中即判定（大写的学科分类）
+topic_strong:
+  - "Reinforcement Learning"
+  - "Multi-agent Reinforcement Learning"
+  - "Deep Reinforcement Learning"
+  - "Reinforcement Learning Theory"
+  - "Bandit Problems"
+  - "Markov Decision Processes"

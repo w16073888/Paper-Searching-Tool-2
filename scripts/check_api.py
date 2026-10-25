@@ -144,6 +144,22 @@ def check_contract() -> None:
     check("history truncation recorded", oversized.history_truncated)
     check("history keeps newest messages",
           oversized.history[0].text == "问题 1")
+    week_request = AskRequest.from_dict({
+        "question": "2026-W44 有哪些新论文？",
+        "source": "arxiv",
+        "scope": {"week_id": "2026-W44"},
+    })
+    check("ISO week retained",
+          week_request.scope.get("week_id") == "2026-W44")
+    try:
+        AskRequest.from_dict({
+            "question": "测试",
+            "scope": {"week_id": "2026-W99"},
+        })
+        invalid_week_rejected = False
+    except ApiError:
+        invalid_week_rejected = True
+    check("invalid ISO week rejected", invalid_week_rejected)
     check("new mode ignores history", _history_for_request(oversized) == [])
     oversized.mode = "followup"
     check("followup mode passes history",

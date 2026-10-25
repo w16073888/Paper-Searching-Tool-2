@@ -1,0 +1,13 @@
+# 按会议浏览
+
+{% for v in stats.venues %}
+## {{ v.key }}（{{ v.rl }} 篇 RL 相关 / 共 {{ v.total }} 篇）
+
+```dataview
+TABLE WITHOUT ID link(file.path, title) AS "标题", rl_score AS "分数", citations AS "引用"
+FROM "papers"
+WHERE rl = true AND venue = "{{ v.venue }}" AND year = {{ v.year }}
+SORT rl_score DESC, title ASC
+```
+
+{% endfor %}

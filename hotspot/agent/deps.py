@@ -17,6 +17,7 @@ class AgentDeps:
     source: str = "meeting"
     years: list[int] = field(default_factory=list)
     venues: list[str] = field(default_factory=list)
+    weeks: list[str] = field(default_factory=list)
     store: LancePaperStore | None = None
     topics: TopicStore | None = None
     corpus: object | None = None

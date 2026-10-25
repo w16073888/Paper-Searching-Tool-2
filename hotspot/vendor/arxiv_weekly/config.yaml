@@ -1,0 +1,179 @@
+# RL 论文库配置
+#
+# 数据源现状见 CLAUDE.md。改动前先复测可达性——本配置里的 URL 都是 2026-09-13 实测过的。
+
+paths:
+  data: data
+  cache: cache
+  pdfs: pdfs
+  vault: vault
+  text: data/text
+
+http:
+  timeout: 60
+  max_retries: 3
+  # 各 host 限速在 rllib/http.py 的 HOST_DELAYS 里，改那里而不是这里
+
+# --------------------------------------------------------------------------- #
+# 磁盘余量刹车
+#
+# 下载前检查。低于红线就主动中止批次（退出码 4），**不是**等写到 ENOSPC。
+#
+# 为什么：2026-09-14 实测 extract 一路写到磁盘满。那一刻 D: 是 0 字节可用，
+# 连一个 3.4 MB 的校验账本都写不进去，一次跑了 40 分钟的哈希校验带着成果
+# 一起崩掉。"跑到满"不是一种停止方式，它把单点故障扩散到了所有在这块盘上
+# 写盘的东西。见 rllib/diskguard.py 与 STORAGE.md。
+#
+# 实际余量**永远不低于**这里的值：判定还要再加 64 MB 的单次写盘预留。
+# --------------------------------------------------------------------------- #
+disk:
+  min_free_gb: 1.0
+
+# --------------------------------------------------------------------------- #
+# 会议源
+#
+# 每个源对应一个 adapter，见 rllib/adapters/。
+# source_key 是源内唯一标识，参与 paper_id 生成与跨源去重。
+# --------------------------------------------------------------------------- #
+venues:
+  icml2025:
+    adapter: pmlr
+    volume: "267"
+    venue: ICML
+    year: 2025
+    url: "https://proceedings.mlr.press/v267/"
+    # 索引页 1 次请求拿到全部 3330 篇；PDF 走 GitHub raw，绕开一切反爬
+
+  corl2025:
+    adapter: pmlr
+    volume: "305"
+    venue: CoRL
+    year: 2025
+    url: "https://proceedings.mlr.press/v305/"
+    # 实测 263 篇
+
+  neurips2025:
+    adapter: mlanthology
+    slug: "neurips/2025"
+    venue: NeurIPS
+    year: 2025
+    url: "https://mlanthology.org/neurips/2025/"
+    # nips.cc 在本网络不可达；OpenReview 403。走 mlanthology 索引拿元数据，
+    # 再经 OpenAlex 解析 arXiv ID 取全文。
+
+  iclr2025:
+    adapter: mlanthology
+    slug: "iclr/2025"
+    venue: ICLR
+    year: 2025
+    url: "https://mlanthology.org/iclr/2025/"
+    # 同上
+    #
+    # 注：RLC 2025 未纳入。它在 Reinforcement Learning Journal vol.6
+    # (rlj.cs.umass.edu)，该站点在本网络 000 不可达，且 mlanthology 无收录。
+    # 若后续有可用代理，再加 adapter。
+
+# --------------------------------------------------------------------------- #
+# 富化（arXiv ID 解析）
+#
+# 用 DataCite，因为 arXiv 的 DOI 是 DataCite 注册的（不是 Crossref）。
+# 实测 8 篇随机样本命中 7 篇、命中的标题相似度全为 1.00、免费无需 key。
+#
+# **enrich 走 DataCite 不走 OpenAlex**：理由不是 OpenAlex 不可用，而是 DataCite
+# 命中率 70% 已够用、无需改主链路；而且 OpenAlex 的配额只有 100 请求/天，
+# 逐篇查 3600 篇要 36 天。**引用数则必须走 OpenAlex**（见下面 citations 段）。
+#
+# ⚠️ 额度记录更正史（两次，方向相反，别再改错）：
+#   * 2026-09-13 原记录：OpenAlex「每天仅 100 次请求」——**这是对的**。
+#   * 2026-09-15 "更正"为 1000 次/天（理由：``credits-used: 1``）——**这次是错的**。
+#   * 2026-09-15 再测：``x-ratelimit-credits-required: 10`` × ``limit: 1000``
+#     → **100 请求/天**。实测连续请求每次 ``Remaining`` 恰好 -10，与查询大小无关
+#     （单标题和 50 标题都是 10）。同时 ``X-RateLimit-Limit-USD: 0.1`` ÷ 单价
+#     ``$0.001`` 也独立算得 100。两个推导吻合。
+#   把这行读成 "credits-used: 1" 就会高估额度 10 倍，进而把 131 天估成 14 天。
+# --------------------------------------------------------------------------- #
+enrich:
+  datacite_enabled: true
+  base_url: "https://api.datacite.org/dois"
+  # 上次尝试后多少天内不再重查同一篇。没匹配上的多为"DOI 尚未注册"，
+  # 隔几天再问也是同样结果；但不设永久放弃，因为注册是滞后的。
+  retry_after_days: 30
+  # 引用数刷新保留开关，实际入口是 `rllib citations`
+  refresh_citations_weekly: false
+
+# --------------------------------------------------------------------------- #
+# 引用数（阶段 8+）
+#
+# 走 OpenAlex 的**批量标题检索**：`filter=title.search:标题A|标题B|...`，
+# 一次 50 篇。每次请求固定 10 credits、与查询大小无关，日额度 1000 → 100 请求/天。
+# 所以批量不是优化而是前提：全库 263 个请求 ≈ 2.6 天；逐篇查是 131 天。
+#
+# **不能用 arXiv ID 直查**：实测 `filter=doi:10.48550/arxiv.…` 返回 count=0
+# ——OpenAlex 不收录 arXiv DOI，而库里 9798 个 DOI 全是 arXiv DOI。
+#
+# 实测（RL 子集 1585 篇）：匹配率 87.1%，其中 **81.2% 引用数为 0**，
+# 非零 259 篇、最大 29、全子集引用总数 487。库里全是 2025 年会议论文，太新。
+# 所以这一步现在的产出是"把 null 变成真实的 0"。见 rllib/citations.py。
+# --------------------------------------------------------------------------- #
+citations:
+  openalex_base_url: "https://api.openalex.org/works"
+  # 上次尝试后多少天内不再重查。补到了（哪怕是 0）与补不到要分开重试——
+  # 见 rllib/citations.py 的 needs_citations。
+  retry_after_days: 30
+
+# --------------------------------------------------------------------------- #
+# 摘要回补
+#
+# 三个索引页都不含摘要，摘要只在会议源的**单篇页**上，所以是逐篇请求。
+# 约 12000 次、数小时，但免费且零 token。见 rllib/abstracts.py。
+# --------------------------------------------------------------------------- #
+abstracts:
+  # 每多少篇落一次盘。长任务必须分段保存，否则中断即全丢。
+  save_every: 100
+
+# --------------------------------------------------------------------------- #
+# 跨源匹配阈值
+#
+# 原则：**宁可标记"未匹配"，也绝不错配**。
+# 错配会让别人的论文悄悄混进你的库，而且不会被任何下游流程发现。
+# --------------------------------------------------------------------------- #
+matching:
+  # 标题归一化后的相似度下限（difflib.SequenceMatcher）
+  title_similarity_threshold: 0.92
+  # 要求年份一致；arXiv 预印本可能早一年，所以允许窗口
+  year_tolerance: 1
+  # 要求至少一位作者姓氏重合
+  require_author_overlap: true
+
+# --------------------------------------------------------------------------- #
+# RL 筛选
+#
+# 词表外置在 词表/rl_keywords.yaml。改完跑 `rllib filter --rl` 重打分即可，
+# 无需重新抓取——这就是把 rl 存成结构化对象而非布尔的原因。
+#
+# ⚠️ 2026-09-20 目录名从 `data/` 改成 `词表/`：程序现在住在 `arXiv周报\程序\`，
+# 再留一个 `程序\data\` 就会和真数据 `arXiv周报\数据\` **只差一个字地并排**，
+# 而那正是本库反复栽的形状。改名零成本——读的是**配置值**、不是写死的路径。
+# --------------------------------------------------------------------------- #
+filter:
+  keywords_file: 词表/rl_keywords.yaml
+  # 子方向表。**这一行必须显式写出来**：`cli.py` 读的是
+  # `cfg["filter"].get("subfields_file", "data/rl_subfields.yaml")`，
+  # 那个回落值指向 `程序\data\`——**不存在**，且不报错（表现为"子方向全是空"）。
+  subfields_file: 词表/rl_subfields.yaml
+  # 命中强信号词即判定；中信号需累积到该分值
+  mid_signal_threshold: 2.0
+
+# --------------------------------------------------------------------------- #
+# 渲染
+# --------------------------------------------------------------------------- #
+render:
+  vault_dir: vault
+  papers_subdir: papers
+  # 索引页目录。刻意不带下划线以外的前缀——Obsidian 里排在最前面，好找。
+  index_subdir: _index
+  # 笔记中受管块标记。块外内容属于用户，任何情况下不得覆盖。
+  auto_begin: "<!-- AUTO:BEGIN 由 rllib 生成，勿手改 -->"
+  auto_end: "<!-- AUTO:END -->"
+  # frontmatter 中的 tags 前缀，便于 Dataview 用 #rl/xxx 聚合
+  tag_prefix: "rl"
