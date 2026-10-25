@@ -20,6 +20,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import hotspot  # noqa: E402 —— 装闸① + 接线 dasc
 from hotspot.api.engine import Engine  # noqa: E402
 from hotspot.api.http import serve  # noqa: E402
+from hotspot.config import load_config  # noqa: E402
 
 
 def main() -> int:
@@ -34,7 +35,7 @@ def main() -> int:
     cfg_path = Path(args.config) if args.config else None
     if cfg_path is not None and not cfg_path.is_absolute():
         cfg_path = (Path.cwd() / cfg_path).resolve()
-    engine = Engine(cfg_path=cfg_path) if cfg_path else Engine()
+    engine = Engine(load_config(cfg_path)) if cfg_path else Engine()
 
     web = Path(args.web)
     if not web.is_absolute():

@@ -12,6 +12,7 @@ from pydantic_ai import Agent, ModelRetry, RunContext
 from pydantic_ai.exceptions import ModelConnectionError, UnexpectedModelBehavior
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
+from pydantic_ai.settings import ModelSettings
 from pydantic_ai.usage import UsageLimits
 
 from ..core.models import (
@@ -55,6 +56,7 @@ INSTRUCTIONS = """你是本地论文库研究助手。只能依据工具返回�
 7. 不回答本地论文库无法支持的外部知识问题。
 8. 最多 4 次 search、3 次 fetch、2 次 topic overview；证据足够后停止。
 9. 用户使用中文时，最终 claim 使用中文；论文标题保持原文。
+10. 除非用户明确给出年份或会议名，否则不要猜测 years 或 venues 过滤条件。
 """
 
 SCOPE_INSTRUCTIONS = """判断用户问题是否属于本地 AI/ML 论文库的研究范围。
@@ -65,6 +67,12 @@ SCOPE_INSTRUCTIONS = """判断用户问题是否属于本地 AI/ML 论文库的�
 仅仅询问应用领域本身的热点、方法或进展时判为范围外。
 只输出结构化判断，不要回答问题。
 """
+
+AGENT_MODEL_SETTINGS = ModelSettings(
+    temperature=0.1,
+    top_p=0.8,
+    seed=42,
+)
 
 
 def _api_key(cfg: dict) -> str:
@@ -97,6 +105,7 @@ def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
         deps_type=AgentDeps,
         output_type=AgentAnswer,
         instructions=INSTRUCTIONS,
+        model_settings=AGENT_MODEL_SETTINGS,
         retries=1,
     )
 
@@ -113,8 +122,20 @@ def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
         if ctx.deps.search_calls >= 4:
             raise ModelRetry("search budget exhausted; answer with current evidence")
         ctx.deps.search_calls += 1
-        effective_years = ctx.deps.years or years or []
-        effective_venues = ctx.deps.venues or venues or []
+        requested_years = ctx.deps.years or years or []
+        requested_venues = ctx.deps.venues or venues or []
+        question_lower = ctx.deps.question.casefold()
+        # LLMs sometimes invent metadata filters that eliminate every hit.
+        # Hard filters are accepted only when the user explicitly wrote them.
+        effective_years = [
+            int(year) for year in requested_years
+            if str(int(year)) in ctx.deps.question
+        ]
+        effective_venues = [
+            str(venue) for venue in requested_venues
+            if str(venue).strip()
+            and str(venue).casefold() in question_lower
+        ]
         effective_limit = min(
             ctx.deps.search_limit,
             limit if limit and limit > 0 else ctx.deps.search_limit,
@@ -131,6 +152,10 @@ def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
         ctx.deps.events.append({
             "tool": "search_papers",
             "query": query,
+            "keywords": list(keywords or []),
+            "years": list(effective_years),
+            "venues": list(effective_venues),
+            "limit": effective_limit,
             "returned": len(result.results),
             "ids": [hit.paper_id for hit in result.results],
         })
@@ -253,6 +278,7 @@ def _classify_scope(
         model,
         output_type=ScopeDecision,
         instructions=SCOPE_INSTRUCTIONS,
+        model_settings=AGENT_MODEL_SETTINGS,
         retries=0,
     )
     try:
@@ -284,6 +310,7 @@ def run_research_agent(
     scope = scope or {}
     deps = AgentDeps(
         cfg=cfg,
+        question=question,
         source=source,
         years=[int(y) for y in (scope.get("years") or [])],
         venues=[str(v) for v in (scope.get("venues") or [])],

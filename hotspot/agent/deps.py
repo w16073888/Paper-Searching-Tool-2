@@ -13,6 +13,7 @@ from ..index.topic_store import TopicStore
 @dataclass
 class AgentDeps:
     cfg: dict = field(default_factory=load_config)
+    question: str = ""
     source: str = "meeting"
     years: list[int] = field(default_factory=list)
     venues: list[str] = field(default_factory=list)

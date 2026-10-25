@@ -1,0 +1,58 @@
+# 移动云杯 · 云端运行配置
+#
+# 使用方式：
+#   HOTSPOT_CONFIG=/home/scu101/mobile-cup/config.server.yaml
+#
+# 云端 Qwen 服务监听 127.0.0.1:8000，项目 HTTP 服务使用 127.0.0.1:8080。
+
+paths:
+  workspace: /home/scu101/mobile-cup/workspace
+
+corpus:
+  sources:
+    - /home/scu101/rl_data24/资源/papers.jsonl
+    - /home/scu101/rl_data/资源/papers.jsonl
+  arxiv_source: /home/scu101/mobile-cup/data/arxiv/papers.jsonl
+
+llm:
+  base_url: http://127.0.0.1:8000/v1
+  model_flash: qwen3-8b
+  model_pro: qwen3-8b
+  api_key_env: QWEN_LOCAL_API_KEY
+  timeout: 300
+  cost_per_1m_in: 0
+  cost_per_1m_out: 0
+  max_input_chars: 8000
+  budget:
+    max_calls: 2000
+    max_tokens: 5000000
+    max_usd: null
+
+llm_eval:
+  base_url: http://127.0.0.1:8000/v1
+  model: qwen3-8b
+  api_key_env: QWEN_LOCAL_API_KEY
+  timeout: 600
+
+embed:
+  model: BAAI/bge-m3
+  max_seq_length: 1024
+  batch_size: 4
+  hf_home: /home/scu101/models/hf-cache
+  chunk_size: 500
+
+agent:
+  search_limit: 12
+  fetch_limit: 6
+  max_claims: 6
+  request_limit: 10
+  tool_limit: 10
+  scope_timeout_s: 30
+  agent_timeout_s: 150
+  verify_timeout_s: 30
+
+spread:
+  spread_min: 3
+  venue_order: [ICLR, ICML, NeurIPS]
+  venue_holdout: NeurIPS
+  venue_off_axis: [CoRL]

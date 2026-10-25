@@ -13,7 +13,7 @@ import pyarrow as pa
 
 from ..core.models import PaperDetail, SearchFilters, SearchHit, SearchResult
 from ..config import load_config, paths_from
-from ..corpus import open_corpus
+from ..corpus import open_arxiv_corpus, open_corpus
 from ..structure.embed import embed_query, load_all
 
 TABLE_NAME = "papers"
@@ -173,7 +173,7 @@ def build_lance_index(
     if limit is not None:
         X, ids = X[:limit], ids[:limit]
     X = X / np.maximum(np.linalg.norm(X, axis=1, keepdims=True), 1e-12)
-    corpus = open_corpus(cfg)
+    corpus = open_arxiv_corpus(cfg) if source == "arxiv" else open_corpus(cfg)
     papers = {p.paper_id: p for p in corpus.list_papers(limit=None)}
     vector_row = {pid: i for i, pid in enumerate(ids)}
     kept = list(dict.fromkeys(pid for pid in ids if pid in papers))

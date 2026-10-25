@@ -17,8 +17,12 @@ venv/
 
 # 本地临时
 *.log
+server.pid
 .DS_Store
 .playwright-mcp/
+
+# 云端迁移数据（从外部只读源同步，不入库）
+data/
 
 # dasc 运行时产物：LLM 响应缓存 + 出境审计日志（本机可重建，v 别入库）
 # 406 个 JSON 会把 grep/搜索淹掉，clone 也多 2 MB
