@@ -19,6 +19,16 @@
 - holdout v1 状态为 `retired`，`do_not_run_again=true`，不得再次运行或用于调优。
 - 契约自检 `35/35`；README 索引树完整。
 
+## 2026-10-25 arXiv 周报云端日更
+
+- 原周报抓取器已 vendored 到 `hotspot/vendor/arxiv_weekly/`，源目录保持只读。
+- 周成员只按 `first_seen` 的 ISO 周绑定；`replace/cross` 只进公告旁路文件。
+- 历史四周已生成 harness：W38 1,069 / W39 2,758 / W40 542 / W41 804 篇，
+  均因缺失工作日保持 `partial`。
+- arXiv 缺失向量已补齐 804 篇，LanceDB 为 5,173 篇；`scope.week_id` 已逐条验证。
+- 云端 cron：上海工作日 13:30 日更，周日 21:00 封卷；封卷要求五个有效 `.done`。
+- 2026-10-25 是周末，隔离冒烟只得到预期空 feed；下一工作日观察首轮正式日更。
+
 ## 基线
 
 - Git 快照：`b517988`（旧实现可完整恢复）。
@@ -115,7 +125,7 @@
 1. 比较题 holdout v1 已退役，不再运行；后续算法改动另建 v2 holdout。
 2. 云端当前不能直接访问 GitHub，代码同步以本地 Git bundle 为准，直到配置代理或迁移远端。
 3. 前端按 contract v2 联调，并补鉴权、反向代理或 SSH 访问方案；引擎不加账号状态。
-4. arXiv 索引覆盖 4369/5173；如需完整数据源，补齐缺失向量后再更新索引。
+4. 下一工作日核对 cron 产出的 `.done`、当周 harness、向量增量与新 arXiv 索引。
 5. 如需长期在线，配置用户级开机自启；`.models` 仅在需要 Laya 实验时迁移。
 
 ## 固定验收
@@ -124,6 +134,8 @@
 python -m py_compile hotspot/api/engine.py hotspot/api/contract.py hotspot/api/http.py hotspot/reasoning/evidence.py hotspot/reasoning/answer.py hotspot/reasoning/verify.py
 python scripts/check_api.py --quiet
 python scripts/check_tree.py --vault .
+python scripts/check_weekly_pipeline.py
+python scripts/daily_arxiv_sync.py --preflight
 python scripts/evaluate_comparison_holdout.py --result eval/v2_comparison_holdout_v1.result.json
 ```
 
