@@ -179,15 +179,24 @@ def main() -> int:
     parser.add_argument("--refresh", action="store_true")
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--seal-week", action="store_true")
+    parser.add_argument(
+        "--week",
+        default=None,
+        help="with --seal-week, publish this ISO week instead of today's",
+    )
     parser.add_argument("--no-bind", action="store_true")
     parser.add_argument("--no-embed", action="store_true")
     parser.add_argument("--embed-limit", type=int, default=0)
     parser.add_argument("--no-index", action="store_true")
     parser.add_argument("--preflight", action="store_true")
     args = parser.parse_args()
+    if args.week and not args.seal_week:
+        parser.error("--week requires --seal-week")
+    if args.seal_week and args.no_bind:
+        parser.error("--seal-week cannot be combined with --no-bind")
 
     day = args.date or date.today().isoformat()
-    week_id = iso_week_id(day)
+    week_id = args.week or iso_week_id(day)
     data_root = default_data_root()
     cache_dir = Path(
         os.environ.get("ARXIV_WEEKLY_CACHE", str(data_root / "cache"))
@@ -225,6 +234,17 @@ def main() -> int:
     log_path = state_dir / "logs" / f"{day}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
     try:
+        if args.seal_week:
+            result["mode"] = "seal"
+            result["week"] = build_week(
+                data_root,
+                week_id,
+                seal=True,
+                historical=True,
+            )
+            result["status"] = "ok"
+            return _finish(result, state_dir, started)
+
         summary = _done_summary(data_root, day)
         skipped = bool(summary and _done_is_complete(summary)) and not args.force
         if skipped:

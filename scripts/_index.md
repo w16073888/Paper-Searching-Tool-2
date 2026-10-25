@@ -42,6 +42,7 @@ tags: [索引]
 - `run_ui.py` —— Streamlit 入口。
 - `daily_arxiv_sync.py` —— 云端 arXiv 日更总入口：抓取、校验、周绑定、
   增量向量化、LanceDB 更新和 harness 导出。
+- `run_weekly_cron.sh` —— 云端 cron 包装器：固定配置与路径，转发日更或封卷参数。
 - `build_weekly_harness_input.py` —— 从全局 arXiv 库生成按 ISO 周绑定的
   `harness_input.jsonl` 与 manifest。
 - `check_weekly_pipeline.py` —— 周绑定、harness 契约和 week_id 检索过滤的离线自检。

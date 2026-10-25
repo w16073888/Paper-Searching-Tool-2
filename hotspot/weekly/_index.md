@@ -14,6 +14,7 @@ arXiv 周报与本项目之间的适配层：按 ISO 周绑定论文、生成 LL
 - 周归属唯一使用 `first_seen` 的 ISO 周。
 - `week_id` 已进入 arXiv LanceDB 和 API 的 `scope.week_id`。
 - `harness_input.jsonl` 使用 `weekly-harness-v1` 契约。
+- 封卷要求周一至周五五个 `.done` 全部存在且无失败、停滞、旧 feed 或受限批次。
 - 原周报程序保存在 `hotspot/vendor/arxiv_weekly/`，只改路径适配。
 - 无法从 arXiv 当前 RSS 回补已经错过的历史日批次。
 

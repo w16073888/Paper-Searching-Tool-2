@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
+import subprocess
 import sys
 import uuid
 from pathlib import Path
@@ -68,13 +70,14 @@ def main() -> int:
         _write_jsonl(week / "2026-10-26.announce.jsonl", [
             {"key": "1", "announce_type": "new"},
         ])
-        (week / "2026-10-26.done").write_text(json.dumps({
-            "exit_code": 0,
-            "failed_feeds": [],
-            "feed_build_stale": [],
-            "feed_stalled": [],
-            "args": {"limit": 0, "license_limit": 0},
-        }), encoding="utf-8")
+        for day_number in range(26, 31):
+            (week / f"2026-10-{day_number}.done").write_text(json.dumps({
+                "exit_code": 0,
+                "failed_feeds": [],
+                "feed_build_stale": [],
+                "feed_stalled": [],
+                "args": {"limit": 0, "license_limit": 0},
+            }), encoding="utf-8")
 
         manifest = build_week(root, "2026-W44", seal=True)
         if manifest["status"] != "sealed" or manifest["member_count"] != 1:
@@ -90,6 +93,14 @@ def main() -> int:
             len(harness) != 1
             or harness[0]["week_id"] != "2026-W44"
             or harness[0]["announce_types"] != ["new"]
+            or manifest["expected_days"] != [
+                "2026-10-26",
+                "2026-10-27",
+                "2026-10-28",
+                "2026-10-29",
+                "2026-10-30",
+            ]
+            or manifest["missing_days"]
         ):
             failures.append("harness contract")
 
@@ -105,15 +116,68 @@ def main() -> int:
             failures.append("invalid day seal blocked")
         except ValueError:
             pass
+        (week / "2026-10-26.done").write_text(json.dumps({
+            "exit_code": 0,
+            "failed_feeds": [],
+            "feed_build_stale": [],
+            "feed_stalled": [],
+            "args": {"limit": 0, "license_limit": 0},
+        }), encoding="utf-8")
+        (week / "2026-10-27.done").unlink()
+        try:
+            build_week(root, "2026-W44", seal=True)
+            failures.append("missing weekday seal blocked")
+        except ValueError:
+            pass
+        (week / "2026-10-27.done").write_text(json.dumps({
+            "exit_code": 0,
+            "failed_feeds": [],
+            "feed_build_stale": [],
+            "feed_stalled": [],
+            "args": {"limit": 1, "license_limit": 0},
+        }), encoding="utf-8")
+        try:
+            build_week(root, "2026-W44", seal=True)
+            failures.append("limited run seal blocked")
+        except ValueError:
+            pass
+
+        (week / "2026-10-27.done").write_text(json.dumps({
+            "exit_code": 0,
+            "failed_feeds": [],
+            "feed_build_stale": [],
+            "feed_stalled": [],
+            "args": {"limit": 0, "license_limit": 0},
+        }), encoding="utf-8")
+        proc = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "daily_arxiv_sync.py"),
+                "--seal-week",
+                "--week",
+                "2026-W44",
+            ],
+            cwd=ROOT,
+            env={**os.environ, "ARXIV_WEEKLY_DATA": str(root)},
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            timeout=30,
+        )
+        if (
+            proc.returncode != 0
+            or json.loads(proc.stdout or "{}").get("mode") != "seal"
+        ):
+            failures.append("CLI seal path")
     finally:
         shutil.rmtree(root, ignore_errors=True)
 
-    result = {"checks": 6, "failures": failures}
+    result = {"checks": 7, "failures": failures}
     print(json.dumps(result, ensure_ascii=False, indent=2))
     if failures:
         print("FAIL:", ", ".join(failures), file=sys.stderr)
         return 1
-    print("✓ weekly pipeline checks=6 failures=0")
+    print("✓ weekly pipeline checks=7 failures=0")
     return 0
 
 

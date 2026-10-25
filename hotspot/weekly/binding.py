@@ -74,12 +74,23 @@ def _jsonl_text(rows: Iterable[dict[str, Any]]) -> str:
 
 
 def _done_is_valid(row: dict[str, Any]) -> bool:
+    args = row.get("args") or {}
     return (
         int(row.get("exit_code") or 0) == 0
         and not (row.get("failed_feeds") or [])
         and not (row.get("feed_build_stale") or [])
         and not (row.get("feed_stalled") or [])
+        and not int(args.get("limit") or 0)
+        and not int(args.get("license_limit") or 0)
     )
+
+
+def _expected_weekdays(week_id: str) -> list[str]:
+    year, week = week_id.split("-W")
+    return [
+        date.fromisocalendar(int(year), int(week), weekday).isoformat()
+        for weekday in range(1, 6)
+    ]
 
 
 def _load_announcements(week_dir: Path) -> tuple[list[dict[str, Any]], dict[str, set[str]]]:
@@ -173,15 +184,33 @@ def build_week(
             "source_sha256": source_sha,
         })
 
-    valid_done = all(_done_is_valid(row) for row in done_by_date.values())
+    expected_days = _expected_weekdays(week_id)
+    missing_days = [
+        day for day in expected_days if day not in done_by_date
+    ]
+    valid_done = (
+        not missing_days
+        and all(_done_is_valid(row) for row in done_by_date.values())
+    )
     observed_days = sorted(
         path.name.removesuffix(".jsonl") for path in daily_files
     )
     current_week = iso_week_id(date.today())
     if seal:
-        if not done_by_date or not valid_done:
+        if not valid_done:
+            reasons = []
+            if missing_days:
+                reasons.append("missing daily runs: " + ", ".join(missing_days))
+            invalid_days = sorted(
+                day for day, row in done_by_date.items()
+                if not _done_is_valid(row)
+            )
+            if invalid_days:
+                reasons.append(
+                    "incomplete daily runs: " + ", ".join(invalid_days)
+                )
             raise ValueError(
-                "cannot seal week: missing, stale, stalled, or failed daily run"
+                "cannot seal week: " + "; ".join(reasons)
             )
         status = "sealed"
     elif historical and week_id < current_week:
@@ -204,6 +233,8 @@ def build_week(
         "member_count": len(members),
         "announcement_count": len(announcements),
         "observed_days": observed_days,
+        "expected_days": expected_days,
+        "missing_days": missing_days,
         "completed_days": sorted(done_by_date),
         "all_completed_days_valid": valid_done,
         "source_papers": str(papers_path),
