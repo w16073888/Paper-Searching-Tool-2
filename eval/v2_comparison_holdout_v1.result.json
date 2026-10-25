@@ -1,0 +1,151 @@
+{
+  "n": 10,
+  "rows": [
+    {
+      "id": "h_c01",
+      "route": "local",
+      "refused": false,
+      "citations": [
+        "orid:yzNEkTmcoF",
+        "orid:MzQed6QEmS",
+        "orid:mbx2pLK5Eq"
+      ],
+      "claims": 3,
+      "supported": 3,
+      "error": null,
+      "elapsed_s": 17.786
+    },
+    {
+      "id": "h_c02",
+      "route": "local",
+      "refused": false,
+      "citations": [
+        "orid:vpV7fOFQy4",
+        "orid:PcxQgtHGj2"
+      ],
+      "claims": 3,
+      "supported": 3,
+      "error": null,
+      "elapsed_s": 28.362
+    },
+    {
+      "id": "h_c03",
+      "route": "local",
+      "refused": false,
+      "citations": [
+        "orid:japBn31gXC",
+        "orid:5hAMmCU0bK"
+      ],
+      "claims": 5,
+      "supported": 5,
+      "error": null,
+      "elapsed_s": 30.33
+    },
+    {
+      "id": "h_c04",
+      "route": "local",
+      "refused": false,
+      "citations": [
+        "orid:MTMShU5QaC",
+        "orid:2RQqg2Y7Y6"
+      ],
+      "claims": 4,
+      "supported": 3,
+      "error": null,
+      "elapsed_s": 21.2
+    },
+    {
+      "id": "h_c05",
+      "route": "local",
+      "refused": false,
+      "citations": [
+        "orid:pJlFURyTG5",
+        "orid:D6nlm2AYHi",
+        "orid:wWiAR5mqXq",
+        "orid:HnJ1UkuJXS"
+      ],
+      "claims": 4,
+      "supported": 4,
+      "error": null,
+      "elapsed_s": 26.463
+    },
+    {
+      "id": "h_c06",
+      "route": "local",
+      "refused": false,
+      "citations": [
+        "orid:fgO1R1iVEi",
+        "orid:Tb8RiXOc3N",
+        "orid:3IFRygQKGL",
+        "orid:DaOdkXgLvE"
+      ],
+      "claims": 4,
+      "supported": 4,
+      "error": null,
+      "elapsed_s": 16.616
+    },
+    {
+      "id": "h_c07",
+      "route": "local",
+      "refused": false,
+      "citations": [
+        "orid:EIl9qmMmvy",
+        "orid:ldVkAO09Km",
+        "orid:qZmn2hkuzw",
+        "orid:lKGRPJFPCM",
+        "orid:mEpqHvbD2h",
+        "orid:XUks1Y96NR",
+        "orid:FwLMCbs47K",
+        "orid:1L5vaNIoK5",
+        "orid:gqCQxObVz2"
+      ],
+      "claims": 3,
+      "supported": 1,
+      "error": null,
+      "elapsed_s": 30.84
+    },
+    {
+      "id": "h_c08",
+      "route": "local",
+      "refused": false,
+      "citations": [
+        "orid:lyhS75loxe",
+        "orid:ZMnD6QZAE6",
+        "orid:F1TKzG8LJO"
+      ],
+      "claims": 3,
+      "supported": 3,
+      "error": null,
+      "elapsed_s": 24.767
+    },
+    {
+      "id": "h_c09",
+      "route": "local",
+      "refused": false,
+      "citations": [
+        "orid:3Tzcot1LKb",
+        "orid:ETLKYVMVLt",
+        "orid:LmdZ0pSWtG",
+        "orid:OTDdeygJTP",
+        "orid:OspqtLVUN5"
+      ],
+      "claims": 6,
+      "supported": 6,
+      "error": null,
+      "elapsed_s": 22.971
+    },
+    {
+      "id": "h_c10",
+      "route": "local",
+      "refused": false,
+      "citations": [
+        "orid:Uh5GRmLlvt",
+        "orid:vcB1OwtWUZ"
+      ],
+      "claims": 3,
+      "supported": 2,
+      "error": null,
+      "elapsed_s": 14.809
+    }
+  ]
+}

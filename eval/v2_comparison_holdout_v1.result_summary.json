@@ -1,0 +1,151 @@
+{
+  "name": "v2-comparison-holdout-v1",
+  "version": "1",
+  "questions_sha256": "9dc523a50a2eb64050aecb38fb8c565d4312f93392b4bfab64a12a39c5b188a3",
+  "result_file": "eval/v2_comparison_holdout_v1.result.json",
+  "run_count": 1,
+  "n_questions": 10,
+  "answered": 10,
+  "answer_rate": 1.0,
+  "errors": 0,
+  "claims_total": 38,
+  "supported_total": 34,
+  "filtered_total": 4,
+  "supported_claim_rate": 0.8947,
+  "fully_grounded_questions": 7,
+  "full_grounding_rate": 0.7,
+  "citation_min": 2,
+  "citation_max": 9,
+  "avg_seconds": 23.414,
+  "p95_seconds": 30.84,
+  "thresholds": {
+    "minimum_answer_rate": 1.0,
+    "minimum_supported_claim_rate": 0.85,
+    "minimum_full_grounding_rate": 0.7,
+    "maximum_p95_seconds": 60.0,
+    "maximum_errors": 0
+  },
+  "gates": {
+    "answer_rate": true,
+    "supported_claim_rate": true,
+    "full_grounding_rate": true,
+    "p95_latency": true,
+    "errors": true
+  },
+  "automatic_gate_passed": true,
+  "limitations": [
+    "The automatic gate checks routing, citation-backed claims, and latency; it does not establish human-judged semantic correctness."
+  ],
+  "per_question": [
+    {
+      "id": "h_c01",
+      "route": "local",
+      "refused": false,
+      "claims": 3,
+      "supported": 3,
+      "filtered": 0,
+      "citations": 3,
+      "elapsed_s": 17.786,
+      "operational_pass": true
+    },
+    {
+      "id": "h_c02",
+      "route": "local",
+      "refused": false,
+      "claims": 3,
+      "supported": 3,
+      "filtered": 0,
+      "citations": 2,
+      "elapsed_s": 28.362,
+      "operational_pass": true
+    },
+    {
+      "id": "h_c03",
+      "route": "local",
+      "refused": false,
+      "claims": 5,
+      "supported": 5,
+      "filtered": 0,
+      "citations": 2,
+      "elapsed_s": 30.33,
+      "operational_pass": true
+    },
+    {
+      "id": "h_c04",
+      "route": "local",
+      "refused": false,
+      "claims": 4,
+      "supported": 3,
+      "filtered": 1,
+      "citations": 2,
+      "elapsed_s": 21.2,
+      "operational_pass": true
+    },
+    {
+      "id": "h_c05",
+      "route": "local",
+      "refused": false,
+      "claims": 4,
+      "supported": 4,
+      "filtered": 0,
+      "citations": 4,
+      "elapsed_s": 26.463,
+      "operational_pass": true
+    },
+    {
+      "id": "h_c06",
+      "route": "local",
+      "refused": false,
+      "claims": 4,
+      "supported": 4,
+      "filtered": 0,
+      "citations": 4,
+      "elapsed_s": 16.616,
+      "operational_pass": true
+    },
+    {
+      "id": "h_c07",
+      "route": "local",
+      "refused": false,
+      "claims": 3,
+      "supported": 1,
+      "filtered": 2,
+      "citations": 9,
+      "elapsed_s": 30.84,
+      "operational_pass": true
+    },
+    {
+      "id": "h_c08",
+      "route": "local",
+      "refused": false,
+      "claims": 3,
+      "supported": 3,
+      "filtered": 0,
+      "citations": 3,
+      "elapsed_s": 24.767,
+      "operational_pass": true
+    },
+    {
+      "id": "h_c09",
+      "route": "local",
+      "refused": false,
+      "claims": 6,
+      "supported": 6,
+      "filtered": 0,
+      "citations": 5,
+      "elapsed_s": 22.971,
+      "operational_pass": true
+    },
+    {
+      "id": "h_c10",
+      "route": "local",
+      "refused": false,
+      "claims": 3,
+      "supported": 2,
+      "filtered": 1,
+      "citations": 2,
+      "elapsed_s": 14.809,
+      "operational_pass": true
+    }
+  ]
+}

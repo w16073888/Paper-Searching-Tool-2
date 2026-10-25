@@ -22,6 +22,13 @@ tags: [索引]
 执行入口在 `scripts/run_v2_eval.py`。
 
 - `v2_acceptance_16.json`：local / compare / relation / OOD 共 16 题。
+- `v2_comparison_holdout_v1.json`：10 道全新比较题冻结集，**不参与提示词、检索或模型调优**，
+  仅用于最终泛化验收；对象与调优题不重叠。
+- `v2_comparison_holdout_v1.manifest.json`：冻结状态、SHA256、禁止调优和最终验收口径。
+- `v2_comparison_holdout_v1.standard.md`：正式自动 gate、单题判定和口径限制。
+- `v2_comparison_holdout_v1.result.json`：首次且唯一一次运行的原始结果归档。
+- `v2_comparison_holdout_v1.result_summary.json`：首次且唯一一次运行的冻结结果摘要；
+  `run_count=1`，题集已 retired，禁止再次运行。
 
 scope v1 测试目录：`scope_v1/`
 - `test.jsonl`：冻结的 16 条独立 scope 测试样本。

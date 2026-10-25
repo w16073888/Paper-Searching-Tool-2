@@ -35,9 +35,20 @@ from hotspot.api.contract import (  # noqa: E402
 )
 from hotspot.api.engine import Engine, _history_for_request  # noqa: E402
 from hotspot.api.http import create_server  # noqa: E402
-from hotspot.agent.runtime import build_history_context  # noqa: E402
-from hotspot.core.models import AgentAnswer, AnswerClaim, PaperDetail  # noqa: E402
+from hotspot.agent.runtime import (  # noqa: E402
+    build_history_context,
+    comparison_terms,
+    merge_search_results,
+)
+from hotspot.core.models import (  # noqa: E402
+    AgentAnswer,
+    AnswerClaim,
+    PaperDetail,
+    SearchHit,
+    SearchResult,
+)
 from hotspot.reasoning.grounding import verify_and_render  # noqa: E402
+from scripts.run_v2_eval import holdout_is_retired  # noqa: E402
 
 FAILS: list[str] = []
 CHECKS = 0
@@ -171,6 +182,36 @@ def check_contract() -> None:
     check("follow-up citation dereferenced",
           context_ids == ["p1"] and "[P:p1]" in context
           and "Title p1" in context and "…" in context)
+    check("comparison terms split",
+          comparison_terms("GRPO 相比 PPO 改了什么？") == ["GRPO", "PPO"]
+          and comparison_terms(
+              "TD3 和 SAC 在连续控制上的核心差异是什么？"
+          ) == ["TD3", "SAC"]
+          and comparison_terms(
+              "逆强化学习与偏好学习在理论和方法上的共同来源是什么？"
+          ) == ["逆强化学习", "偏好学习"])
+    merged = merge_search_results(
+        "GRPO PPO",
+        [
+            SearchResult(
+                query="GRPO",
+                results=[SearchHit(paper_id="g1", title="GRPO")],
+            ),
+            SearchResult(
+                query="PPO",
+                results=[SearchHit(paper_id="p1", title="PPO")],
+            ),
+        ],
+        limit=2,
+    )
+    check("comparison search balance",
+          {hit.paper_id for hit in merged.results} == {"g1", "p1"})
+    check(
+        "retired holdout blocked",
+        holdout_is_retired(
+            ROOT / "eval" / "v2_comparison_holdout_v1.json"
+        ),
+    )
 
     resp = StubEngine().ask(req)
     body = resp.to_dict()

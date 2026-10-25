@@ -1,0 +1,72 @@
+[
+  {
+    "id": "h_c01",
+    "type": "compare",
+    "subjects": ["A2C", "A3C"],
+    "question": "在连续控制任务中，A2C 与 A3C 的核心差异是什么？",
+    "source": "meeting"
+  },
+  {
+    "id": "h_c02",
+    "type": "compare",
+    "subjects": ["CQL", "BCQ"],
+    "question": "CQL 和 BCQ 在离线强化学习中的主要方法和适用场景有什么不同？",
+    "source": "meeting"
+  },
+  {
+    "id": "h_c03",
+    "type": "compare",
+    "subjects": ["IQL", "AWAC"],
+    "question": "IQL 与 AWAC 在离线到在线强化学习中的设计思路有什么差异？",
+    "source": "meeting"
+  },
+  {
+    "id": "h_c04",
+    "type": "compare",
+    "subjects": ["KTO", "IPO"],
+    "question": "KTO 和 IPO 的偏好优化目标及反馈假设有什么不同？",
+    "source": "meeting"
+  },
+  {
+    "id": "h_c05",
+    "type": "compare",
+    "subjects": ["MAPPO", "QMIX"],
+    "question": "MAPPO 与 QMIX 在多智能体协作中的策略学习和信用分配方式有何区别？",
+    "source": "meeting"
+  },
+  {
+    "id": "h_c06",
+    "type": "compare",
+    "subjects": ["MuZero", "AlphaZero"],
+    "question": "MuZero 相比 AlphaZero 在环境建模和搜索上的关键改进是什么？",
+    "source": "meeting"
+  },
+  {
+    "id": "h_c07",
+    "type": "compare",
+    "subjects": ["Diffusion Policy", "Action Chunking Transformer"],
+    "question": "Diffusion Policy 与 Action Chunking Transformer 在机器人策略建模上的差异是什么？",
+    "source": "meeting"
+  },
+  {
+    "id": "h_c08",
+    "type": "compare",
+    "subjects": ["RT-2", "OpenVLA"],
+    "question": "RT-2 和 OpenVLA 在视觉语言动作模型的训练与泛化方式上有什么不同？",
+    "source": "meeting"
+  },
+  {
+    "id": "h_c09",
+    "type": "compare",
+    "subjects": ["SimPO", "ORPO"],
+    "question": "SimPO 与 ORPO 在无需参考模型的对齐训练中有什么区别？",
+    "source": "meeting"
+  },
+  {
+    "id": "h_c10",
+    "type": "compare",
+    "subjects": ["PETS", "MBPO"],
+    "question": "PETS 和 MBPO 在基于模型的强化学习中如何平衡模型误差与策略学习？",
+    "source": "meeting"
+  }
+]

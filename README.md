@@ -13,10 +13,10 @@ tags: [索引, 说明书]
 |---|---|---|---|
 | `日志/` | 研究日志（**流水账**，一天一篇）——**直辖，无子 README，根只索引目录** | — | 2026-10-25 |
 | `规划/` | 长期参考（导师建议 / 方向决策 / 评估结论 / **接口契约**）——**直辖，无子 README，根只索引目录** | — | 2026-10-23 |
-| `hotspot/` | 核心代码（L1–L6 + **L6.5 服务层 `api/`**，脚本速查见其 `_index`） | [[hotspot/_index\|打开]] | 2026-10-22 |
+| `hotspot/` | 核心代码（L1–L6 + **L6.5 服务层 `api/`**，脚本速查见其 `_index`） | [[hotspot/_index\|打开]] | 2026-10-25 |
 | `web/` | 新前端静态页（最小参考实现，原生 JS；账号系统待接） | — | 2026-10-18 |
-| `scripts/` | 验证/自检脚本 | [[scripts/_index\|打开]] | 2026-10-24 |
-| `eval/` | 评测集与评测脚本 | [[eval/_index\|打开]] | 2026-10-24 |
+| `scripts/` | 验证/自检脚本 | [[scripts/_index\|打开]] | 2026-10-25 |
+| `eval/` | 评测集、比较题 holdout 与工具 fixture | [[eval/_index\|打开]] | 2026-10-25 |
 
 ## 2. 直辖文件夹
 
@@ -29,7 +29,7 @@ tags: [索引, 说明书]
 - `STATUS.md` —— 续接会话先读的短状态：当前目标、进度、验收命令
 - `AGENTS.md` —— **AI 会话唯一入口**：按任务查表 + 禁读清单 + 大文件读法 + 自检 + 红线
 - `CLAUDE.md` / `.cursorrules` —— 别的 AI 工具的入口别名，只指向 `AGENTS.md`（不重复内容）
-- `config.yaml` —— 唯一配置入口
+- `config.yaml` —— 本地唯一配置入口；云端环境使用 `config.server.yaml`
 
 > 长期参考 md（方案/测试计划/规划/分工）已归入 `规划/`，见 §2。
 
@@ -61,8 +61,8 @@ tags: [索引, 说明书]
 | `hotspot/reasoning/` | answer / verify / evidence |
 | `hotspot/api/` | contract / engine / http（**前端唯一接口面**） |
 | `hotspot/ui/` | app / store |
-| `scripts/` | check_access / check_tree / check_api / build_lance_index / run_server |
-| `eval/` | 问题集与工具 fixture（执行器待 v2 重建） |
+| `scripts/` | check_access / check_tree / check_api / run_v2_eval / evaluate_comparison_holdout / run_server |
+| `eval/` | 验收题、已退役比较题 holdout、正式判定标准与工具 fixture |
 
 > 每条脚本一行功能取自其 **docstring 首句**（单一源，README 不另写全文）；`scripts/check_tree.py` 会**自检**这些清单与磁盘 `.py` 是否一致。
 

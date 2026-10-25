@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import re
 import time
 from dataclasses import dataclass, field
 
@@ -19,6 +20,7 @@ from ..core.models import (
     AgentAnswer,
     PaperDetail,
     ScopeDecision,
+    SearchHit,
     SearchResult,
     TopicOverview,
 )
@@ -57,6 +59,10 @@ INSTRUCTIONS = """你是本地论文库研究助手。只能依据工具返回�
 8. 最多 4 次 search、3 次 fetch、2 次 topic overview；证据足够后停止。
 9. 用户使用中文时，最终 claim 使用中文；论文标题保持原文。
 10. 除非用户明确给出年份或会议名，否则不要猜测 years 或 venues 过滤条件。
+11. 比较两个对象时，每个比较结论都必须能由对应对象的 fetched 摘要直接支持。
+12. 不要把模型常识、论文标题推断或背景知识写进 claim；摘要没有写明的内容不要补充。
+13. 方法列表按方法拆分 claim，每个 claim 只陈述一个可直接核验的方法要点。
+14. 不要把多篇论文中互不相关的结论合并成一个 claim；每个 claim 只引用直接支持它的 1–2 个 ID。
 """
 
 SCOPE_INSTRUCTIONS = """判断用户问题是否属于本地 AI/ML 论文库的研究范围。
@@ -74,6 +80,69 @@ AGENT_MODEL_SETTINGS = ModelSettings(
     seed=42,
 )
 HISTORY_ABSTRACT_CHARS = 1200
+_COMPARISON_RE = re.compile(
+    r"^(?P<left>[^，。？！]{1,80}?)\s*"
+    r"(?:相比|与|和|vs\.?|versus|对比)\s*"
+    r"(?P<right>[^，。？！]{1,120})",
+    flags=re.IGNORECASE,
+)
+_COMPARISON_TAIL_RE = re.compile(
+    r"\s*(?:在[^，。？！]{0,40}?上)?"
+    r"(?:的)?(?:核心)?"
+    r"(?:差异|区别|差别|共同来源|共同理论[^，。？！]*|"
+    r"改了什么|是什么|有哪些|有什么|如何|怎么|为何).*$"
+)
+
+
+def comparison_terms(question: str) -> list[str]:
+    """Extract two comparison subjects from a natural-language question."""
+    match = _COMPARISON_RE.match(str(question or "").strip())
+    if not match:
+        return []
+    parts = []
+    for key in ("left", "right"):
+        part = _COMPARISON_TAIL_RE.sub("", match.group(key)).strip(
+            " \t，。？！?：:"
+        )
+        if part:
+            parts.append(part)
+    if len(parts) != 2:
+        return []
+    return list(dict.fromkeys(parts))
+
+
+def merge_search_results(
+    query: str,
+    groups: list[SearchResult],
+    *,
+    limit: int,
+) -> SearchResult:
+    """Fuse ranked search lists with reciprocal-rank fusion."""
+    scores: dict[str, float] = {}
+    hits: dict[str, SearchHit] = {}
+    order: list[str] = []
+    for group in groups:
+        for rank, hit in enumerate(group.results, start=1):
+            paper_id = hit.paper_id
+            if paper_id not in hits:
+                hits[paper_id] = hit
+                order.append(paper_id)
+            scores[paper_id] = scores.get(paper_id, 0.0) + 1.0 / (60 + rank)
+    rank_index = {paper_id: index for index, paper_id in enumerate(order)}
+    ordered = sorted(
+        scores,
+        key=lambda paper_id: (-scores[paper_id], rank_index[paper_id]),
+    )
+    merged = [
+        hits[paper_id].model_copy(update={"score": round(scores[paper_id], 6)})
+        for paper_id in ordered[:limit]
+    ]
+    return SearchResult(
+        query=query,
+        results=merged,
+        n_candidates=len(scores),
+        truncated=len(scores) > limit,
+    )
 
 
 def build_history_context(
@@ -166,11 +235,15 @@ def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
             if str(venue).strip()
             and str(venue).casefold() in question_lower
         ]
-        effective_limit = min(
+        model_limit = min(
             ctx.deps.search_limit,
             limit if limit and limit > 0 else ctx.deps.search_limit,
         )
-        result = search_papers(
+        subqueries = comparison_terms(ctx.deps.question)
+        effective_limit = (
+            ctx.deps.search_limit if subqueries else model_limit
+        )
+        combined = search_papers(
             ctx.deps.store,
             query,
             keywords=keywords,
@@ -178,10 +251,30 @@ def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
             venues=effective_venues,
             limit=effective_limit,
         )
+        if subqueries:
+            groups = [
+                search_papers(
+                    ctx.deps.store,
+                    subquery,
+                    keywords=[subquery],
+                    years=effective_years,
+                    venues=effective_venues,
+                    limit=effective_limit,
+                )
+                for subquery in subqueries
+            ]
+            result = merge_search_results(
+                query,
+                [*groups, combined],
+                limit=effective_limit,
+            )
+        else:
+            result = combined
         ctx.deps.seen_ids.update(hit.paper_id for hit in result.results)
         ctx.deps.events.append({
             "tool": "search_papers",
             "query": query,
+            "subqueries": subqueries,
             "keywords": list(keywords or []),
             "years": list(effective_years),
             "venues": list(effective_venues),

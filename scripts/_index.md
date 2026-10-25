@@ -25,6 +25,8 @@ tags: [索引]
 - `check_api.py` —— 契约与 HTTP/SSE 接口自检。
 - `check_tools_v2.py` —— LanceDB 标题探测与论文读取工具离线自检。
 - `run_v2_eval.py` —— v2 离线工具指标或可选真实 agent 端到端回归。
+- `evaluate_comparison_holdout.py` —— 离线校验冻结比较题 holdout 的哈希、
+  路由、证据支持率、引用与延迟阈值，不运行模型。
 - `eval_scope_classifier.py` —— 当前 LLM 与 Laya zero-shot scope 双基线、延迟和训练 dry-run 探针。
 - `build_scope_dataset.py` —— 用移动云模型构造 scope silver 数据、分组切分、审计和 Laya 格式导出。
 - `finalize_scope_review.py` —— 复核 scope 样本、补 Laya 预检、生成带新哈希的不可变数据版本。

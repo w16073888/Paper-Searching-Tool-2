@@ -2,12 +2,22 @@
 
 > 后续会话先读本文件；这里只保留当前目标、进度、下一命令。
 
-更新：2026-10-24
+更新：2026-10-25
 
 ## 当前目标
 
-算法 v2 paper-first、离线 topic snapshot、契约 v2 和完整 HTTP 演示已跑通。
-当前不继续改检索算法，重点转向稳定性、超时归因和前端联调。
+项目已迁移到云服务器并使用本地 Qwen3-8B-AWQ + vLLM。
+当前重点是冻结比较题验收基线、保持云/Git 同步和工程化收尾。
+
+## 2026-10-25 云迁移收尾
+
+- Qwen：`127.0.0.1:8000`，Qwen3-8B-AWQ，vLLM 0.32.0。
+- 项目服务：`127.0.0.1:8080`，配置 `config.server.yaml`。
+- 16 题验收连续两轮 `16/16`，逐题 route/refusal/claims/citations 完全一致。
+- 比较题已支持对象拆词、分路检索和 RRF 融合。
+- 比较题 holdout v1 已运行一次：`10/10` 正常回答，自动 gate 通过。
+- holdout v1 状态为 `retired`，`do_not_run_again=true`，不得再次运行或用于调优。
+- 契约自检 `35/35`；README 索引树完整。
 
 ## 基线
 
@@ -102,18 +112,11 @@
 
 ## 下一步
 
-1. 用新超时预算重跑历史 3 条超时问题，验证错误分层。
-2. 排查 RLOO 范围内拒答；不改检索召回策略。
-3. 前端按 contract v2 联调，验证来源禁用与 usage 展示。
-4. 旧 Jev 权重和外部源码已删除，只保留 `scope_probe*.json` 测试记录。
-   `.models/jev` 已替换为 `convaiinnovations/laya-multilingual`（mmBERT-base、
-   322M，revision `1720e3e...`）；权重 SHA256 已与官方 LFS 元数据一致。
-   scope v1、v1.1、v1.2 数据和 head-only pilot 均已完成。当前不切换 Laya
-   backend，不跑多 seed、不解冻 encoder。误差归因见
-   `eval/scope_v1/error_attribution.md`；29 条错误复核与定向补强已完成。
-   v1.2 head-only、最后 2 层解冻和 OOD 2:1 非对称损失均未通过。
-   本轮已按预算止损，默认继续使用 LLM scope；后续 scope 工作需重新立项，
-   不再在当前方向继续调权重或扩大层数。
+1. 比较题 holdout v1 已退役，不再运行；后续算法改动另建 v2 holdout。
+2. 云端当前不能直接访问 GitHub，代码同步以本地 Git bundle 为准，直到配置代理或迁移远端。
+3. 前端按 contract v2 联调，并补鉴权、反向代理或 SSH 访问方案；引擎不加账号状态。
+4. arXiv 索引覆盖 4369/5173；如需完整数据源，补齐缺失向量后再更新索引。
+5. 如需长期在线，配置用户级开机自启；`.models` 仅在需要 Laya 实验时迁移。
 
 ## 固定验收
 
@@ -121,6 +124,8 @@
 python -m py_compile hotspot/api/engine.py hotspot/api/contract.py hotspot/api/http.py hotspot/reasoning/evidence.py hotspot/reasoning/answer.py hotspot/reasoning/verify.py
 python scripts/check_api.py --quiet
 python scripts/check_tree.py --vault .
+python scripts/evaluate_comparison_holdout.py --result eval/v2_comparison_holdout_v1.result.json
 ```
 
+holdout v1 只允许对已归档结果做离线复算，禁止用 `run_v2_eval.py` 再次运行。
 旧 Trace 仍可用 `scripts/summarize_trace.py` 离线汇总。

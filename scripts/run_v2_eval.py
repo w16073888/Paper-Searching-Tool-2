@@ -151,6 +151,19 @@ def agent_eval(
     return {"n": len(rows), "rows": rows}
 
 
+def holdout_is_retired(questions_path: Path) -> bool:
+    manifest = questions_path.with_name(
+        f"{questions_path.stem}.manifest.json"
+    )
+    if not manifest.exists():
+        return False
+    data = json.loads(manifest.read_text(encoding="utf-8"))
+    return bool(
+        data.get("do_not_run_again")
+        or data.get("status") == "retired"
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--agent", action="store_true")
@@ -167,6 +180,11 @@ def main() -> int:
         if not args.live:
             parser.error("--agent requires --live")
         path = Path(args.questions or ROOT / "eval" / "questions_small.json")
+        if holdout_is_retired(path):
+            parser.error(
+                "this holdout is retired and must not be run again; "
+                "use a new versioned holdout for future acceptance"
+            )
         result = agent_eval(
             path,
             limit=args.limit,
@@ -175,6 +193,11 @@ def main() -> int:
         out = Path(args.out) if args.out else ws / "ledger" / "v2_agent_eval.json"
     else:
         path = Path(args.questions or ROOT / "eval" / "retrieval_questions.json")
+        if holdout_is_retired(path):
+            parser.error(
+                "this holdout is retired and must not be run again; "
+                "use a new versioned holdout for future acceptance"
+            )
         result = tool_eval(
             path,
             limit=args.limit,
