@@ -23,6 +23,9 @@ server.pid
 
 # 云端迁移数据（从外部只读源同步，不入库）
 data/
+# 例外：趋势快照是约 1 MB 的生产资产，必须随代码部署
+!hotspot/data/
+!hotspot/data/topic_snapshot_v1.json.gz
 
 # dasc 运行时产物：LLM 响应缓存 + 出境审计日志（本机可重建，v 别入库）
 # 406 个 JSON 会把 grep/搜索淹掉，clone 也多 2 MB

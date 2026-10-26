@@ -46,6 +46,9 @@ embed:
   hf_home: /home/scu101/models/hf-cache
   chunk_size: 500
 
+topics:
+  snapshot: hotspot/data/topic_snapshot_v1.json.gz
+
 agent:
   search_limit: 12
   fetch_limit: 6

@@ -23,7 +23,9 @@ tags: [索引]
 - `check_access.py` —— 验证导师库只读接入。
 - `check_tree.py` —— 索引树与脚本速查自检。
 - `check_api.py` —— 契约与 HTTP/SSE 接口自检。
-- `check_tools_v2.py` —— LanceDB 标题探测与论文读取工具离线自检。
+- `check_tools_v2.py` —— LanceDB、论文读取与三条 trend snapshot 工具离线自检。
+- `build_topic_snapshot.py` —— 从全库 BGE-M3 向量构建版本化主题快照。
+- `check_topic_snapshot.py` —— 校验 topic snapshot 的覆盖、schema 和映射一致性。
 - `run_v2_eval.py` —— v2 离线工具指标或可选真实 agent 端到端回归。
 - `benchmark_model_candidates.py` —— 对 OpenAI 兼容端点测流式 TTFT、生成速度、
   长上下文、并发和稳定性。
@@ -60,7 +62,8 @@ tags: [索引]
 
 1. `check_api.py`
 2. `run_server.py`
-3. `check_tree.py`
+3. `check_topic_snapshot.py`
+4. `check_tree.py`
 
 ## 5. 相关
 

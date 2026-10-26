@@ -60,6 +60,10 @@ embed:
   # dasc 的 embed_pool 一次 savez_compressed 全量落盘，全库 8.5 小时断了全白跑。
   chunk_size: 500               # 每 N 篇落一个分片；已完成分片不重算
 
+topics:
+  # 生产趋势快照随代码部署；workspace 中的旧快照只作兼容回退。
+  snapshot: hotspot/data/topic_snapshot_v1.json.gz
+
 agent:
   search_limit: 12
   fetch_limit: 6

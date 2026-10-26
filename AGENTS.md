@@ -12,8 +12,8 @@
 
 ## 0. 三行看懂这个项目
 
-本地论文库（22,747 篇会议论文）的研究助手。当前处于 v2 重建：旧检索/聚类/路由已删除，
-保留语料、embedding、证据与引用校验；新工具链尚未接入。
+本地论文库（22,747 篇会议论文）的研究助手。v2 使用 LanceDB 论文工具、
+全量主题聚类快照、证据门控与引用校验；旧固定检索/子聚类/路由链仅保留在 Git 历史。
 对外**只有 2 个接口**：`hotspot/api` 的 `meta`（能力/参数）与 `ask`（问一次）。
 三种消费者：Streamlit（`hotspot/ui/`）、HTTP 网页（`web/` + `scripts/run_server.py`）、脚本/评测（`scripts/`、`eval/`）。
 **前端只准 import `hotspot.api`，算法内部随便改**——这条边界是 2026-10-18 定的，别再拆。
@@ -25,7 +25,7 @@
 | 改接口 / 加返回字段 / 加参数 | `规划/2026-10-18-接口契约-前端与算法.md` §4–§5 → `hotspot/api/contract.py` → `hotspot/api/engine.py` 的 `Engine.ask` | 不用读 `ui/`、不用读算法内部 |
 | 改前端页面 / 接账号系统 | `hotspot/api/_index.md` → 契约文档 §8 → `hotspot/ui/app.py`（Streamlit）或 `web/index.html`（HTTP） | 不用读 `subcluster`/`retrieval` |
 | 恢复旧大创算法做对照 | Git commit `b517988` | 当前分支已删除，不用磁盘旧路径猜 |
-| 提速（向量/聚类） | `hotspot/structure/_index.md` → `structure/embed.py` → `structure/cluster.py` → `retrieval/vector.py` | 不动 `ui/` 与契约 |
+| 重建/调优主题聚类 | `hotspot/structure/_index.md` → `structure/embed.py` → `structure/topic_cluster.py` → `scripts/build_topic_snapshot.py` | 不动 `ui/` 与契约 |
 | 重建检索 / 路由 / 召回 | `规划/2026-10-21-...` → `hotspot/retrieval/_index.md` | 当前分支没有旧 hybrid/router，禁止恢复 `subcluster_adaptive` |
 | 改引用校验（防幻觉） | `hotspot/reasoning/_index.md` → `verify.py` | 四态 `supported/unsupported/missing_id/no_citation` **不许合并** |
 | 跑数据 / 评测 | `scripts/_index.md`、`eval/_index.md` → `eval/run_eval.py` | 不要读 `workspace/` 产物 |

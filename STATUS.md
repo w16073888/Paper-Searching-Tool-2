@@ -2,12 +2,12 @@
 
 > 后续会话先读本文件；这里只保留当前目标、进度、下一命令。
 
-更新：2026-10-25
+更新：2026-10-26
 
 ## 当前目标
 
 项目已迁移到云服务器并使用本地 Qwen3-8B-AWQ + vLLM。
-当前重点是冻结比较题验收基线、保持云/Git 同步和工程化收尾。
+当前重点是保持云/Git 同步，并完成全量主题快照后的趋势题端到端验收。
 
 ## 2026-10-25 云迁移收尾
 
@@ -40,6 +40,22 @@
 - 最终决定：**生产默认继续使用 Qwen3-8B-AWQ**，14B 保留作离线候选，
   移动云 API 仅作为可选外部对照。
 - 测试代码、冻结题集、原始结果和恢复验证已落盘；生产 8B 已恢复。
+
+## 2026-10-26 全量主题聚类
+
+- 新增 `hotspot/structure/topic_cluster.py`：PCA-128 + 分桶局部 kNN +
+  Leiden，巨簇拆分、小簇合并、全量强制归属。
+- 新增 `scripts/build_topic_snapshot.py` 与 `scripts/check_topic_snapshot.py`。
+- 全量 22,747 篇构建完成：220 簇、覆盖率 100%、成员 22/103/222
+  （min/median/max）、320,421 条图边、平均度 28.17、构建耗时 20.9 秒。
+- 生产快照 `hotspot/data/topic_snapshot_v1.json.gz` 为 1,065,456 bytes，
+  随代码部署；`workspace/metrics/` 旧快照只作兼容回退。
+- `TopicStore` 改为词法 + PCA 质心混合选簇；弱相关的
+  `process supervision` 查询返回空，由 Agent 降级到 `search_papers`。
+- `meta.capabilities.topic_snapshot` 改为读取真实快照可用性。
+- `g01–g20` 工具层探针 19/20 命中；仅 `g11 process supervision` 无可靠簇，
+  按设计返回空并走论文检索 fallback。
+- 快照加载 0.096s；BGE 冷启动后新查询约 0.24–0.25s（词法 + 质心 + 选簇）。
 
 ## 基线
 
@@ -134,12 +150,14 @@
 
 ## 下一步
 
-1. 比较题 holdout v1 已退役，不再运行；后续算法改动另建 v2 holdout。
-2. 云端当前不能直接访问 GitHub，代码同步以本地 Git bundle 为准，直到配置代理或迁移远端。
-3. 前端按 contract v2 联调，并补鉴权、反向代理或 SSH 访问方案；引擎不加账号状态。
-4. 下一工作日核对 cron 产出的 `.done`、当周 harness、向量增量与新 arXiv 索引。
-5. 如需长期在线，配置用户级开机自启；`.models` 仅在需要 Laya 实验时迁移。
-6. 若未来转向 16B 以上模型，需要更小量化/更强 GPU 或重新设计上下文预算。
+1. 用 `eval/questions.json` 的 `g01–g20` 跑趋势题端到端回归，检查
+   主题命中、引用支撑、空主题时的 search fallback 与延迟。
+2. 比较题 holdout v1 已退役，不再运行；后续算法改动另建 v2 holdout。
+3. 云端当前不能直接访问 GitHub，代码同步以本地 Git bundle 为准，直到配置代理或迁移远端。
+4. 前端按 contract v2 联调，并补鉴权、反向代理或 SSH 访问方案；引擎不加账号状态。
+5. 下一工作日核对 cron 产出的 `.done`、当周 harness、向量增量与新 arXiv 索引。
+6. 如需长期在线，配置用户级开机自启；`.models` 仅在需要 Laya 实验时迁移。
+7. 若未来转向 16B 以上模型，需要更小量化/更强 GPU 或重新设计上下文预算。
 
 ## 固定验收
 

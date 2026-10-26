@@ -26,6 +26,8 @@ from hotspot.tools.papers import fetch_papers
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int, default=5)
+    parser.add_argument("--trend-limit", type=int, default=3)
+    parser.add_argument("--min-trend-rate", type=float, default=0.8)
     args = parser.parse_args()
     cfg = load_config()
     store = LancePaperStore(cfg)
@@ -63,15 +65,40 @@ def main() -> int:
     )
     years_ok = all(hit.year == 2025 for hit in filtered.results)
     topic_store = TopicStore(cfg)
-    topics = topic_store.search("reinforcement learning", limit=3)
+    trend_questions = json.loads(
+        (ROOT / "eval" / "questions.json").read_text(encoding="utf-8")
+    )
+    trend_questions = [
+        item["question"] for item in trend_questions
+        if item.get("type") == "global"
+    ][:max(1, args.trend_limit)]
+    topic_hits = []
+    for question in trend_questions:
+        topics = topic_store.search(question, limit=3)
+        topic_hits.append(len(topics.topics))
+    trend_rate = (
+        sum(bool(hit) for hit in topic_hits) / len(topic_hits)
+        if topic_hits else 0.0
+    )
+    tool_ok = (
+        not failures
+        and bool(fetched)
+        and years_ok
+        and trend_rate >= args.min_trend_rate
+    )
     print(
-        f"{'✓' if not failures and len(fetched) else '✗'} "
+        f"{'✓' if tool_ok else '✗'} "
         f"tool_v2 probes={len(probes)} title_hits={hits} "
         f"fetched={len(fetched)} years_ok={years_ok} "
-        f"topics={len(topics.topics)}"
+        f"topics={sum(bool(hit) for hit in topic_hits)}/{len(trend_questions)} "
+        f"rate={trend_rate:.3f} "
+        f"snapshot={topic_store.source}"
     )
-    if failures or not years_ok or not topics.topics:
+    if not tool_ok:
         print("misses:", failures)
+        print("trend_hits:", topic_hits)
+        if topic_store.error:
+            print("topic_error:", topic_store.error)
         return 1
     return 0
 

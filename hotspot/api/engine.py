@@ -20,6 +20,7 @@ from ..agent.runtime import ResearchAgentError, run_research_agent
 from ..config import load_config
 from ..corpus import open_arxiv_corpus, open_corpus
 from ..index.lance_store import LancePaperStore
+from ..index.topic_store import TopicStore
 from ..observability.trace import append_trace, sanitize_answer_text
 from ..reasoning.grounding import (
     extractive_fallback,
@@ -196,11 +197,12 @@ class Engine:
             "model_pro": model_pro,
             "has_server_key": bool(key),
         }
+        topic_store = TopicStore(self._cfg)
         out.capabilities = {
             "algorithm_version": "2",
             "agent": "pydantic-ai",
             "retrieval": "lancedb-vector+fts",
-            "topic_snapshot": True,
+            "topic_snapshot": topic_store.available,
             "trace": True,
             "timeouts": {
                 "scope_s": float(

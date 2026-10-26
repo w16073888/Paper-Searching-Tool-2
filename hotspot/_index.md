@@ -6,20 +6,21 @@ tags: [索引]
 
 ## 1. 这个文件夹是什么
 
-论文研究助手的核心包。2026-10-22 起进入 v2 重建：旧检索、聚类、路由和大创算法
-已移除；当前保留稳定接口、数据读取、embedding、证据判断与引用校验。
+论文研究助手的核心包。v2 保留稳定接口、数据读取、embedding、证据判断与引用校验，
+并已重建全量主题聚类与版本化 topic snapshot。
 
 ## 2. 当前工作状态
 
-- 旧算法在 `b517988` 快照中可恢复，并已从当前分支删除。
-- `hotspot.api` 保留稳定请求/响应形状；`Engine.ask` 暂返回重建提示。
-- 保留 `structure/embed.py` 作为 1024 维论文表示入口。
+- 旧算法仍在 `b517988` 快照中，仅作对照；当前主链使用 v2 工具。
+- `hotspot.api` 保留稳定请求/响应形状。
+- `structure/embed.py` 提供 1024 维论文表示；`topic_cluster.py` 生成
+  22,747 篇全量、220 簇的生产快照。
 - 保留 `reasoning/evidence.py`、`verify.py`、`answer.py` 作为领域校验基础。
 
 ## 3. 文件清单
 
 **计划文件**：本 `_index.md`。
-**数据文件**：无（可重建产物在 `workspace/`）。
+**数据文件**：`data/topic_snapshot_v1.json.gz`（生产快照，随代码部署）。
 
 **子包**：
 
@@ -32,7 +33,7 @@ tags: [索引]
 | `observability/` | append-only request Trace | [[hotspot/observability/_index\|打开]] |
 | `reasoning/` | 证据、回答结构、引用校验 | [[hotspot/reasoning/_index\|打开]] |
 | `retrieval/` | 仅保留上下文装配，待新检索栈替换 | [[hotspot/retrieval/_index\|打开]] |
-| `structure/` | embedding 与会议扩散统计 | [[hotspot/structure/_index\|打开]] |
+| `structure/` | embedding、主题聚类与会议扩散统计 | [[hotspot/structure/_index\|打开]] |
 | `tools/` | agent 可调用的 search/fetch 工具 | [[hotspot/tools/_index\|打开]] |
 | `ui/` | Streamlit 适配 | [[hotspot/ui/_index\|打开]] |
 | `weekly/` | arXiv 周绑定、harness 输入和增量向量 | [[hotspot/weekly/_index\|打开]] |

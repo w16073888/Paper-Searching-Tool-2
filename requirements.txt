@@ -16,6 +16,8 @@ transformers==4.51.3
 huggingface-hub<1
 openai>=3.26,<4
 lancedb>=0.36,<0.37
+igraph>=0.11,<0.12
+leidenalg>=0.10,<0.11
 pydantic-ai-slim[openai]>=2.59,<3
 tqdm>=4.60
 requests>=2.28

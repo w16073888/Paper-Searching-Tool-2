@@ -53,6 +53,7 @@ INSTRUCTIONS = """你是本地论文库研究助手。只能依据工具返回�
 2. 需要引用任何论文前，必须调用 fetch_papers 获取摘要；服务端已经注入的前文引用论文除外。
 3. 比较两个对象时分别搜索两次，不要只搜一个合并字符串。
 4. 问热门方向、研究趋势或领域概览时，先调用 get_topic_overview；它读取离线主题快照。
+   若返回空 topics，必须改用 search_papers 按主题检索，再按年份/会议聚合；不要编造趋势。
 5. 只能引用 fetched 中真实存在的 paper_id，不得编造 ID、标题或结论。
 6. 每条 claim 必须带 evidence_ids；没有足够证据时返回空 claims，并填写 no_answer_reason。
 7. 不回答本地论文库无法支持的外部知识问题。
@@ -341,6 +342,8 @@ def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
             "query": query,
             "returned": len(result.topics),
             "cluster_ids": [topic.cluster_id for topic in result.topics],
+            "snapshot_source": ctx.deps.topics.source,
+            "snapshot_error": ctx.deps.topics.error,
         })
         return result
 

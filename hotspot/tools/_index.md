@@ -12,7 +12,8 @@ Agent 可选择调用的通用工具。工具不接收 `answer_mode`，也不包
 
 - `search_papers`：LanceDB vector + FTS 混合召回，带年份/会议硬过滤。
 - `fetch_papers`：按搜索返回 ID 读取摘要。
-- `get_topic_overview`：读取离线 topic snapshot。
+- `get_topic_overview`：读取版本化 topic snapshot；空结果由 Agent
+  继续调用 `search_papers` 聚合证据。
 - Evidence gate 与 citation verify 是强制 runtime 管线，不属于可选工具。
 
 ## 3. 文件清单
