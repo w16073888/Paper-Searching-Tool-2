@@ -11,11 +11,13 @@ import argparse
 import contextlib
 import io
 import json
+import shutil
 import time
 import sys
 import threading
 import urllib.error
 import urllib.request
+import uuid
 import warnings
 from pathlib import Path
 
@@ -31,9 +33,14 @@ from hotspot.api.contract import (  # noqa: E402
     AskResponse,
     MetaResponse,
     SourceInfo,
+    WeekInfo,
     new_request_id,
 )
-from hotspot.api.engine import Engine, _history_for_request  # noqa: E402
+from hotspot.api.engine import (  # noqa: E402
+    Engine,
+    _history_for_request,
+    _load_week_infos,
+)
 from hotspot.api.http import create_server  # noqa: E402
 from hotspot.agent.runtime import (  # noqa: E402
     build_history_context,
@@ -132,6 +139,23 @@ def check_contract() -> None:
     check("api key hidden", dumped["llm"]["api_key"] == "***")
     check("scope retained", dumped["scope"]["years"] == [2025])
     check("params normalized", dumped["params"] == {"search_limit": 16})
+    week_info = WeekInfo(
+        week_id="2026-W44",
+        status="open",
+        member_count=12,
+        latest_day="2026-10-26",
+    )
+    check("week metadata contract",
+          SourceInfo(
+              key="arxiv",
+              label="arXiv",
+              weeks=[week_info],
+          ).to_dict()["weeks"][0] == {
+              "week_id": "2026-W44",
+              "status": "open",
+              "member_count": 12,
+              "latest_day": "2026-10-26",
+          })
 
     oversized = AskRequest.from_dict({
         "question": "x" * (AskRequest.MAX_QUESTION + 1),
@@ -290,6 +314,8 @@ def check_real_meta() -> None:
     meta = Engine().meta().to_dict()
     check("real meta", bool(meta.get("sources")))
     check("algorithm v2", meta["capabilities"].get("algorithm_version") == "2")
+    check("week scope capability",
+          meta["capabilities"].get("week_scope") is True)
     llm_meta = meta.get("llm") or {}
     check("meta llm defaults",
           bool(llm_meta.get("base_url"))
@@ -311,7 +337,9 @@ def check_real_meta() -> None:
     )
     check("source index metadata",
           isinstance(arxiv.get("indexed_papers"), int)
-          and isinstance(arxiv.get("index_ready"), bool))
+          and isinstance(arxiv.get("index_ready"), bool)
+          and isinstance(arxiv.get("weeks"), list)
+          and isinstance(arxiv.get("new_this_week"), int))
     if arxiv.get("index_ready"):
         check("arXiv index coverage",
               arxiv["indexed_papers"] <= arxiv["papers"])
@@ -333,8 +361,46 @@ def check_real_meta() -> None:
                   for warning in truncated.warnings))
 
 
+def check_week_metadata() -> None:
+    print("[4] week metadata")
+    root = ROOT / "workspace" / f"week-meta-check-{uuid.uuid4().hex}"
+    try:
+        for week_id, status, members, days in [
+            ("2026-W41", "partial", 804, ["2026-10-09"]),
+            ("2026-W44", "open", 17, ["2026-10-26"]),
+        ]:
+            week_dir = root / week_id
+            week_dir.mkdir(parents=True)
+            (week_dir / "manifest.json").write_text(json.dumps({
+                "week_id": week_id,
+                "status": status,
+                "member_count": members,
+                "completed_days": days,
+                "observed_days": days,
+            }), encoding="utf-8")
+        weeks, warnings = _load_week_infos(root)
+        check("weeks sorted newest first",
+              [item.week_id for item in weeks]
+              == ["2026-W44", "2026-W41"])
+        check("week manifest metadata",
+              weeks[0].status == "open"
+              and weeks[0].member_count == 17
+              and weeks[0].latest_day == "2026-10-26")
+        check("valid manifests no warnings", warnings == [])
+
+        bad_dir = root / "2026-W42"
+        bad_dir.mkdir()
+        (bad_dir / "manifest.json").write_text("{bad json", encoding="utf-8")
+        weeks, warnings = _load_week_infos(root)
+        check("bad week manifest is explicit",
+              "2026-W42" not in {item.week_id for item in weeks}
+              and any("2026-W42" in warning for warning in warnings))
+    finally:
+        shutil.rmtree(root, ignore_errors=True)
+
+
 def check_verify_timeout_fallback() -> None:
-    print("[4] verify timeout fallback")
+    print("[5] verify timeout fallback")
 
     class Paper:
         title = "DPO removes the explicit reward model"
@@ -384,11 +450,13 @@ def main(argv: list[str] | None = None) -> int:
             check_contract()
             check_http()
             check_real_meta()
+            check_week_metadata()
             check_verify_timeout_fallback()
     else:
         check_contract()
         check_http()
         check_real_meta()
+        check_week_metadata()
         check_verify_timeout_fallback()
     if FAILS:
         print(f"✗ checks={CHECKS} failures={len(FAILS)}")

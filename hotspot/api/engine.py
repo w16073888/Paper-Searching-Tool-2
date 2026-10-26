@@ -8,9 +8,12 @@ controller are assembled.
 from __future__ import annotations
 
 import copy
+import json
 import os
+import re
 import threading
 import time
+from pathlib import Path
 from typing import Any, Optional
 
 from ..agent.runtime import ResearchAgentError, run_research_agent
@@ -36,6 +39,7 @@ from .contract import (
     MetaResponse,
     SourceInfo,
     Usage,
+    WeekInfo,
     apply_params,
     normalize_base_url,
     new_request_id,
@@ -44,6 +48,68 @@ from .contract import (
 
 ProgressHook = Optional[Any]
 _ENGINE: Optional["Engine"] = None
+_WEEK_RE = re.compile(r"^\d{4}-W\d{2}$")
+_DAY_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
+def _weekly_data_dir(cfg: dict[str, Any]) -> Optional[Path]:
+    configured = os.environ.get("ARXIV_WEEKLY_DATA")
+    if not configured:
+        configured = str(
+            (cfg.get("arxiv_weekly") or {}).get("data_dir") or ""
+        ).strip()
+    if configured:
+        return Path(configured)
+    source = str(
+        (cfg.get("corpus") or {}).get("arxiv_source") or ""
+    ).strip()
+    if not source:
+        return None
+    source_path = Path(source)
+    return source_path.parent if source_path.name == "papers.jsonl" else source_path
+
+
+def _load_week_infos(
+    data_dir: Path | str,
+) -> tuple[list[WeekInfo], list[str]]:
+    """Read small weekly manifests without touching the paper JSONL."""
+    root = Path(data_dir)
+    if not root.is_dir():
+        return [], []
+    weeks: list[WeekInfo] = []
+    warnings: list[str] = []
+    for manifest_path in sorted(root.glob("*/manifest.json")):
+        week_dir = manifest_path.parent
+        if not _WEEK_RE.fullmatch(week_dir.name):
+            continue
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            if not isinstance(manifest, dict):
+                raise ValueError("manifest root must be an object")
+            week_id = str(manifest.get("week_id") or week_dir.name)
+            if not _WEEK_RE.fullmatch(week_id):
+                raise ValueError(f"invalid week_id: {week_id!r}")
+            completed = manifest.get("completed_days") or []
+            observed = manifest.get("observed_days") or []
+            days = sorted({
+                str(day) for day in [*completed, *observed]
+                if _DAY_RE.fullmatch(str(day))
+            })
+            status = str(manifest.get("status") or "unknown")
+            if status not in {"open", "partial", "sealed"}:
+                status = "unknown"
+            weeks.append(WeekInfo(
+                week_id=week_id,
+                status=status,
+                member_count=int(manifest.get("member_count") or 0),
+                latest_day=days[-1] if days else "",
+            ))
+        except (OSError, TypeError, ValueError) as exc:
+            warnings.append(
+                f"周清单 {week_dir.name} 读取失败：{type(exc).__name__}: {exc}"
+            )
+    weeks.sort(key=lambda item: item.week_id, reverse=True)
+    return weeks, warnings
 
 
 def _history_for_request(req: AskRequest) -> list[dict[str, Any]]:
@@ -85,6 +151,18 @@ class Engine:
         out = MetaResponse(params=[p.to_dict(self._cfg) for p in PARAM_SPEC])
         for key, label in SOURCES.items():
             info = SourceInfo(key=key, label=label)
+            if key == "arxiv":
+                data_dir = _weekly_data_dir(self._cfg)
+                if data_dir is not None:
+                    info.weeks, week_warnings = _load_week_infos(data_dir)
+                    out.warnings.extend(week_warnings)
+                    current = next(
+                        (week for week in info.weeks if week.status == "open"),
+                        None,
+                    )
+                    info.new_this_week = (
+                        current.member_count if current is not None else 0
+                    )
             try:
                 stats = self._corpus(key).stats()
                 info.papers = int(stats.get("papers") or 0)
@@ -136,6 +214,7 @@ class Engine:
                 ),
             },
             "stream": True,
+            "week_scope": True,
             "dry_run": False,
             "sources": list(SOURCES),
         }

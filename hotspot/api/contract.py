@@ -588,6 +588,19 @@ class AskResponse:
 
 
 @dataclass
+class WeekInfo:
+    """One selectable ISO week exposed by ``GET /api/meta``."""
+
+    week_id: str
+    status: str = "unknown"
+    member_count: int = 0
+    latest_day: str = ""
+
+    def to_dict(self) -> dict[str, Any]:
+        return dataclasses.asdict(self)
+
+
+@dataclass
 class SourceInfo:
     key: str
     label: str
@@ -596,6 +609,7 @@ class SourceInfo:
     index_ready: bool = False
     new_this_week: int = 0
     note: str = ""
+    weeks: list[WeekInfo] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return dataclasses.asdict(self)
