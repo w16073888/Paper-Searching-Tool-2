@@ -1,0 +1,137 @@
+{
+  "schema_version": "model-selection-summary-v1",
+  "generated_at": "2026-10-26",
+  "hardware": {
+    "gpu": "NVIDIA GeForce RTX 3060 12GB",
+    "host": "scu101-3060-253",
+    "runtime": "vLLM 0.32.0"
+  },
+  "conditions": {
+    "temperature": 0,
+    "top_p": 1,
+    "thinking": false,
+    "fair_context_length": 8128,
+    "fair_max_num_seqs": 1,
+    "fair_enforce_eager": true,
+    "fair_prefix_caching": false
+  },
+  "results": {
+    "qwen3-8b": {
+      "weights_gib": 5.7,
+      "production_context_length": 16384,
+      "production_max_num_seqs": 1,
+      "startup_seconds_fair": 16.1,
+      "vram_used_mib_after_restore": 10059,
+      "vram_free_mib_after_restore": 1853,
+      "short_decode_tokens_per_s_p50": 59.01,
+      "medium_decode_tokens_per_s": 58.08,
+      "ttft_p50_seconds": 0.037,
+      "long_context_7594": {
+        "ttft_seconds": 5.019,
+        "total_seconds": 5.671
+      },
+      "fair_concurrency_3": {
+        "aggregate_tokens_per_s_p50": 57.75,
+        "wall_seconds_p95": 3.34
+      },
+      "soak_20m": {
+        "requests": 1802,
+        "errors": 0,
+        "latency_p50_seconds": 0.658,
+        "latency_p95_seconds": 0.761
+      },
+      "selection_auto": {
+        "passed": 11,
+        "total": 24
+      },
+      "acceptance_16": {
+        "passed": 15,
+        "failed": [
+          "a_c03"
+        ],
+        "p50_seconds": 17.483,
+        "p95_seconds": 23.907
+      }
+    },
+    "qwen3-14b": {
+      "weights_gib": 9.4,
+      "production_context_length": 8128,
+      "production_max_num_seqs": 3,
+      "startup_seconds_production": 22.1,
+      "startup_seconds_fair": 20.1,
+      "vram_used_mib_idle": 11571,
+      "vram_free_mib_idle": 341,
+      "short_decode_tokens_per_s_p50": 36.73,
+      "medium_decode_tokens_per_s": 36.29,
+      "ttft_p50_seconds": 0.058,
+      "long_context_7594": {
+        "ttft_seconds": 9.285,
+        "total_seconds": 10.289
+      },
+      "fair_concurrency_3": {
+        "aggregate_tokens_per_s_p50": 35.77,
+        "wall_seconds_p95": 5.371
+      },
+      "production_concurrency_3": {
+        "aggregate_tokens_per_s_p50": 102.29,
+        "wall_seconds_p95": 1.878
+      },
+      "soak_20m": {
+        "requests": 1507,
+        "errors": 0,
+        "latency_p50_seconds": 0.793,
+        "latency_p95_seconds": 0.796
+      },
+      "selection_auto": {
+        "passed": 12,
+        "total": 24
+      },
+      "acceptance_16": {
+        "passed": 15,
+        "failed": [
+          "a_c01"
+        ],
+        "p50_seconds": 27.523,
+        "p95_seconds": 36.202,
+        "hard_failure": "comparison prompt reached 8129 tokens against an 8128 limit"
+      }
+    },
+    "deepseek-v4-flash-0731": {
+      "selection_auto": {
+        "passed": 14,
+        "total": 24
+      },
+      "acceptance_16": {
+        "passed": 16,
+        "p50_seconds": 38.65,
+        "p95_seconds": 50.579
+      },
+      "short_decode_tokens_per_s_p50": 58.06,
+      "medium_decode_tokens_per_s": 81.34,
+      "concurrency_3_aggregate_tokens_per_s_p50": 96.33,
+      "soak_2m": {
+        "requests": 74,
+        "errors": 0,
+        "latency_p50_seconds": 1.588,
+        "latency_p95_seconds": 2.183
+      },
+      "selection_cost_estimate_cny": 0.0149,
+      "ttft": "unavailable: provider did not stream token deltas"
+    }
+  },
+  "decision": {
+    "default": "qwen3-8b",
+    "qwen3-14b_status": "not promoted",
+    "reasons": [
+      "one 16-question comparison prompt exceeded the 8128-token context limit",
+      "selection auto score improved by only 1 of 24, below the frozen 2-question threshold",
+      "matched generation speed is about 62% of 8B and 7594-token TTFT is about 1.85x",
+      "14B leaves only about 341 MiB free VRAM at idle"
+    ],
+    "cloud_role": "optional external quality and latency control; not a local hardware baseline"
+  },
+  "raw_artifacts": {
+    "remote_archive": "/home/scu101/mobile-cup/workspace/model-selection-results-20261026.tar.gz",
+    "local_archive": "workspace/model-selection-results-20261026.tar.gz"
+  }
+}

@@ -10,6 +10,8 @@
   "do_not_tune": true,
   "do_not_modify_after_first_model_run": true,
   "formal_standard": "model_selection_v1.standard.md",
+  "result_summary": "model_selection_v1.result_summary.json",
+  "scorer_version": "1.0.1",
   "candidate_models": [
     "qwen3-8b",
     "qwen3-14b",

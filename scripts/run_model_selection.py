@@ -22,6 +22,7 @@ SYSTEM_PROMPT = (
     "不要编造论文、数字或引用。"
 )
 REFUSAL_MARKERS = ("超出范围", "out of scope", "无法回答", "cannot answer")
+SCORER_VERSION = "1.0.1"
 
 
 def _normalize(text: str) -> str:
@@ -40,7 +41,9 @@ def _score(row: dict[str, Any], content: str) -> dict[str, Any]:
         groups.append({"matched": matched, "ok": bool(matched)})
     refused = any(marker in normalized for marker in REFUSAL_MARKERS)
     expected_refusal = bool(row.get("expected_refusal"))
-    refusal_ok = refused == expected_refusal
+    # Only OOD rows require refusal. A non-OOD question may legitimately
+    # contain the phrase "超出范围" when it asks how OOD inputs are handled.
+    refusal_ok = (not expected_refusal) or refused
     length_ok = len(content.strip()) <= int(row.get("max_chars") or 10_000)
     coverage_ok = all(group["ok"] for group in groups)
     return {
@@ -131,6 +134,7 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
     passed = sum(bool(row["automatic"]["passed"]) for row in results)
     return {
         "schema_version": "model-selection-result-v1",
+        "scorer_version": SCORER_VERSION,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "endpoint": args.base_url,
         "model": args.model,

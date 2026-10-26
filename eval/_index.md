@@ -25,6 +25,8 @@ tags: [索引]
 - `model_selection_v1.json`：24 条冻结模型选型题，用于 8B / 14B / 可选云 API 对照。
 - `model_selection_v1.manifest.json`：选型集状态、哈希、禁止调优策略和候选模型。
 - `model_selection_v1.standard.md`：自动 rubric、分流规则和 14B 替换门槛。
+- `model_selection_v1.result_summary.json`：8B、14B、移动云 API 的性能、质量和
+  端到端回归摘要，以及 14B 不晋升结论。
 - `v2_comparison_holdout_v1.json`：10 道全新比较题冻结集，**不参与提示词、检索或模型调优**，
   仅用于最终泛化验收；对象与调优题不重叠。
 - `v2_comparison_holdout_v1.manifest.json`：冻结状态、SHA256、禁止调优和最终验收口径。
