@@ -1,0 +1,242 @@
+[
+  {
+    "id": "ms_zh_01",
+    "category": "chinese_technical",
+    "language": "zh",
+    "question": "PPO 的 clip 目标为什么能限制策略更新幅度？",
+    "reference": "把策略概率比限制在 1-ε 到 1+ε；超出范围后截断梯度或目标增益。",
+    "must_include": [["clip", "裁剪"], ["1-", "1−", "epsilon", "ε"], ["策略比", "概率比", "ratio"]],
+    "expected_refusal": false,
+    "max_chars": 320
+  },
+  {
+    "id": "ms_zh_02",
+    "category": "chinese_technical",
+    "language": "zh",
+    "question": "GRPO 相比 PPO 的核心结构变化是什么？",
+    "reference": "GRPO 用同一提示的多条组内样本归一化优势，通常省去 PPO 的 critic/value model。",
+    "must_include": [["critic", "价值网络", "value model", "评论家"], ["组", "group", "归一化", "标准化"]],
+    "expected_refusal": false,
+    "max_chars": 320
+  },
+  {
+    "id": "ms_zh_03",
+    "category": "chinese_technical",
+    "language": "zh",
+    "question": "TD3 和 SAC 在连续控制中的 actor 设计有什么差异？",
+    "reference": "TD3 使用确定性 actor，SAC 使用随机策略并优化熵正则目标。",
+    "must_include": [["确定性", "deterministic"], ["随机", "stochastic"], ["熵", "entropy"]],
+    "expected_refusal": false,
+    "max_chars": 320
+  },
+  {
+    "id": "ms_zh_04",
+    "category": "chinese_technical",
+    "language": "zh",
+    "question": "DPO 为什么可以不显式训练奖励模型？",
+    "reference": "DPO 用偏好对构造策略相对参考模型的隐式奖励差，直接优化策略。",
+    "must_include": [["奖励模型", "reward model"], ["参考模型", "reference model", "reference policy"], ["偏好", "preference"]],
+    "expected_refusal": false,
+    "max_chars": 320
+  },
+  {
+    "id": "ms_zh_05",
+    "category": "chinese_technical",
+    "language": "zh",
+    "question": "RLOO 的 baseline 是怎样构造的？",
+    "reference": "对同一提示的多个回答使用其余样本的平均回报作为 leave-one-out baseline。",
+    "must_include": [["留一", "leave-one-out", "leave one out", "其余", "other samples"]],
+    "expected_refusal": false,
+    "max_chars": 320
+  },
+  {
+    "id": "ms_zh_06",
+    "category": "chinese_technical",
+    "language": "zh",
+    "question": "reward hacking 的两类常见缓解思路是什么？",
+    "reference": "约束奖励代理与真实目标的偏差，并用独立评估、KL 或不确定性惩罚限制钻空子。",
+    "must_include": [["KL", "约束", "惩罚", "正则"], ["评估", "验证", "不确定性", "ensemble"]],
+    "expected_refusal": false,
+    "max_chars": 320
+  },
+  {
+    "id": "ms_zh_07",
+    "category": "chinese_technical",
+    "language": "zh",
+    "question": "离线强化学习为什么容易受 distribution shift 影响？",
+    "reference": "学习策略访问数据分布外动作，价值估计误差被 bootstrapping 放大。",
+    "must_include": [["分布偏移", "distribution shift", "分布外", "OOD"], ["bootstrapping", "自举", "价值", "value"]],
+    "expected_refusal": false,
+    "max_chars": 320
+  },
+  {
+    "id": "ms_zh_08",
+    "category": "chinese_technical",
+    "language": "zh",
+    "question": "Dreamer 系列为什么要学习 latent world model？",
+    "reference": "在压缩的潜在状态空间预测未来，从而用想象轨迹做规划或策略学习。",
+    "must_include": [["世界模型", "world model"], ["潜在", "latent", "隐状态"], ["想象", "轨迹", "规划"]],
+    "expected_refusal": false,
+    "max_chars": 320
+  },
+  {
+    "id": "ms_en_01",
+    "category": "english_technical",
+    "language": "en",
+    "question": "Why does DPO not need an explicit reward model?",
+    "reference": "It expresses an implicit reward difference through the policy and reference policy and optimizes preference pairs directly.",
+    "must_include": [["reference policy", "reference model"], ["reward model"], ["preference", "implicit reward"]],
+    "expected_refusal": false,
+    "max_chars": 700
+  },
+  {
+    "id": "ms_en_02",
+    "category": "english_technical",
+    "language": "en",
+    "question": "How does TD3 reduce overestimation?",
+    "reference": "Clipped double critics take the smaller target and delayed updates reduce value overestimation.",
+    "must_include": [["double", "two critics"], ["clipped", "min", "smaller"], ["delayed", "target"]],
+    "expected_refusal": false,
+    "max_chars": 700
+  },
+  {
+    "id": "ms_en_03",
+    "category": "english_technical",
+    "language": "en",
+    "question": "What is the central objective of SAC?",
+    "reference": "Maximum-entropy RL: expected return plus policy entropy, with a stochastic actor.",
+    "must_include": [["entropy"], ["return", "reward"], ["stochastic", "policy"]],
+    "expected_refusal": false,
+    "max_chars": 700
+  },
+  {
+    "id": "ms_en_04",
+    "category": "english_technical",
+    "language": "en",
+    "question": "Why is conservatism useful in offline reinforcement learning?",
+    "reference": "It penalizes uncertain out-of-distribution actions and controls extrapolation error.",
+    "must_include": [["distribution shift", "out-of-distribution", "ood"], ["pessimism", "conservative", "penal"]],
+    "expected_refusal": false,
+    "max_chars": 700
+  },
+  {
+    "id": "ms_cmp_01",
+    "category": "comparison",
+    "language": "zh",
+    "question": "比较 PPO 与 GRPO 在优势估计和模型组件上的差异。",
+    "reference": "PPO 常用 critic/value model 估计优势；GRPO 常以组内相对回报归一化，减少 critic 依赖。",
+    "must_include": [["critic", "价值网络", "value model"], ["组", "group", "归一化", "相对回报"]],
+    "expected_refusal": false,
+    "max_chars": 400
+  },
+  {
+    "id": "ms_cmp_02",
+    "category": "comparison",
+    "language": "zh",
+    "question": "比较 DPO 与 PPO-RLHF 的训练对象和奖励来源。",
+    "reference": "PPO-RLHF 先有奖励模型再在线优化；DPO 直接优化偏好对，以参考策略形成隐式奖励约束。",
+    "must_include": [["奖励模型", "reward model"], ["偏好", "preference"], ["参考", "reference"]],
+    "expected_refusal": false,
+    "max_chars": 400
+  },
+  {
+    "id": "ms_cmp_03",
+    "category": "comparison",
+    "language": "zh",
+    "question": "比较 TD3 与 SAC 的目标函数、探索方式和 actor。",
+    "reference": "TD3 是确定性 actor 加目标平滑与延迟更新；SAC 是随机 actor 加熵正则。",
+    "must_include": [["确定性", "deterministic"], ["随机", "stochastic"], ["熵", "entropy"], ["噪声", "noise"]],
+    "expected_refusal": false,
+    "max_chars": 400
+  },
+  {
+    "id": "ms_cmp_04",
+    "category": "comparison",
+    "language": "zh",
+    "question": "比较逆强化学习与偏好学习获取奖励信号的差异。",
+    "reference": "IRL 从专家轨迹反推奖励；偏好学习从成对比较或排序学习奖励或策略。",
+    "must_include": [["专家", "expert", "轨迹", "trajectory"], ["偏好", "preference", "比较", "ranking"]],
+    "expected_refusal": false,
+    "max_chars": 400
+  },
+  {
+    "id": "ms_contract_01",
+    "category": "project_contract",
+    "language": "zh",
+    "question": "项目的引用校验四态分别是什么？",
+    "reference": "supported、unsupported、missing_id、no_citation，四态不得合并。",
+    "must_include": [["supported"], ["unsupported"], ["missing_id"], ["no_citation"]],
+    "expected_refusal": false,
+    "max_chars": 320
+  },
+  {
+    "id": "ms_contract_02",
+    "category": "project_contract",
+    "language": "zh",
+    "question": "如果一条 claim 的证据不支持它，项目应如何输出？",
+    "reference": "该 claim 不进入最终答案；应标记 unsupported 或用受支持证据重写。",
+    "must_include": [["不支持", "unsupported"], ["删除", "剔除", "不进入", "重写"]],
+    "expected_refusal": false,
+    "max_chars": 320
+  },
+  {
+    "id": "ms_contract_03",
+    "category": "project_contract",
+    "language": "zh",
+    "question": "问题超出论文库的强化学习范围时应该怎样回答？",
+    "reference": "明确说明超出范围并拒答，不编造论文证据。",
+    "must_include": [["超出范围", "范围外", "无法回答", "拒答"]],
+    "expected_refusal": false,
+    "max_chars": 200
+  },
+  {
+    "id": "ms_ood_01",
+    "category": "out_of_scope",
+    "language": "zh",
+    "question": "量子计算中的退相干抑制有哪些最新论文？",
+    "reference": "超出范围。",
+    "must_include": [["超出范围", "out of scope", "无法回答"]],
+    "expected_refusal": true,
+    "max_chars": 80
+  },
+  {
+    "id": "ms_ood_02",
+    "category": "out_of_scope",
+    "language": "zh",
+    "question": "基因序列比对有哪些最新方法？",
+    "reference": "超出范围。",
+    "must_include": [["超出范围", "out of scope", "无法回答"]],
+    "expected_refusal": true,
+    "max_chars": 80
+  },
+  {
+    "id": "ms_ood_03",
+    "category": "out_of_scope",
+    "language": "zh",
+    "question": "医学 CT 图像分割有什么新进展？",
+    "reference": "超出范围。",
+    "must_include": [["超出范围", "out of scope", "无法回答"]],
+    "expected_refusal": true,
+    "max_chars": 80
+  },
+  {
+    "id": "ms_ood_04",
+    "category": "out_of_scope",
+    "language": "zh",
+    "question": "航天器轨道摄动控制有什么最新研究？",
+    "reference": "超出范围。",
+    "must_include": [["超出范围", "out of scope", "无法回答"]],
+    "expected_refusal": true,
+    "max_chars": 80
+  },
+  {
+    "id": "ms_ood_05",
+    "category": "out_of_scope",
+    "language": "zh",
+    "question": "请预测 2027 年某未公开会议的录用结果。",
+    "reference": "超出范围，且无法预测。",
+    "must_include": [["超出范围", "无法", "out of scope"]],
+    "expected_refusal": true,
+    "max_chars": 80
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "schema_version": "model-selection-manifest-v1",
+  "name": "model-selection-v1",
+  "status": "frozen",
+  "created_at": "2026-10-26",
+  "questions_file": "model_selection_v1.json",
+  "questions_sha256": "cbb4c1d9fac6c7f13976f581e431121ffa78dfdbc0444f3801e32267481a6b13",
+  "question_count": 24,
+  "purpose": "Compare candidate LLM quality under a fixed, non-tuned prompt set.",
+  "do_not_tune": true,
+  "do_not_modify_after_first_model_run": true,
+  "formal_standard": "model_selection_v1.standard.md",
+  "candidate_models": [
+    "qwen3-8b",
+    "qwen3-14b",
+    "deepseek-v4-flash-0731"
+  ]
+}

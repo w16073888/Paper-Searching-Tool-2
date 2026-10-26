@@ -25,6 +25,9 @@ tags: [索引]
 - `check_api.py` —— 契约与 HTTP/SSE 接口自检。
 - `check_tools_v2.py` —— LanceDB 标题探测与论文读取工具离线自检。
 - `run_v2_eval.py` —— v2 离线工具指标或可选真实 agent 端到端回归。
+- `benchmark_model_candidates.py` —— 对 OpenAI 兼容端点测流式 TTFT、生成速度、
+  长上下文、并发和稳定性。
+- `run_model_selection.py` —— 用冻结模型选型集比较本地模型与可选云 API。
 - `evaluate_comparison_holdout.py` —— 离线校验冻结比较题 holdout 的哈希、
   路由、证据支持率、引用与延迟阈值，不运行模型。
 - `eval_scope_classifier.py` —— 当前 LLM 与 Laya zero-shot scope 双基线、延迟和训练 dry-run 探针。

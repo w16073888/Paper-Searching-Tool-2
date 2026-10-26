@@ -22,6 +22,9 @@ tags: [索引]
 执行入口在 `scripts/run_v2_eval.py`。
 
 - `v2_acceptance_16.json`：local / compare / relation / OOD 共 16 题。
+- `model_selection_v1.json`：24 条冻结模型选型题，用于 8B / 14B / 可选云 API 对照。
+- `model_selection_v1.manifest.json`：选型集状态、哈希、禁止调优策略和候选模型。
+- `model_selection_v1.standard.md`：自动 rubric、分流规则和 14B 替换门槛。
 - `v2_comparison_holdout_v1.json`：10 道全新比较题冻结集，**不参与提示词、检索或模型调优**，
   仅用于最终泛化验收；对象与调优题不重叠。
 - `v2_comparison_holdout_v1.manifest.json`：冻结状态、SHA256、禁止调优和最终验收口径。
