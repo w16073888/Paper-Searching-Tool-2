@@ -5,10 +5,13 @@ from __future__ import annotations
 import os
 import re
 import time
+from collections.abc import Mapping
 from dataclasses import dataclass, field
+from typing import Any
 
 os.environ.setdefault("PYDANTIC_AI_NO_BANNER", "1")
 
+from pydantic import model_validator
 from pydantic_ai import Agent, ModelRetry, RunContext
 from pydantic_ai.exceptions import ModelConnectionError, UnexpectedModelBehavior
 from pydantic_ai.models.openai import OpenAIChatModel
@@ -39,6 +42,87 @@ class AgentRun:
     timings: dict = field(default_factory=dict)
 
 
+def repair_agent_output(value: Any) -> Any:
+    """Repair a known Qwen malformation without accepting invalid claims."""
+    if not isinstance(value, Mapping):
+        return value
+    repaired = dict(value)
+    claims = repaired.get("claims")
+    if not isinstance(claims, list):
+        return repaired
+    valid_claims = []
+    dropped = 0
+    for claim in claims:
+        if isinstance(claim, Mapping):
+            valid_claims.append(dict(claim))
+        else:
+            dropped += 1
+    if dropped:
+        limitations = repaired.get("limitations")
+        if not isinstance(limitations, list):
+            limitations = []
+        limitations.append(
+            f"已忽略 {dropped} 条非对象的最终输出条目"
+        )
+        repaired["limitations"] = limitations
+    repaired["claims"] = valid_claims
+    return repaired
+
+
+class _AgentOutput(AgentAnswer):
+    @model_validator(mode="before")
+    @classmethod
+    def repair_known_qwen_shape(cls, value: Any) -> Any:
+        return repair_agent_output(value)
+
+
+def ground_agent_answer(
+    output: AgentAnswer,
+    *,
+    fetched: set[str],
+    max_claims: int,
+    can_retry_for_fetch: bool,
+) -> tuple[AgentAnswer, str | None]:
+    """Keep only claims backed by fetched IDs, or request a bounded fetch."""
+    claims_with_ids = [
+        claim for claim in output.claims
+        if any(str(pid).strip() for pid in claim.evidence_ids)
+    ]
+    missing = sorted({
+        str(pid)
+        for claim in claims_with_ids
+        for pid in claim.evidence_ids
+        if str(pid).strip() and str(pid) not in fetched
+    })
+    if missing and can_retry_for_fetch:
+        return output, (
+            "fetch these evidence IDs before answering: "
+            + ", ".join(missing)
+        )
+
+    retained = []
+    for claim in claims_with_ids:
+        evidence_ids = list(dict.fromkeys(
+            str(pid) for pid in claim.evidence_ids
+            if str(pid).strip() and str(pid) in fetched
+        ))
+        if not evidence_ids:
+            continue
+        claim.evidence_ids = evidence_ids
+        retained.append(claim)
+    output.claims = retained[:max_claims]
+    if missing and not can_retry_for_fetch:
+        output.limitations.append(
+            "已忽略未 fetch 的 evidence IDs: " + ", ".join(missing)
+        )
+    if not output.claims:
+        output.no_answer_reason = (
+            output.no_answer_reason.strip()
+            or "没有产生带可验证已 fetch 证据 ID 的 claim"
+        )
+    return output, None
+
+
 class ResearchAgentError(RuntimeError):
     def __init__(self, stage: str, code: str, message: str):
         super().__init__(message)
@@ -64,6 +148,11 @@ INSTRUCTIONS = """你是本地论文库研究助手。只能依据工具返回�
 12. 不要把模型常识、论文标题推断或背景知识写进 claim；摘要没有写明的内容不要补充。
 13. 方法列表按方法拆分 claim，每个 claim 只陈述一个可直接核验的方法要点。
 14. 不要把多篇论文中互不相关的结论合并成一个 claim；每个 claim 只引用直接支持它的 1–2 个 ID。
+15. final_result 必须是单个合法对象；claims 只能包含对象，不得把 no_answer_reason
+    或 limitations 作为 claims 数组中的字符串。
+16. 不要重复完全相同的 search 或 fetch 调用；fetch 返回数量少于请求数量时，
+    说明结果已截断，应直接使用已 fetch 的论文，不得原样重试。
+17. 只引用已经 fetch 的 paper_id；未被 fetch 的证据 ID 必须省略。
 """
 
 SCOPE_INSTRUCTIONS = """判断用户问题是否属于本地 AI/ML 论文库的研究范围。
@@ -192,7 +281,7 @@ def _normalize_base_url(url: str) -> str:
     return value[:-len(suffix)].rstrip("/") if value.endswith(suffix) else value
 
 
-def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
+def _build_agent(cfg: dict) -> Agent[AgentDeps, _AgentOutput]:
     llm = cfg.get("llm") or {}
     base_url = _normalize_base_url(
         str(llm.get("base_url") or "https://api.deepseek.com/v1")
@@ -203,13 +292,13 @@ def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
     agent = Agent(
         model,
         deps_type=AgentDeps,
-        output_type=AgentAnswer,
+        output_type=_AgentOutput,
         instructions=INSTRUCTIONS,
         model_settings=AGENT_MODEL_SETTINGS,
         retries=1,
     )
 
-    @agent.tool
+    @agent.tool(retries=3)
     def search_tool(
         ctx: RunContext[AgentDeps],
         query: str,
@@ -219,10 +308,7 @@ def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
         weeks: list[str] | None = None,
         limit: int = 0,
     ) -> SearchResult:
-        """Search local papers. Use concise English queries and optional synonyms."""
-        if ctx.deps.search_calls >= 4:
-            raise ModelRetry("search budget exhausted; answer with current evidence")
-        ctx.deps.search_calls += 1
+        """Search local papers once per effective query and filter combination."""
         requested_years = ctx.deps.years or years or []
         requested_venues = ctx.deps.venues or venues or []
         requested_weeks = ctx.deps.weeks or weeks or []
@@ -251,6 +337,32 @@ def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
         effective_limit = (
             ctx.deps.search_limit if subqueries else model_limit
         )
+        signature = (
+            query,
+            tuple(keywords or []),
+            tuple(effective_years),
+            tuple(effective_venues),
+            tuple(effective_weeks),
+            effective_limit,
+        )
+        cached = ctx.deps.search_cache.get(signature)
+        if cached is not None:
+            ctx.deps.duplicate_search_calls += 1
+            ctx.deps.events.append({
+                "tool": "search_papers",
+                "query": query,
+                "duplicate": True,
+                "returned": len(cached.results),
+                "ids": [hit.paper_id for hit in cached.results],
+            })
+            raise ModelRetry(
+                "identical search already completed and returned the same "
+                "evidence; do not repeat it. Fetch new IDs or return "
+                "final_result using current evidence."
+            )
+        if ctx.deps.search_calls >= 4:
+            raise ModelRetry("search budget exhausted; answer with current evidence")
+        ctx.deps.search_calls += 1
         combined = search_papers(
             ctx.deps.store,
             query,
@@ -280,6 +392,7 @@ def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
             )
         else:
             result = combined
+        ctx.deps.search_cache[signature] = result
         ctx.deps.seen_ids.update(hit.paper_id for hit in result.results)
         ctx.deps.events.append({
             "tool": "search_papers",
@@ -295,24 +408,42 @@ def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
         })
         return result
 
-    @agent.tool
+    @agent.tool(retries=3)
     def fetch_tool(
         ctx: RunContext[AgentDeps],
         paper_ids: list[str],
         limit: int = 0,
     ) -> list[PaperDetail]:
-        """Fetch title and abstract for paper IDs returned by search."""
-        if ctx.deps.fetch_calls >= 3:
-            raise ModelRetry("fetch budget exhausted; answer with fetched evidence")
-        ctx.deps.fetch_calls += 1
-        unknown = [pid for pid in paper_ids if pid not in ctx.deps.seen_ids]
-        if unknown:
-            raise ModelRetry(f"paper IDs were not returned by search: {unknown}")
+        """Fetch searched IDs once; returned lists can be truncated."""
+        ids = list(dict.fromkeys(str(pid) for pid in paper_ids))
         effective_limit = min(
             ctx.deps.fetch_limit,
             limit if limit and limit > 0 else ctx.deps.fetch_limit,
         )
-        result = fetch_papers(ctx.deps.store, paper_ids, limit=effective_limit)
+        signature = (tuple(ids), effective_limit)
+        cached = ctx.deps.fetch_cache.get(signature)
+        if cached is not None:
+            ctx.deps.duplicate_fetch_calls += 1
+            ctx.deps.events.append({
+                "tool": "fetch_papers",
+                "requested": len(ids),
+                "duplicate": True,
+                "returned": len(cached),
+                "ids": [paper.paper_id for paper in cached],
+            })
+            raise ModelRetry(
+                "identical fetch already completed and returned the same "
+                "papers; no new evidence is available. Stop retrying and "
+                "return final_result using the fetched papers."
+            )
+        if ctx.deps.fetch_calls >= 3:
+            raise ModelRetry("fetch budget exhausted; answer with fetched evidence")
+        ctx.deps.fetch_calls += 1
+        unknown = [pid for pid in ids if pid not in ctx.deps.seen_ids]
+        if unknown:
+            raise ModelRetry(f"paper IDs were not returned by search: {unknown}")
+        result = fetch_papers(ctx.deps.store, ids, limit=effective_limit)
+        ctx.deps.fetch_cache[signature] = result
         ctx.deps.fetched.update(paper.paper_id for paper in result)
         ctx.deps.fetched_order.extend(
             paper.paper_id for paper in result
@@ -352,31 +483,19 @@ def _build_agent(cfg: dict) -> Agent[AgentDeps, AgentAnswer]:
         ctx: RunContext[AgentDeps],
         output: AgentAnswer,
     ) -> AgentAnswer:
-        output.claims = [
-            claim for claim in output.claims
-            if any(str(pid).strip() for pid in claim.evidence_ids)
-        ]
-        if not output.claims:
-            output.no_answer_reason = (
-                output.no_answer_reason.strip()
-                or "没有产生带可验证证据 ID 的 claim"
-            )
-            return output
-        output.claims = output.claims[:ctx.deps.max_claims]
-        used = {
-            pid
-            for claim in output.claims
-            for pid in claim.evidence_ids
-            if str(pid).strip()
-        }
-        if not used:
-            raise ModelRetry("every claim must include at least one evidence ID")
-        missing_fetch = sorted(used - ctx.deps.fetched)
-        if missing_fetch:
-            raise ModelRetry(
-                "fetch these evidence IDs before answering: "
-                + ", ".join(missing_fetch)
-            )
+        request_count = int(getattr(ctx.usage, "requests", 0) or 0)
+        can_retry_for_fetch = (
+            ctx.deps.fetch_calls < 3
+            and request_count < ctx.deps.request_limit - 1
+        )
+        output, retry_message = ground_agent_answer(
+            output,
+            fetched=ctx.deps.fetched,
+            max_claims=ctx.deps.max_claims,
+            can_retry_for_fetch=can_retry_for_fetch,
+        )
+        if retry_message:
+            raise ModelRetry(retry_message)
         return output
 
     return agent

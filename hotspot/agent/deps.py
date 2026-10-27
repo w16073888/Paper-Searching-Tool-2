@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Any
 
 from ..config import load_config
 from ..corpus import open_corpus
+from ..core.models import PaperDetail, SearchResult
 from ..index.lance_store import LancePaperStore
 from ..index.topic_store import TopicStore
 
@@ -28,6 +30,8 @@ class AgentDeps:
     search_calls: int = 0
     fetch_calls: int = 0
     topic_calls: int = 0
+    duplicate_search_calls: int = 0
+    duplicate_fetch_calls: int = 0
     search_limit: int = 12
     fetch_limit: int = 6
     max_claims: int = 6
@@ -37,6 +41,10 @@ class AgentDeps:
     agent_timeout_s: float = 150.0
     verify_timeout_s: float = 30.0
     events: list[dict] = field(default_factory=list)
+    search_cache: dict[tuple[Any, ...], SearchResult] = field(default_factory=dict)
+    fetch_cache: dict[tuple[Any, ...], list[PaperDetail]] = field(
+        default_factory=dict
+    )
 
     def __post_init__(self) -> None:
         agent = self.cfg.get("agent") or {}

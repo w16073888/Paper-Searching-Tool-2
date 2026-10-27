@@ -11,6 +11,8 @@ PydanticAI 控制回路。Agent 只决定搜索与取论文，不执行数据库
 ## 2. 当前工作状态
 
 - `search_tool` / `fetch_tool` 带调用预算。
+- 相同 search/fetch 参数使用请求内缓存拦截，避免模型重复工具循环耗尽预算。
+- Qwen 偶发的非对象 claim 条目会被安全丢弃；预算耗尽时只保留已 fetch evidence。
 - 输出 validator 强制证据 ID 必须先经过 fetch。
 - Evidence 与 citation verify 由 API runtime 在 agent 输出后强制执行。
 

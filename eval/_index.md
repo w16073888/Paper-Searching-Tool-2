@@ -22,6 +22,8 @@ tags: [索引]
 执行入口在 `scripts/run_v2_eval.py`。
 
 - `v2_acceptance_16.json`：local / compare / relation / OOD 共 16 题。
+- `trend_g01_g20_fixed_20261027.result_summary.json`：趋势题 g01–g20
+  修复前 18/20、修复后 20/20 及 Agent 工具循环修复摘要。
 - `model_selection_v1.json`：24 条冻结模型选型题，用于 8B / 14B / 可选云 API 对照。
 - `model_selection_v1.manifest.json`：选型集状态、哈希、禁止调优策略和候选模型。
 - `model_selection_v1.standard.md`：自动 rubric、分流规则和 14B 替换门槛。

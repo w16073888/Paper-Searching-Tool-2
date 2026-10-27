@@ -1,0 +1,71 @@
+{
+  "schema_version": "trend-regression-summary-v1",
+  "date": "2026-10-27",
+  "question_set": "eval/questions.json",
+  "question_type": "global",
+  "question_ids": "g01-g20",
+  "fixed_commit_base": "6033a1a",
+  "checks": {
+    "check_api": {
+      "passed": 46,
+      "failed": 0
+    },
+    "topic_snapshot": "22,747 papers, 220 clusters, packaged-v1",
+    "tool_probe": {
+      "passed": 19,
+      "total": 20
+    }
+  },
+  "before_fix": {
+    "passed": 18,
+    "total": 20,
+    "failures": {
+      "g02": "agent_output_invalid: malformed claims array",
+      "g12": "agent_failed: request_limit exhausted after repeated tool calls"
+    }
+  },
+  "fixes": [
+    "repair non-object claim entries in Qwen final output",
+    "return bounded retry for missing fetch, then safely drop unfetched evidence when budget is exhausted",
+    "cache duplicate search/fetch signatures and reject exact repeats with retry guidance"
+  ],
+  "after_fix": {
+    "passed": 20,
+    "total": 20,
+    "routes": {
+      "local": 20
+    },
+    "refused": 0,
+    "claims": 100,
+    "supported": 94,
+    "support_rate": 0.94,
+    "citations": 110,
+    "empty_citation_rows": 0,
+    "latency_s": {
+      "p50": 15.156,
+      "p95": 27.259,
+      "mean": 18.068
+    },
+    "tools": {
+      "get_topic_overview": 17,
+      "search_papers": 22,
+      "fetch_papers": 25
+    },
+    "duplicates_intercepted": [
+      {
+        "id": "g06",
+        "tool": "search_papers",
+        "query": "扩散模型 强化学习 决策"
+      },
+      {
+        "id": "g19",
+        "tool": "fetch_papers"
+      }
+    ]
+  },
+  "artifacts": {
+    "result": "/home/scu101/mobile-cup/workspace/ledger/trend_g01_g20_fixed_20261027.json",
+    "trace": "/home/scu101/mobile-cup/workspace/ledger/trend_g01_g20_fixed_20261027.trace.jsonl",
+    "diagnosis": "/home/scu101/mobile-cup/workspace/ledger/trend_failure_diagnosis_g02_g12.json"
+  }
+}

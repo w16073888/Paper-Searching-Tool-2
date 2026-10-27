@@ -43,8 +43,10 @@ from hotspot.api.engine import (  # noqa: E402
 )
 from hotspot.api.http import create_server  # noqa: E402
 from hotspot.agent.runtime import (  # noqa: E402
+    _AgentOutput,
     build_history_context,
     comparison_terms,
+    ground_agent_answer,
     merge_search_results,
 )
 from hotspot.core.models import (  # noqa: E402
@@ -438,6 +440,57 @@ def check_verify_timeout_fallback() -> None:
           str(result))
 
 
+def check_agent_output_recovery() -> None:
+    print("[6] agent output recovery")
+    repaired = _AgentOutput.model_validate({
+        "claims": [
+            {"text": "supported", "evidence_ids": ["p1"]},
+            "no_answer_reason, limitations: []}",
+        ],
+        "no_answer_reason": "",
+        "limitations": [],
+    })
+    check(
+        "malformed claim entry dropped",
+        len(repaired.claims) == 1
+        and repaired.claims[0].evidence_ids == ["p1"]
+        and any("非对象" in item for item in repaired.limitations),
+    )
+
+    draft = AgentAnswer(claims=[
+        AnswerClaim(text="mixed", evidence_ids=["p1", "p2", "p1"]),
+        AnswerClaim(text="missing only", evidence_ids=["p2"]),
+    ])
+    _, retry = ground_agent_answer(
+        draft,
+        fetched={"p1"},
+        max_claims=6,
+        can_retry_for_fetch=True,
+    )
+    check(
+        "missing fetch requests bounded retry",
+        retry is not None and "p2" in retry,
+    )
+
+    draft = AgentAnswer(claims=[
+        AnswerClaim(text="mixed", evidence_ids=["p1", "p2", "p1"]),
+        AnswerClaim(text="missing only", evidence_ids=["p2"]),
+    ])
+    grounded, retry = ground_agent_answer(
+        draft,
+        fetched={"p1"},
+        max_claims=6,
+        can_retry_for_fetch=False,
+    )
+    check(
+        "exhausted grounding degrades safely",
+        retry is None
+        and len(grounded.claims) == 1
+        and grounded.claims[0].evidence_ids == ["p1"]
+        and any("未 fetch" in item for item in grounded.limitations),
+    )
+
+
 def main(argv: list[str] | None = None) -> int:
     global QUIET
     parser = argparse.ArgumentParser()
@@ -452,12 +505,14 @@ def main(argv: list[str] | None = None) -> int:
             check_real_meta()
             check_week_metadata()
             check_verify_timeout_fallback()
+            check_agent_output_recovery()
     else:
         check_contract()
         check_http()
         check_real_meta()
         check_week_metadata()
         check_verify_timeout_fallback()
+        check_agent_output_recovery()
     if FAILS:
         print(f"✗ checks={CHECKS} failures={len(FAILS)}")
         for item in FAILS:
