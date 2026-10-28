@@ -1,0 +1,94 @@
+{
+  "schema_version": "acceptance-suite-summary-v1",
+  "date": "2026-10-28",
+  "verified_commit": "21c8f0105645a7ad1ce3e518b6fb0592ac38b977",
+  "environment": {
+    "host": "scu101-3060-253",
+    "model": "qwen3-8b",
+    "runtime": "vLLM 0.32.0",
+    "config": "config.server.yaml"
+  },
+  "acceptance_16": {
+    "passed": 16,
+    "total": 16,
+    "routes": {
+      "local": 12,
+      "refuse": 4
+    },
+    "refused": 4,
+    "claims": 43,
+    "supported": 32,
+    "support_rate": 0.7442,
+    "citations": 39,
+    "empty_citation_rows": [
+      "a_o01",
+      "a_o02",
+      "a_o03",
+      "a_o04"
+    ],
+    "latency_s": {
+      "p50": 18.623,
+      "p95": 24.641,
+      "mean": 15.3
+    },
+    "errors": [],
+    "trace": {
+      "rows": 16,
+      "invalid": 0,
+      "tools": {
+        "search_papers": 13,
+        "fetch_papers": 14
+      },
+      "duplicates_intercepted": []
+    }
+  },
+  "trend_g01_g20_run2": {
+    "passed": 20,
+    "total": 20,
+    "routes": {
+      "local": 20
+    },
+    "refused": 0,
+    "claims": 100,
+    "supported": 94,
+    "support_rate": 0.94,
+    "citations": 110,
+    "empty_citation_rows": [],
+    "latency_s": {
+      "p50": 15.386,
+      "p95": 27.309,
+      "mean": 17.745
+    },
+    "errors": [],
+    "trace": {
+      "rows": 20,
+      "invalid": 0,
+      "tools": {
+        "get_topic_overview": 17,
+        "search_papers": 22,
+        "fetch_papers": 25
+      },
+      "duplicates_intercepted": [
+        {
+          "position": 6,
+          "question_id": "g06",
+          "tool": "search_papers",
+          "query": "扩散模型 强化学习 决策"
+        },
+        {
+          "position": 19,
+          "question_id": "g19",
+          "tool": "fetch_papers"
+        }
+      ]
+    }
+  },
+  "artifacts": {
+    "remote_dir": "/home/scu101/mobile-cup/workspace/ledger/acceptance_20261028",
+    "acceptance_16": "acceptance16_21c8f01.json",
+    "acceptance_16_trace": "acceptance16_21c8f01.trace.jsonl",
+    "trend_run2": "trend_g01_g20_run2_21c8f01.json",
+    "trend_run2_trace": "trend_g01_g20_run2_21c8f01.trace.jsonl",
+    "combined_summary": "summary_21c8f01.json"
+  }
+}
