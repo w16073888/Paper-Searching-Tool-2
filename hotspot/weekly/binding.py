@@ -6,12 +6,15 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import tempfile
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
 HARNESS_SCHEMA_VERSION = "weekly-harness-v1"
+DEFAULT_MAX_RETENTION_WEEKS = 12
+MAX_RETENTION_WEEKS = 520
 _WEEK_RE = re.compile(r"^\d{4}-W\d{2}$")
 
 
@@ -19,6 +22,30 @@ def iso_week_id(value: str | date) -> str:
     day = date.fromisoformat(value) if isinstance(value, str) else value
     year, week, _ = day.isocalendar()
     return f"{year}-W{week:02d}"
+
+
+def retention_cutoff(
+    as_of: str | date,
+    max_retention_weeks: int,
+) -> str:
+    """Return the oldest ISO week retained by a rolling weekly window.
+
+    The window includes the ISO week containing ``as_of``. For example,
+    ``max_retention_weeks=2`` on 2026-10-28 keeps 2026-W43 and 2026-W44.
+    """
+    if (
+        isinstance(max_retention_weeks, bool)
+        or not isinstance(max_retention_weeks, int)
+        or not 1 <= max_retention_weeks <= MAX_RETENTION_WEEKS
+    ):
+        raise ValueError(
+            "max_retention_weeks must be an integer between "
+            f"1 and {MAX_RETENTION_WEEKS}"
+        )
+    day = date.fromisoformat(as_of) if isinstance(as_of, str) else as_of
+    week_start = day - timedelta(days=day.weekday())
+    oldest = week_start - timedelta(weeks=max_retention_weeks - 1)
+    return iso_week_id(oldest)
 
 
 def _sha256(path: Path) -> str:
@@ -115,6 +142,102 @@ def _load_announcements(week_dir: Path) -> tuple[list[dict[str, Any]], dict[str,
     return events, by_arxiv_id
 
 
+def _paper_belongs_to_week(row: dict[str, Any], week_id: str) -> bool:
+    first_seen = str(row.get("first_seen") or "").strip()
+    if not first_seen:
+        return False
+    try:
+        return iso_week_id(first_seen) == week_id
+    except ValueError:
+        return False
+
+
+def weekly_paper_ids(data_root: Path | str) -> set[str]:
+    """Return paper IDs currently present in ``papers.jsonl``."""
+    rows = _read_jsonl(Path(data_root) / "papers.jsonl")
+    return {
+        str(row.get("paper_id"))
+        for row in rows
+        if str(row.get("paper_id") or "").strip()
+    }
+
+
+def prune_weekly_corpus(
+    data_root: Path | str,
+    *,
+    max_retention_weeks: int,
+    as_of: str | date,
+) -> dict[str, Any]:
+    """Remove complete ISO weeks older than the configured retention window.
+
+    ``papers.jsonl`` is filtered by each row's ``first_seen`` week, while whole
+    old week directories are deleted so harness/raw/seal artifacts expire
+    together. Rows without a parseable ``first_seen`` are retained because
+    their age cannot be established safely.
+    """
+    root = Path(data_root)
+    if not root.is_dir():
+        raise FileNotFoundError(f"weekly data directory does not exist: {root}")
+    cutoff_week = retention_cutoff(as_of, max_retention_weeks)
+
+    papers_path = root / "papers.jsonl"
+    rows = _read_jsonl(papers_path)
+    kept_rows: list[dict[str, Any]] = []
+    removed_papers = 0
+    unbound_papers = 0
+    for row in rows:
+        first_seen = str(row.get("first_seen") or "").strip()
+        if not first_seen:
+            unbound_papers += 1
+            kept_rows.append(row)
+            continue
+        try:
+            paper_week = iso_week_id(first_seen)
+        except ValueError:
+            unbound_papers += 1
+            kept_rows.append(row)
+            continue
+        if paper_week < cutoff_week:
+            removed_papers += 1
+        else:
+            kept_rows.append(row)
+
+    if removed_papers:
+        _atomic_write(papers_path, _jsonl_text(kept_rows))
+
+    week_dirs = sorted(
+        path for path in root.iterdir()
+        if path.is_dir() and _WEEK_RE.fullmatch(path.name)
+    )
+    removed_weeks: list[str] = []
+    skipped_week_links: list[str] = []
+    for path in week_dirs:
+        if path.name >= cutoff_week:
+            continue
+        is_junction = getattr(path, "is_junction", lambda: False)()
+        if path.is_symlink() or is_junction:
+            skipped_week_links.append(path.name)
+            continue
+        shutil.rmtree(path)
+        removed_weeks.append(path.name)
+
+    return {
+        "max_retention_weeks": max_retention_weeks,
+        "as_of": as_of.isoformat() if isinstance(as_of, date) else as_of,
+        "cutoff_week": cutoff_week,
+        "papers_before": len(rows),
+        "papers_after": len(kept_rows),
+        "removed_papers": removed_papers,
+        "unbound_papers_retained": unbound_papers,
+        "retained_weeks": [
+            path.name for path in week_dirs
+            if path.name >= cutoff_week
+        ],
+        "removed_weeks": removed_weeks,
+        "skipped_week_links": skipped_week_links,
+    }
+
+
 def build_week(
     data_root: Path | str,
     week_id: str,
@@ -138,8 +261,7 @@ def build_week(
     all_papers = _read_jsonl(papers_path)
     members = [
         row for row in all_papers
-        if row.get("first_seen")
-        and iso_week_id(str(row["first_seen"])) == week_id
+        if _paper_belongs_to_week(row, week_id)
     ]
     members.sort(key=lambda row: (
         str(row.get("first_seen") or ""),

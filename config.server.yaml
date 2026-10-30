@@ -18,6 +18,8 @@ arxiv_weekly:
   data_dir: /home/scu101/mobile-cup/data/arxiv-weekly
   cache_dir: /home/scu101/mobile-cup/data/arxiv-weekly/cache
   harness_schema: weekly-harness-v1
+  # 最大保留时间：当前 ISO 周及之前 N-1 周。日更后清理旧语料、周目录和向量。
+  max_retention_weeks: 12
 
 llm:
   base_url: http://127.0.0.1:8000/v1

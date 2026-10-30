@@ -24,6 +24,11 @@ corpus:
   # 只读外部库，本工程一个字都不写它。
   arxiv_source: D:\大学编程学习\arXiv周报\数据\papers.jsonl
 
+arxiv_weekly:
+  # 最大保留时间：只保留当前 ISO 周及之前 N-1 周。
+  # 超出窗口的 papers.jsonl 行、ISO 周目录和对应向量会在日更后清理。
+  max_retention_weeks: 12
+
 llm:
   # 统一用移动云 MaaS（key 走环境变量 Mobile_trash_API_KEY，probe 已验证可通；
   # 与 llm_eval 同端点同 key，前端 key 留空即自动生效）。

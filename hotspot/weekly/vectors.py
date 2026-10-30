@@ -21,6 +21,90 @@ def _existing_ids(vector_dir: Path) -> set[str]:
     return ids
 
 
+def prune_arxiv_vectors(
+    cfg: dict[str, Any] | None = None,
+    *,
+    active_ids: set[str] | None = None,
+) -> dict[str, Any]:
+    """Drop vectors whose papers no longer exist in the arXiv corpus.
+
+    Each shard is rewritten atomically. An empty shard is removed. This keeps
+    retention cleanup from leaving old paper vectors on disk even though the
+    next LanceDB rebuild would already exclude them.
+    """
+    cfg = cfg or load_config()
+    vector_dir = paths_from(cfg)["workspace"] / "arxiv_vectors"
+    if not vector_dir.is_dir():
+        return {
+            "before_ids": 0,
+            "after_ids": 0,
+            "removed_ids": 0,
+            "rewritten_shards": 0,
+            "removed_shards": 0,
+        }
+    if active_ids is None:
+        corpus = open_arxiv_corpus(cfg)
+        active_ids = {
+            paper.paper_id for paper in corpus.list_papers(limit=None)
+        }
+
+    before_ids = 0
+    after_ids = 0
+    removed_ids = 0
+    rewritten_shards = 0
+    removed_shards = 0
+    for path in sorted(vector_dir.glob("vec_*.npz")):
+        temp = path.with_suffix(path.suffix + ".tmp")
+        try:
+            with np.load(path, allow_pickle=False) as data:
+                vectors = np.asarray(data["vectors"])
+                ids = np.asarray(data["ids"])
+                extras = {
+                    key: data[key]
+                    for key in data.files
+                    if key not in {"vectors", "ids"}
+                }
+            if vectors.shape[0] != ids.shape[0]:
+                raise ValueError(
+                    f"{path}: vectors/ids length mismatch "
+                    f"({vectors.shape[0]} != {ids.shape[0]})"
+                )
+            keep = np.asarray(
+                [str(value) in active_ids for value in ids],
+                dtype=bool,
+            )
+            shard_before = int(ids.size)
+            shard_after = int(keep.sum())
+            before_ids += shard_before
+            after_ids += shard_after
+            if shard_after == shard_before:
+                continue
+            removed_ids += shard_before - shard_after
+            if shard_after == 0:
+                path.unlink()
+                removed_shards += 1
+                continue
+            with temp.open("wb") as handle:
+                np.savez_compressed(
+                    handle,
+                    vectors=vectors[keep],
+                    ids=ids[keep],
+                    **extras,
+                )
+            os.replace(temp, path)
+            rewritten_shards += 1
+        finally:
+            temp.unlink(missing_ok=True)
+
+    return {
+        "before_ids": before_ids,
+        "after_ids": after_ids,
+        "removed_ids": removed_ids,
+        "rewritten_shards": rewritten_shards,
+        "removed_shards": removed_shards,
+    }
+
+
 def embed_missing_arxiv(
     cfg: dict[str, Any] | None = None,
     *,

@@ -15,6 +15,8 @@ arXiv 周报与本项目之间的适配层：按 ISO 周绑定论文、生成 LL
 - `week_id` 已进入 arXiv LanceDB 和 API 的 `scope.week_id`。
 - `harness_input.jsonl` 使用 `weekly-harness-v1` 契约。
 - 封卷要求周一至周五五个 `.done` 全部存在且无失败、停滞、旧 feed 或受限批次。
+- 保留窗口由 `arxiv_weekly.max_retention_weeks` 控制：按当前 ISO 周向前滚动，
+  同时清理旧 `papers.jsonl` 行、ISO 周目录和 arXiv 向量分片。
 - 原周报程序保存在 `hotspot/vendor/arxiv_weekly/`，只改路径适配。
 - 无法从 arXiv 当前 RSS 回补已经错过的历史日批次。
 
@@ -25,8 +27,8 @@ arXiv 周报与本项目之间的适配层：按 ISO 周绑定论文、生成 LL
 
 ## 脚本速查
 
-- `binding.py` —— ISO 周成员绑定、公告旁路合并、harness manifest。
-- `vectors.py` —— 为缺少向量的 arXiv 论文生成增量分片。
+- `binding.py` —— ISO 周成员绑定、公告旁路合并、harness manifest、保留窗口清理。
+- `vectors.py` —— 为缺少向量的 arXiv 论文生成增量分片，并删除过期向量。
 
 ## 4. 建议阅读顺序
 

@@ -77,6 +77,13 @@
 - 两轮 Trace 均完整；重复工具拦截仍命中 `g06` search 与 `g19` fetch，
   模型随后均正常完成回答。
 
+## 2026-10-28 周报最大保留时间
+
+- `arxiv_weekly.max_retention_weeks`（默认 12 周）控制周报语料保留窗口；
+  当前 ISO 周计入窗口，可用 `--max-retention-weeks` 单次覆盖。
+- 日更校验后、封卷写 manifest 前清理旧 `papers.jsonl` 行、ISO 周目录和
+  arXiv 向量，再更新 LanceDB；周报自检扩为 `15/15`。
+
 ## 基线
 
 - Git 快照：`b517988`（旧实现可完整恢复）。

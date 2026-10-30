@@ -18,8 +18,18 @@ sys.path.insert(0, str(ROOT))
 
 from hotspot.config import load_config  # noqa: E402
 from hotspot.index.lance_store import build_lance_index  # noqa: E402
-from hotspot.weekly import build_week, iso_week_id  # noqa: E402
-from hotspot.weekly.vectors import embed_missing_arxiv  # noqa: E402
+from hotspot.weekly import (  # noqa: E402
+    DEFAULT_MAX_RETENTION_WEEKS,
+    build_week,
+    iso_week_id,
+    prune_weekly_corpus,
+    retention_cutoff,
+    weekly_paper_ids,
+)
+from hotspot.weekly.vectors import (  # noqa: E402
+    embed_missing_arxiv,
+    prune_arxiv_vectors,
+)
 
 PROGRAM_ROOT = ROOT / "hotspot" / "vendor" / "arxiv_weekly"
 DAILY_SCRIPT = PROGRAM_ROOT / "scripts" / "daily_arxiv_fetch.py"
@@ -100,6 +110,23 @@ def _done_is_complete(summary: dict[str, Any]) -> bool:
     )
 
 
+def _resolve_retention_weeks(
+    cfg: dict[str, Any],
+    override: int | None,
+) -> int:
+    raw = override
+    if raw is None:
+        raw = (cfg.get("arxiv_weekly") or {}).get(
+            "max_retention_weeks",
+            DEFAULT_MAX_RETENTION_WEEKS,
+        )
+    if isinstance(raw, bool) or not isinstance(raw, int) or raw < 1:
+        raise ValueError("max_retention_weeks must be a positive integer")
+    # Reuse the weekly helper's upper-bound validation.
+    retention_cutoff(date.today(), raw)
+    return raw
+
+
 def _run_daily(
     data_root: Path,
     cache_dir: Path,
@@ -133,7 +160,13 @@ def _run_daily(
     return proc.returncode, proc.stdout, proc.stderr
 
 
-def _preflight(data_root: Path, cache_dir: Path) -> dict[str, Any]:
+def _preflight(
+    data_root: Path,
+    cache_dir: Path,
+    *,
+    max_retention_weeks: int,
+    day: str,
+) -> dict[str, Any]:
     if not DAILY_SCRIPT.is_file():
         raise FileNotFoundError(f"missing vendored daily script: {DAILY_SCRIPT}")
     proc = subprocess.run(
@@ -157,6 +190,11 @@ def _preflight(data_root: Path, cache_dir: Path) -> dict[str, Any]:
         "data_root": str(data_root),
         "cache_dir": str(cache_dir),
         "papers_file": str(data_root / "papers.jsonl"),
+        "max_retention_weeks": max_retention_weeks,
+        "retention_cutoff_week": retention_cutoff(
+            day,
+            max_retention_weeks,
+        ),
     }
 
 
@@ -188,6 +226,17 @@ def main() -> int:
     parser.add_argument("--no-embed", action="store_true")
     parser.add_argument("--embed-limit", type=int, default=0)
     parser.add_argument("--no-index", action="store_true")
+    parser.add_argument(
+        "--max-retention-weeks",
+        type=int,
+        default=None,
+        help="override arxiv_weekly.max_retention_weeks (includes current week)",
+    )
+    parser.add_argument(
+        "--no-prune",
+        action="store_true",
+        help="disable retention cleanup for this run",
+    )
     parser.add_argument("--preflight", action="store_true")
     args = parser.parse_args()
     if args.week and not args.seal_week:
@@ -197,6 +246,14 @@ def main() -> int:
 
     day = args.date or date.today().isoformat()
     week_id = args.week or iso_week_id(day)
+    cfg = load_config()
+    try:
+        max_retention_weeks = _resolve_retention_weeks(
+            cfg,
+            args.max_retention_weeks,
+        )
+    except ValueError as exc:
+        parser.error(str(exc))
     data_root = default_data_root()
     cache_dir = Path(
         os.environ.get("ARXIV_WEEKLY_CACHE", str(data_root / "cache"))
@@ -206,21 +263,15 @@ def main() -> int:
 
     if args.preflight:
         print(json.dumps(
-            _preflight(data_root, cache_dir),
+            _preflight(
+                data_root,
+                cache_dir,
+                max_retention_weeks=max_retention_weeks,
+                day=day,
+            ),
             ensure_ascii=False,
             indent=2,
         ))
-        return 0
-
-    if not args.force and not args.seal_week and _previous_run_complete(
-        state_dir, day
-    ):
-        print(json.dumps({
-            "date": day,
-            "week_id": week_id,
-            "status": "skipped",
-            "reason": "daily pipeline already completed",
-        }, ensure_ascii=False, indent=2))
         return 0
 
     lock_dir = _acquire_lock(state_dir)
@@ -229,6 +280,7 @@ def main() -> int:
         "date": day,
         "week_id": week_id,
         "data_root": str(data_root),
+        "max_retention_weeks": max_retention_weeks,
         "status": "failed",
     }
     log_path = state_dir / "logs" / f"{day}.log"
@@ -236,15 +288,38 @@ def main() -> int:
     try:
         if args.seal_week:
             result["mode"] = "seal"
+            retention: dict[str, Any] | None = None
+            if not args.no_prune:
+                retention = prune_weekly_corpus(
+                    data_root,
+                    max_retention_weeks=max_retention_weeks,
+                    as_of=day,
+                )
+                result["retention"] = retention
+                if retention["removed_papers"]:
+                    result["vector_prune"] = prune_arxiv_vectors(
+                        cfg,
+                        active_ids=weekly_paper_ids(data_root),
+                    )
             result["week"] = build_week(
                 data_root,
                 week_id,
                 seal=True,
                 historical=True,
             )
+            if (
+                retention is not None
+                and retention["removed_papers"]
+                and not args.no_index
+            ):
+                result["index"] = build_lance_index(
+                    cfg,
+                    source="arxiv",
+                )
             result["status"] = "ok"
             return _finish(result, state_dir, started)
 
+        previous_run_complete = _previous_run_complete(state_dir, day)
         summary = _done_summary(data_root, day)
         skipped = bool(summary and _done_is_complete(summary)) and not args.force
         if skipped:
@@ -275,6 +350,30 @@ def main() -> int:
             result["error"] = "today's .done is missing or not a complete run"
             return _finish(result, state_dir, started, rc=2)
 
+        retention: dict[str, Any] | None = None
+        retention_changed = False
+        if not args.no_prune:
+            retention = prune_weekly_corpus(
+                data_root,
+                max_retention_weeks=max_retention_weeks,
+                as_of=day,
+            )
+            result["retention"] = retention
+            retention_changed = bool(
+                retention["removed_papers"]
+                or retention["removed_weeks"]
+            )
+            if retention["removed_papers"]:
+                result["vector_prune"] = prune_arxiv_vectors(
+                    cfg,
+                    active_ids=weekly_paper_ids(data_root),
+                )
+
+        if previous_run_complete and not retention_changed and not args.force:
+            result["status"] = "skipped"
+            result["reason"] = "daily pipeline already completed"
+            return _finish(result, state_dir, started)
+
         if not args.no_bind:
             result["week"] = build_week(
                 data_root,
@@ -285,11 +384,10 @@ def main() -> int:
 
         if not args.no_embed:
             result["vectors"] = embed_missing_arxiv(
-                load_config(),
+                cfg,
                 limit=args.embed_limit,
             )
         if not args.no_index:
-            cfg = load_config()
             result["index"] = build_lance_index(
                 cfg,
                 source="arxiv",

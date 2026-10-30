@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import shutil
@@ -10,12 +11,20 @@ import sys
 import uuid
 from pathlib import Path
 
+import numpy as np
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from hotspot.core.models import SearchFilters  # noqa: E402
 from hotspot.index.lance_store import _where  # noqa: E402
-from hotspot.weekly import build_week, iso_week_id  # noqa: E402
+from hotspot.weekly import (  # noqa: E402
+    build_week,
+    iso_week_id,
+    prune_weekly_corpus,
+    retention_cutoff,
+)
+from hotspot.weekly.vectors import prune_arxiv_vectors  # noqa: E402
 
 
 def _paper(
@@ -53,6 +62,24 @@ def main() -> int:
         "week_id IN ('2026-W44')"
     ):
         failures.append("LanceDB week filter")
+    if retention_cutoff("2026-10-28", 2) != "2026-W43":
+        failures.append("retention cutoff")
+    if retention_cutoff("2026-01-01", 2) != "2025-W52":
+        failures.append("retention cutoff across ISO year")
+    try:
+        retention_cutoff("2026-10-28", 0)
+        invalid_retention_rejected = False
+    except ValueError:
+        invalid_retention_rejected = True
+    if not invalid_retention_rejected:
+        failures.append("invalid retention rejected")
+    try:
+        retention_cutoff("2026-10-28", 521)
+        oversized_retention_rejected = False
+    except ValueError:
+        oversized_retention_rejected = True
+    if not oversized_retention_rejected:
+        failures.append("oversized retention rejected")
 
     temp_root = ROOT / "workspace"
     temp_root.mkdir(parents=True, exist_ok=True)
@@ -156,6 +183,7 @@ def main() -> int:
                 "--seal-week",
                 "--week",
                 "2026-W44",
+                "--no-prune",
             ],
             cwd=ROOT,
             env={**os.environ, "ARXIV_WEEKLY_DATA": str(root)},
@@ -169,15 +197,98 @@ def main() -> int:
             or json.loads(proc.stdout or "{}").get("mode") != "seal"
         ):
             failures.append("CLI seal path")
+
+        retention_root = root / "retention"
+        for week_id in ("2026-W42", "2026-W43", "2026-W44"):
+            (retention_root / week_id).mkdir(parents=True)
+        retained = _paper(
+            "arxiv:1",
+            "2026-10-26",
+            "1",
+            "Weekly paper",
+        )
+        expired = _paper(
+            "arxiv:old",
+            "2026-10-12",
+            "old",
+            "Old paper",
+        )
+        unbound = _paper(
+            "arxiv:unknown",
+            "not-a-date",
+            "unknown",
+            "Unbound paper",
+        )
+        _write_jsonl(
+            retention_root / "papers.jsonl",
+            [retained, expired, unbound],
+        )
+        retention = prune_weekly_corpus(
+            retention_root,
+            max_retention_weeks=2,
+            as_of="2026-10-28",
+        )
+        remaining = [
+            json.loads(line)
+            for line in (
+                retention_root / "papers.jsonl"
+            ).read_text(encoding="utf-8").splitlines()
+            if line
+        ]
+        if not (
+            retention["cutoff_week"] == "2026-W43"
+            and retention["removed_papers"] == 1
+            and retention["unbound_papers_retained"] == 1
+            and not (retention_root / "2026-W42").exists()
+            and (retention_root / "2026-W43").is_dir()
+            and {row["paper_id"] for row in remaining}
+            == {"arxiv:1", "arxiv:unknown"}
+        ):
+            failures.append("weekly retention cleanup")
+        retained_manifest = build_week(
+            retention_root,
+            "2026-W44",
+            historical=False,
+        )
+        papers_sha256 = hashlib.sha256(
+            (retention_root / "papers.jsonl").read_bytes()
+        ).hexdigest()
+        if not (
+            retained_manifest["member_count"] == 1
+            and retained_manifest["source_papers_sha256"] == papers_sha256
+        ):
+            failures.append("retention manifest source hash")
+
+        vector_dir = root / "workspace" / "arxiv_vectors"
+        vector_dir.mkdir(parents=True)
+        vector_path = vector_dir / "vec_0000.npz"
+        with vector_path.open("wb") as handle:
+            np.savez_compressed(
+                handle,
+                vectors=np.asarray([[1.0, 0.0], [0.0, 1.0]]),
+                ids=np.asarray(["arxiv:1", "arxiv:old"]),
+            )
+        vector_prune = prune_arxiv_vectors(
+            {"paths": {"workspace": str(root / "workspace")}},
+            active_ids={"arxiv:1"},
+        )
+        with np.load(vector_path, allow_pickle=False) as data:
+            vector_ids = [str(value) for value in data["ids"]]
+        if not (
+            vector_prune["removed_ids"] == 1
+            and vector_prune["rewritten_shards"] == 1
+            and vector_ids == ["arxiv:1"]
+        ):
+            failures.append("weekly vector cleanup")
     finally:
         shutil.rmtree(root, ignore_errors=True)
 
-    result = {"checks": 7, "failures": failures}
+    result = {"checks": 15, "failures": failures}
     print(json.dumps(result, ensure_ascii=False, indent=2))
     if failures:
         print("FAIL:", ", ".join(failures), file=sys.stderr)
         return 1
-    print("✓ weekly pipeline checks=7 failures=0")
+    print("✓ weekly pipeline checks=15 failures=0")
     return 0
 
 
